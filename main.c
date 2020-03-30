@@ -1,7 +1,6 @@
 #include "myLib.h"
 #include "starsbg.h"
 #include "planets.h"
-#include "Fry.h"
 #include "game.h"
 #include "futuramapage.h"
 #include "pause.h"

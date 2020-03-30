@@ -119,13 +119,6 @@ extern const unsigned short planetsMap[1024];
 
 extern const unsigned short planetsPal[256];
 # 4 "main.c" 2
-# 1 "Fry.h" 1
-# 21 "Fry.h"
-extern const unsigned short FryTiles[6144];
-
-
-extern const unsigned short FryPal[256];
-# 5 "main.c" 2
 # 1 "game.h" 1
 
 typedef struct {
@@ -243,7 +236,7 @@ extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
-# 6 "main.c" 2
+# 5 "main.c" 2
 # 1 "futuramapage.h" 1
 # 22 "futuramapage.h"
 extern const unsigned short futuramapageTiles[1744];
@@ -253,7 +246,7 @@ extern const unsigned short futuramapageMap[1024];
 
 
 extern const unsigned short futuramapagePal[256];
-# 7 "main.c" 2
+# 6 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
 extern const unsigned short pauseTiles[6640];
@@ -263,7 +256,7 @@ extern const unsigned short pauseMap[1024];
 
 
 extern const unsigned short pausePal[256];
-# 8 "main.c" 2
+# 7 "main.c" 2
 # 1 "planet1PS.h" 1
 # 22 "planet1PS.h"
 extern const unsigned short planet1PSTiles[18080];
@@ -273,7 +266,7 @@ extern const unsigned short planet1PSMap[2048];
 
 
 extern const unsigned short planet1PSPal[256];
-# 9 "main.c" 2
+# 8 "main.c" 2
 
 
 
@@ -492,7 +485,7 @@ void planet4() {
 }
 
 void goToPlanet1() {
-# 236 "main.c"
+# 235 "main.c"
 }
 
 void goToPlanet2() {
