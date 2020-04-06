@@ -1995,6 +1995,39 @@ updatePlanet4:
 	.word	life2
 	.word	life3
 	.size	updatePlanet4, .-updatePlanet4
+	.align	2
+	.global	initLose
+	.syntax unified
+	.arm
+	.fpu softvfp
+	.type	initLose, %function
+initLose:
+	@ Function supports interworking.
+	@ args = 0, pretend = 0, frame = 0
+	@ frame_needed = 0, uses_anonymous_args = 0
+	push	{r4, lr}
+	ldr	r3, .L193
+	mov	lr, pc
+	bx	r3
+	mov	r3, #0
+	ldr	r2, .L193+4
+	ldr	r0, .L193+8
+	ldr	r1, .L193+12
+	str	r3, [r2, #16]
+	str	r3, [r2, #36]
+	str	r3, [r2, #56]
+	pop	{r4, lr}
+	str	r3, [r0, #16]
+	str	r3, [r1, #16]
+	b	drawGame
+.L194:
+	.align	2
+.L193:
+	.word	hideSprites
+	.word	blocks
+	.word	fry
+	.word	alien
+	.size	initLose, .-initLose
 	.comm	vOff,2,2
 	.comm	hOff,2,2
 	.comm	isLost,4,4

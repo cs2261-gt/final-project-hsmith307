@@ -352,9 +352,10 @@ void win() {
 }
 
 void goToLose() {
+
+    initLose();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
-    hideSprites();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, losebgPal, PALETTE, losebgPalLen / 2);

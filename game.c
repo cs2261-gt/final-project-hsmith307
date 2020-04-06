@@ -514,6 +514,16 @@ void updatePlanet4() {
     drawGame();
 }
 
+
+void initLose() {
+    hideSprites();
+    fry.active = 0;
+    alien.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    drawGame();
+}
 // draw the game depending on which are active
 void drawGame() {
 

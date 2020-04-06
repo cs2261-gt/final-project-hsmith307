@@ -747,20 +747,20 @@ goToLose:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	mov	r3, #0
-	mov	r4, #67108864
-	ldr	r2, .L76
-	strh	r3, [r4, #16]	@ movhi
-	strh	r3, [r4, #18]	@ movhi
+	ldr	r3, .L76
 	mov	lr, pc
-	bx	r2
-	mov	r2, #4352
-	ldr	r3, .L76+4
-	strh	r2, [r4]	@ movhi
-	strh	r3, [r4, #8]	@ movhi
-	mov	r2, #83886080
+	bx	r3
+	mov	r1, #67108864
+	mov	r2, #0
+	mov	r3, #4352
+	ldr	r0, .L76+4
+	strh	r2, [r1, #16]	@ movhi
 	ldr	r4, .L76+8
+	strh	r2, [r1, #18]	@ movhi
+	strh	r3, [r1]	@ movhi
+	strh	r0, [r1, #8]	@ movhi
 	mov	r3, #256
+	mov	r2, #83886080
 	mov	r0, #3
 	ldr	r1, .L76+12
 	mov	lr, pc
@@ -785,7 +785,7 @@ goToLose:
 .L77:
 	.align	2
 .L76:
-	.word	hideSprites
+	.word	initLose
 	.word	7684
 	.word	DMANow
 	.word	losebgPal

@@ -207,6 +207,8 @@ void updatePlanet3();
 void initp4();
 void updatePlanet4();
 
+void initLose();
+
 void drawGame();
 
 void initAlien();
@@ -656,9 +658,10 @@ void win() {
 }
 
 void goToLose() {
+
+    initLose();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
-    hideSprites();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, losebgPal, ((unsigned short *)0x5000000), 512 / 2);

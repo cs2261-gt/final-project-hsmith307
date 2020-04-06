@@ -207,6 +207,8 @@ void updatePlanet3();
 void initp4();
 void updatePlanet4();
 
+void initLose();
+
 void drawGame();
 
 void initAlien();
@@ -727,6 +729,16 @@ void updatePlanet4() {
     drawGame();
 }
 
+
+void initLose() {
+    hideSprites();
+    fry.active = 0;
+    alien.active = 0;
+    for (int i = 0; i < 3; i++) {
+        blocks[i].active = 0;
+    }
+    drawGame();
+}
 
 void drawGame() {
 
