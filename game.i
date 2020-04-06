@@ -186,6 +186,22 @@ typedef struct {
     int active;
 }BLOCK;
 
+
+typedef struct {
+    int col;
+    int row;
+    int rdel;
+    int cdel;
+    int height;
+    int width;
+    int active;
+}BULLET;
+
+
+
+
+
+
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
@@ -198,6 +214,7 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
+extern BULLET bullets[10];
 
 
 extern int life1Counter;
@@ -207,7 +224,12 @@ extern int life4Counter;
 
 extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
-# 116 "game.h"
+
+
+
+
+
+
 void initGame();
 void updateGame();
 
@@ -236,6 +258,9 @@ void initSpaceship();
 void initBlocks();
 void initLives();
 void initLeela();
+void initBullets();
+void shootBullets();
+void updateBullets(BULLET *);
 
 extern int isLost;
 # 3 "game.c" 2
@@ -279,6 +304,7 @@ HEART life1;
 HEART life2;
 HEART life3;
 BLOCK blocks[3];
+BULLET bullets[10];
 
 
 int life1Counter;
@@ -404,8 +430,20 @@ void initLives() {
     life3.height = 16;
     life3.width = 16;
 }
-# 173 "game.c"
+
+void initBullets() {
+    for (int i = 0; i < 10; i++) {
+        bullets[i].col = fry.col + fry.width;
+        bullets[i].row = fry.row + 10;
+        bullets[i].width = 8;
+        bullets[i].height = 8;
+        bullets[i].cdel = 1;
+        bullets[i].active = 0;
+    }
+}
+# 185 "game.c"
 void initp1() {
+    initBullets();
     p1.col = 200;
     p1.row = 20;
     p1.width = 32;
@@ -592,7 +630,6 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-
 
 
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -951,6 +988,7 @@ void initLose() {
     drawGame();
 }
 
+
 void drawGame() {
 
 
@@ -1004,6 +1042,15 @@ void drawGame() {
             shadowOAM[10].attr0 = (0<<8) | (0<<13) | (0<<14) | blocks[i].row;
             shadowOAM[10].attr1 = (2<<14) | blocks[i].col;
             shadowOAM[10].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
+        }
+    }
+
+
+    for (int i = 0; i < 10; i++) {
+        if (bullets[i].active) {
+            shadowOAM[12].attr0 = (0<<8) | (0<<13) | (0<<14) | bullets[i].row;
+            shadowOAM[12].attr1 = (1<<14) | bullets[i].col;
+            shadowOAM[12].attr2 = ((0)<<12) | ((3 * 2)*32+(12 * 2));
         }
     }
 

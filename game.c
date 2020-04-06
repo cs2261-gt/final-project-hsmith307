@@ -165,6 +165,8 @@ void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].col = fry.col + fry.width;
         bullets[i].row = fry.row + 10;
+        bullets[i].width = 8;
+        bullets[i].height = 8;
         bullets[i].cdel = 1;
         bullets[i].active = 0;
     }
@@ -181,6 +183,7 @@ void initBullets() {
 // }
 
 void initp1() {
+    initBullets();
     p1.col = 200;
     p1.row = 20;
     p1.width = 32;
@@ -367,7 +370,6 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-
 
     // animate fry
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -726,13 +728,6 @@ void initLose() {
     drawGame();
 }
 
-
-// update the bullets
-void updateBullets(BULLET* b) {
-   b->active = 1; 
-   b->col += b->cdel;
-}
-
 // draw the game depending on which are active
 void drawGame() {
 
@@ -789,6 +784,15 @@ void drawGame() {
             shadowOAM[10].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
         }
     } 
+
+    // draw the bullets
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        if (bullets[i].active) {
+            shadowOAM[12].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullets[i].row;
+            shadowOAM[12].attr1 = ATTR1_SMALL | bullets[i].col;
+            shadowOAM[12].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 3 * 2);  
+        }
+    }
 
     //draw spaceship
     if (spaceship.active) {

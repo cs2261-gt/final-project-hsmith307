@@ -157,6 +157,7 @@ void initBlocks();
 void initLives();
 void initLeela();
 void initBullets();
+void shootBullets();
 void updateBullets(BULLET *);
 
 extern int isLost;
