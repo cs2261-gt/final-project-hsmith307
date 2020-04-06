@@ -84,6 +84,22 @@ typedef struct {
     int active;
 }BLOCK;
 
+// bullet struct
+typedef struct {
+    int col;
+    int row;
+    int rdel;
+    int cdel;
+    int height;
+    int width;
+    int active;
+}BULLET;
+
+// game macros
+#define BLOCKCOUNT 3
+#define NUMLIVES 3
+#define BULLETCOUNT 10
+
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
@@ -96,6 +112,7 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
+extern BULLET bullets[BULLETCOUNT];
 
 // counters to count which life is being lost and thus which should be hidden
 extern int life1Counter;
@@ -107,9 +124,7 @@ extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
 
 
-// game macros
-#define BLOCKCOUNT 3
-#define NUMLIVES 3
+
 
 // game function prototypes
 
@@ -141,6 +156,8 @@ void initSpaceship();
 void initBlocks();
 void initLives();
 void initLeela();
+void initBullets();
+void updateBullets(BULLET *);
 
 extern int isLost;
 

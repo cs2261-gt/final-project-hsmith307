@@ -34,6 +34,7 @@ HEART life1;
 HEART life2;
 HEART life3;
 BLOCK blocks[BLOCKCOUNT];
+BULLET bullets[BULLETCOUNT];
 
 // counters to count which life is being lost and thus which should be hidden
 int life1Counter;
@@ -158,6 +159,15 @@ void initLives() {
     life3.active = 1;
     life3.height = 16;
     life3.width = 16;
+}
+
+void initBullets() {
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].col = fry.col + fry.width;
+        bullets[i].row = fry.row + 10;
+        bullets[i].cdel = 1;
+        bullets[i].active = 0;
+    }
 }
 
 // initialize the blocks that fry can jump onto
@@ -715,6 +725,14 @@ void initLose() {
     }
     drawGame();
 }
+
+
+// update the bullets
+void updateBullets(BULLET* b) {
+   b->active = 1; 
+   b->col += b->cdel;
+}
+
 // draw the game depending on which are active
 void drawGame() {
 
