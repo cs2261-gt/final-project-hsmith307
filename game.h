@@ -97,6 +97,15 @@ typedef struct {
     int active;
 }BULLET;
 
+// treasure struct for displaying lives
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}TREASURE;
+
 // game macros
 #define BLOCKCOUNT 3
 #define NUMLIVES 3
@@ -163,13 +172,15 @@ void initBlocks();
 
 void initLives();
 
+void initTreasure();
+
 void initLeela();
 void updateLeela();
 
 void initBullets();
 
 void shootBullets();
-void updateBullets(BULLET *);
+void updateBullets();
 
 extern int isLost;
 

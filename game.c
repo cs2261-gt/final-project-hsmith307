@@ -35,6 +35,9 @@ HEART life2;
 HEART life3;
 BLOCK blocks[BLOCKCOUNT];
 BULLET bullets[BULLETCOUNT];
+BULLET bullet;
+TREASURE treasureP1;
+
 
 // counters to count which life is being lost and thus which should be hidden
 int life1Counter;
@@ -62,6 +65,7 @@ void initGame() {
     initp2();
     initp3();
     initp4();
+    initTreasure();
 
     isLost = 0;
 
@@ -163,14 +167,19 @@ void initLives() {
 }
 
 void initBullets() {
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        bullets[i].col = leela.col + leela.width;
-        bullets[i].row = leela.row + 10;
-        bullets[i].width = 8;
-        bullets[i].height = 8;
-        bullets[i].cdel = 1;
-        bullets[i].active = 0;
-    }
+    bullet.col = 45;
+    bullet.row = 45;
+    bullet.height = 16;
+    bullet.width = 16;
+    bullet.active = 1;
+}
+
+void initTreasure() {
+    treasureP1.col = 220;
+    treasureP1.row = 100;
+    treasureP1.active = 0;
+    treasureP1.width = 32;
+    treasureP1.height = 32;
 }
 
 // initialize the blocks that fry can jump onto
@@ -184,7 +193,6 @@ void initBullets() {
 // }
 
 void initp1() {
-    initBullets();
     p1.col = 200;
     p1.row = 20;
     p1.width = 32;
@@ -268,6 +276,8 @@ void initPlanet1() {
     hideSprites();
     initLives();
     initBlocks();
+    initBullets();
+    treasureP1.active = 1;
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
@@ -393,8 +403,7 @@ void updatePlanet1() {
     }
     updateLeela();
 
-    for (int i = 0; i < BULLETCOUNT; i++)
-		updateBullets(&bullets[i]);
+    updateBullets();
 
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
@@ -720,7 +729,7 @@ void updateLeela() {
         }
     }
 
-    if (BUTTON_PRESSED(BUTTON_A) && leela.bulletTimer >= 7) {
+    if (BUTTON_PRESSED(BUTTON_RIGHT) && leela.bulletTimer >= 7) {
         shootBullets();
         leela.bulletTimer = 0;
     }
@@ -729,39 +738,29 @@ void updateLeela() {
 }
 
 void shootBullets() {
-  	// Find the first inactive bullet
-	for (int i = 0; i < BULLETCOUNT; i++) {
-		//if (!bullets[i].active) {
+  	// // Find the first inactive bullet
+	// for (int i = 0; i < BULLETCOUNT; i++) {
+	// 	//if (!bullets[i].active) {
 
-			// Position the new bullet
-			bullets[i].row = leela.row;
-			bullets[i].col = leela.col + leela.width
-				- bullets[i].width/2;
+	// 		// Position the new bullet
+	// 		bullets[i].row = leela.row;
+	// 		bullets[i].col = leela.col + leela.width;
 
-			// Take the bullet out of the pool
-			bullets[i].active = 1;
+	// 		// Take the bullet out of the pool
+	// 		bullets[i].active = 1;
 
-			// Break out of the loop
-			break;
-		//}
-	}  
+	// 		// Break out of the loop
+	// 		// break;
+	// 	//}
+	// }  
+    bullets[0].active = 1;
 }
 
 
-void updateBullets(BULLET * b) {
+void updateBullets() {
 
 	// If active, update; otherwise ignore
-	if (b->active) {
-		if (b->row + b->height-1 >= 0
-            && b->col + b->cdel > 0
-            && b->col + b->cdel < SCREENWIDTH-1) {
-
-			b->row += b->rdel;
-            b->col += b->cdel;
-		} else {
-			b->active = 0;
-		}
-	} 
+	bullet.col += 1;
 }
 
 // draw the game depending on which are active
@@ -822,19 +821,26 @@ void drawGame() {
     } 
 
     // draw the bullets
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        if (bullets[i].active) {
-            shadowOAM[12].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullets[i].row;
-            shadowOAM[12].attr1 = ATTR1_SMALL | bullets[i].col;
+    //for (int i = 0; i < BULLETCOUNT; i++) {
+        if (bullet.active) {
+            shadowOAM[12].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullet.row;
+            shadowOAM[12].attr1 = ATTR1_SMALL | bullet.col;
             shadowOAM[12].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 3 * 2);  
         }
-    }
+    //}
 
     //draw spaceship
     if (spaceship.active) {
         shadowOAM[1].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | spaceship.row;
         shadowOAM[1].attr1 = ATTR1_MEDIUM | spaceship.col;
         shadowOAM[1].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(4 * 4, 1 * 4);
+    }
+
+    //draw treasure
+    if (treasureP1.active) {
+        shadowOAM[13].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | treasureP1.row;
+        shadowOAM[13].attr1 = ATTR1_MEDIUM | treasureP1.col;
+        shadowOAM[13].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(4 * 4, 1 * 4);
     }
     // draw p1
     if (p1.active) {

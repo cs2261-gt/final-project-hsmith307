@@ -200,6 +200,15 @@ typedef struct {
 }BULLET;
 
 
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}TREASURE;
+
+
 
 
 
@@ -265,13 +274,15 @@ void initBlocks();
 
 void initLives();
 
+void initTreasure();
+
 void initLeela();
 void updateLeela();
 
 void initBullets();
 
 void shootBullets();
-void updateBullets(BULLET *);
+void updateBullets();
 
 extern int isLost;
 # 3 "game.c" 2
@@ -316,6 +327,9 @@ HEART life2;
 HEART life3;
 BLOCK blocks[3];
 BULLET bullets[10];
+BULLET bullet;
+TREASURE treasureP1;
+
 
 
 int life1Counter;
@@ -343,6 +357,7 @@ void initGame() {
     initp2();
     initp3();
     initp4();
+    initTreasure();
 
     isLost = 0;
 
@@ -444,18 +459,22 @@ void initLives() {
 }
 
 void initBullets() {
-    for (int i = 0; i < 10; i++) {
-        bullets[i].col = leela.col + leela.width;
-        bullets[i].row = leela.row + 10;
-        bullets[i].width = 8;
-        bullets[i].height = 8;
-        bullets[i].cdel = 1;
-        bullets[i].active = 0;
-    }
+    bullet.col = 45;
+    bullet.row = 45;
+    bullet.height = 16;
+    bullet.width = 16;
+    bullet.active = 1;
 }
-# 186 "game.c"
+
+void initTreasure() {
+    treasureP1.col = 220;
+    treasureP1.row = 100;
+    treasureP1.active = 0;
+    treasureP1.width = 32;
+    treasureP1.height = 32;
+}
+# 195 "game.c"
 void initp1() {
-    initBullets();
     p1.col = 200;
     p1.row = 20;
     p1.width = 32;
@@ -539,6 +558,8 @@ void initPlanet1() {
     hideSprites();
     initLives();
     initBlocks();
+    initBullets();
+    treasureP1.active = 1;
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
@@ -642,7 +663,7 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-# 383 "game.c"
+# 393 "game.c"
     updateFry();
 
 
@@ -656,8 +677,7 @@ void updatePlanet1() {
     }
     updateLeela();
 
-    for (int i = 0; i < 10; i++)
-  updateBullets(&bullets[i]);
+    updateBullets();
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
@@ -792,7 +812,7 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 541 "game.c"
+# 550 "game.c"
     updateFry();
 
     alien.col -= alien.cdel;
@@ -975,7 +995,7 @@ void updateLeela() {
         }
     }
 
-    if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0)))) && leela.bulletTimer >= 7) {
+    if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4)))) && leela.bulletTimer >= 7) {
         shootBullets();
         leela.bulletTimer = 0;
     }
@@ -984,39 +1004,15 @@ void updateLeela() {
 }
 
 void shootBullets() {
-
- for (int i = 0; i < 10; i++) {
-
-
-
-   bullets[i].row = leela.row;
-   bullets[i].col = leela.col + leela.width
-    - bullets[i].width/2;
-
-
-   bullets[i].active = 1;
-
-
-   break;
-
- }
+# 756 "game.c"
+    bullets[0].active = 1;
 }
 
 
-void updateBullets(BULLET * b) {
+void updateBullets() {
 
 
- if (b->active) {
-  if (b->row + b->height-1 >= 0
-            && b->col + b->cdel > 0
-            && b->col + b->cdel < 240 -1) {
-
-   b->row += b->rdel;
-            b->col += b->cdel;
-  } else {
-   b->active = 0;
-  }
- }
+ bullet.col += 1;
 }
 
 
@@ -1077,19 +1073,26 @@ void drawGame() {
     }
 
 
-    for (int i = 0; i < 10; i++) {
-        if (bullets[i].active) {
-            shadowOAM[12].attr0 = (0<<8) | (0<<13) | (0<<14) | bullets[i].row;
-            shadowOAM[12].attr1 = (1<<14) | bullets[i].col;
+
+        if (bullet.active) {
+            shadowOAM[12].attr0 = (0<<8) | (0<<13) | (0<<14) | bullet.row;
+            shadowOAM[12].attr1 = (1<<14) | bullet.col;
             shadowOAM[12].attr2 = ((0)<<12) | ((3 * 2)*32+(12 * 2));
         }
-    }
+
 
 
     if (spaceship.active) {
         shadowOAM[1].attr0 = (0<<8) | (0<<13) | (0<<14) | spaceship.row;
         shadowOAM[1].attr1 = (2<<14) | spaceship.col;
         shadowOAM[1].attr2 = ((0)<<12) | ((1 * 4)*32+(4 * 4));
+    }
+
+
+    if (treasureP1.active) {
+        shadowOAM[13].attr0 = (0<<8) | (0<<13) | (0<<14) | treasureP1.row;
+        shadowOAM[13].attr1 = (2<<14) | treasureP1.col;
+        shadowOAM[13].attr2 = ((0)<<12) | ((1 * 4)*32+(4 * 4));
     }
 
     if (p1.active) {
