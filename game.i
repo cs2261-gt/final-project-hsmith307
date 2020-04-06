@@ -113,6 +113,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }FRY;
 
 
@@ -128,6 +129,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }LEELA;
 
 typedef struct {
@@ -651,16 +653,10 @@ void updatePlanet1() {
             alien.curFrame = 1;
         }
     }
+    updateLeela();
 
-
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    for (int i = 0; i < 10; i++)
+  updateBullets(&bullets[i]);
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
@@ -723,6 +719,7 @@ void updatePlanet2() {
     hideSprites();
 
     updateFry();
+
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -732,15 +729,7 @@ void updatePlanet2() {
         }
     }
 
-
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 0) {
@@ -802,7 +791,7 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 553 "game.c"
+# 540 "game.c"
     updateFry();
 
     alien.col -= alien.cdel;
@@ -814,15 +803,7 @@ void updatePlanet3() {
         }
     }
 
-
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 0) {
@@ -903,15 +884,7 @@ void updatePlanet4() {
         }
     }
 
-
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 0) {
@@ -992,6 +965,57 @@ void updateFry() {
 
 void updateLeela() {
 
+    leela.col += leela.cdel;
+    if (leela.aniCounter % 18 == 0) {
+        if (leela.curFrame < leela.numFrames - 1) {
+            leela.curFrame++;
+        } else {
+            leela.curFrame = 0;
+        }
+    }
+
+    if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0)))) && leela.bulletTimer >= 7) {
+        shootBullets();
+        leela.bulletTimer = 0;
+    }
+
+    leela.bulletTimer++;
+}
+
+void shootBullets() {
+
+ for (int i = 0; i < 10; i++) {
+  if (!bullets[i].active) {
+
+
+   bullets[i].row = leela.row;
+   bullets[i].col = leela.col + leela.width/2
+    - bullets[i].width/2;
+
+
+   bullets[i].active = 1;
+
+
+   break;
+  }
+ }
+}
+
+
+void updateBullets(BULLET * b) {
+
+
+ if (b->active) {
+  if (b->row + b->height-1 >= 0
+            && b->col + b->cdel > 0
+            && b->col + b->cdel < 240 -1) {
+
+   b->row += b->rdel;
+            b->col += b->cdel;
+  } else {
+   b->active = 0;
+  }
+ }
 }
 
 

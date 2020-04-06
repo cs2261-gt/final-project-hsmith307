@@ -11,6 +11,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }FRY;
 
 // leela struct 
@@ -26,6 +27,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }LEELA;
 
 typedef struct {

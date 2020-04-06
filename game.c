@@ -392,6 +392,9 @@ void updatePlanet1() {
     }
     updateLeela();
 
+    for (int i = 0; i < BULLETCOUNT; i++)
+		updateBullets(&bullets[i]);
+
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
        life3.active = 0;
@@ -715,6 +718,49 @@ void updateLeela() {
             leela.curFrame = 0;
         }
     }
+
+    if (BUTTON_PRESSED(BUTTON_A) && leela.bulletTimer >= 7) {
+        shootBullets();
+        leela.bulletTimer = 0;
+    }
+
+    leela.bulletTimer++;
+}
+
+void shootBullets() {
+  	// Find the first inactive bullet
+	for (int i = 0; i < BULLETCOUNT; i++) {
+		if (!bullets[i].active) {
+
+			// Position the new bullet
+			bullets[i].row = leela.row;
+			bullets[i].col = leela.col + leela.width/2
+				- bullets[i].width/2;
+
+			// Take the bullet out of the pool
+			bullets[i].active = 1;
+
+			// Break out of the loop
+			break;
+		}
+	}  
+}
+
+
+void updateBullets(BULLET * b) {
+
+	// If active, update; otherwise ignore
+	if (b->active) {
+		if (b->row + b->height-1 >= 0
+            && b->col + b->cdel > 0
+            && b->col + b->cdel < SCREENWIDTH-1) {
+
+			b->row += b->rdel;
+            b->col += b->cdel;
+		} else {
+			b->active = 0;
+		}
+	} 
 }
 
 // draw the game depending on which are active
