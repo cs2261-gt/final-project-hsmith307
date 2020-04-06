@@ -151,12 +151,21 @@ void initLose();
 void drawGame();
 
 void initAlien();
+
 void initFry();
+void updateFry();
+
 void initSpaceship();
+
 void initBlocks();
+
 void initLives();
+
 void initLeela();
+void updateLeela();
+
 void initBullets();
+
 void shootBullets();
 void updateBullets(BULLET *);
 

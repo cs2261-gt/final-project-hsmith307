@@ -371,14 +371,15 @@ void updatePlanet1() {
 
     hideSprites();
 
-    // animate fry
-    if (fry.aniCounter % 18 == 0 && fry.active == 1) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
+    // // animate fry
+    // if (fry.aniCounter % 18 == 0 && fry.active == 1) {
+    //     if (fry.curFrame < fry.numFrames - 1) {
+    //         fry.curFrame++;
+    //     } else {
+    //         fry.curFrame = 0;
+    //     }
+    // }
+    updateFry();
 
     // move the alien towards fry and animate the alien
     alien.col -= alien.cdel;
@@ -389,16 +390,7 @@ void updatePlanet1() {
             alien.curFrame = 1;
         }
     }
-
-    // animate leela
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
@@ -460,13 +452,8 @@ void updatePlanet2() {
 
     hideSprites();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
+    updateFry();
+
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -476,15 +463,7 @@ void updatePlanet2() {
         }
     }
 
-    // animate leela
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 0) {
@@ -547,13 +526,16 @@ void updatePlanet3() {
     // make sure we erase the sprites if there is a collision
     hideSprites();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
+    // if (fry.aniCounter % 18 == 0) {
+    //     if (fry.curFrame < fry.numFrames - 1) {
+    //         fry.curFrame++;
+    //     } else {
+    //         fry.curFrame = 0;
+    //     }
+    // }
+
+    updateFry();
+
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -563,15 +545,7 @@ void updatePlanet3() {
         }
     }
 
-    // animate leela
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 0) {
@@ -652,15 +626,7 @@ void updatePlanet4() {
         }
     }
 
-    // animate leela
-    leela.col += leela.cdel;
-    if (leela.aniCounter % 18 == 0) {
-        if (leela.curFrame < leela.numFrames - 1) {
-            leela.curFrame++;
-        } else {
-            leela.curFrame = 0;
-        }
-    }
+    updateLeela();
 
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 0) {
@@ -726,6 +692,29 @@ void initLose() {
         blocks[i].active = 0;
     }
     drawGame();
+}
+
+void updateFry() {
+    // animate fry
+    if (fry.aniCounter % 18 == 0 && fry.active == 1) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
+    }
+}
+
+void updateLeela() {
+    // animate leela
+    leela.col += leela.cdel;
+    if (leela.aniCounter % 18 == 0) {
+        if (leela.curFrame < leela.numFrames - 1) {
+            leela.curFrame++;
+        } else {
+            leela.curFrame = 0;
+        }
+    }
 }
 
 // draw the game depending on which are active

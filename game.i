@@ -253,12 +253,21 @@ void initLose();
 void drawGame();
 
 void initAlien();
+
 void initFry();
+void updateFry();
+
 void initSpaceship();
+
 void initBlocks();
+
 void initLives();
+
 void initLeela();
+void updateLeela();
+
 void initBullets();
+
 void shootBullets();
 void updateBullets(BULLET *);
 
@@ -630,15 +639,8 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-
-
-    if (fry.aniCounter % 18 == 0 && fry.active == 1) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
+# 382 "game.c"
+    updateFry();
 
 
     alien.col -= alien.cdel;
@@ -720,13 +722,7 @@ void updatePlanet2() {
 
     hideSprites();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
+    updateFry();
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -806,14 +802,9 @@ void updatePlanet3() {
 
 
     hideSprites();
+# 553 "game.c"
+    updateFry();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -986,6 +977,21 @@ void initLose() {
         blocks[i].active = 0;
     }
     drawGame();
+}
+
+void updateFry() {
+
+    if (fry.aniCounter % 18 == 0 && fry.active == 1) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
+    }
+}
+
+void updateLeela() {
+
 }
 
 
