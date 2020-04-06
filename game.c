@@ -464,6 +464,16 @@ void updatePlanet2() {
         }
     }
 
+    // animate leela
+    leela.col += leela.cdel;
+    if (leela.aniCounter % 18 == 0) {
+        if (leela.curFrame < leela.numFrames - 1) {
+            leela.curFrame++;
+        } else {
+            leela.curFrame = 0;
+        }
+    }
+
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 0) {
        life3.active = 0;
@@ -541,6 +551,16 @@ void updatePlanet3() {
         }
     }
 
+    // animate leela
+    leela.col += leela.cdel;
+    if (leela.aniCounter % 18 == 0) {
+        if (leela.curFrame < leela.numFrames - 1) {
+            leela.curFrame++;
+        } else {
+            leela.curFrame = 0;
+        }
+    }
+
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 0) {
        life3.active = 0;
@@ -609,12 +629,24 @@ void updatePlanet4() {
             fry.curFrame = 0;
         }
     }
+
+
     alien.col -= alien.cdel;
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
             alien.curFrame++;
         } else {
             alien.curFrame = 1;
+        }
+    }
+
+    // animate leela
+    leela.col += leela.cdel;
+    if (leela.aniCounter % 18 == 0) {
+        if (leela.curFrame < leela.numFrames - 1) {
+            leela.curFrame++;
+        } else {
+            leela.curFrame = 0;
         }
     }
 
