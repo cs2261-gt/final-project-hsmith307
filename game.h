@@ -1,118 +1,117 @@
-// Fry Struct
+// fry struct 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
-    int curFrame;
     int aniCounter;
+    int curFrame;
     int numFrames;
-    int isFry;
 }FRY;
 
-// Bender Struct
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
+    int aniCounter;
     int curFrame;
-}BENDER;
+    int numFrames;
+}ALIEN;
 
+
+//spaceship struct
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int prevAniState;
-    int curFrame;
-    int isSpaceship;
 }SPACESHIP;
 
-// planet struct 
+// planet struct
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int curFrame;
-    int isPlanet;
 }PLANET;
 
 
-// function prototypes
-void initGame();
-void updateGame();
-void initFry();
+// heart struct for displaying lives
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}HEART;
 
-void initSpaceship();
-void updateSpaceShip();
-
-void initBender();
-void updateSpaceShip();
-
-void initPlanets();
-int stateDeterminator(PLANET *);
-void updatePlanets(PLANET *);
-
-// planet state function prototypes
-void space();
-void initSpace();
-void updateSpace();
-void planet1();
-void planet2();
-void planet3();
-void planet4();
-void planet5();
-
-void goToSpace();
-void goToPlanet1();
-void updatePlanet1();
-
-void goToPlanet2();
-void goToPlanet3();
-void goToPlanet4();
-
-
-
-
-#define PLANETCOUNT 4
-
-// declaring the structs
-extern FRY fry;
-extern BENDER bender;
-extern SPACESHIP spaceship;
-extern PLANET planets[PLANETCOUNT];
+// block to jump on struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}BLOCK;
 
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
+extern FRY fry;
+extern SPACESHIP spaceship;
+extern ALIEN alien;
+extern BLOCK blocks[];
+extern HEART life1;
+extern HEART life2;
+extern HEART life3;
+
+
+// game macros
+#define BLOCKCOUNT 3
+#define NUMLIVES 3
+
+// game function prototypes
+
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initp1();
+void updatePlanet1();
+
+void initp2();
+void updatePlanet2();
+
+void initp3();
+void updatePlanet3();
+
+void initp4();
+void updatePlanet4();
+
+void drawGame();
+
+void initAlien();
+void initFry();
+void initSpaceship();
+void initBlocks();
+void initLives();
 
 

@@ -1,308 +1,498 @@
 #include "myLib.h"
-#include "game.h" 
-#include "planets.h"
-#include "spacebg.h"
+#include "game.h"
 #include "spritesheet5.h"
-#include "futuramapage.h"
-#include "planet1.h"
 
-// declaring game attributes
+// Game function prototypes
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initp1();
+void updatePlanet1();
+
+void initp2();
+void updatePlanet2();
+
+void initp3();
+void updatePlanet3();
+
+void initp4();
+void updatePlanet4();
+
+// game variables
 FRY fry;
-BENDER bender;
 SPACESHIP spaceship;
-PLANET planets[PLANETCOUNT];
+ALIEN alien;
 PLANET p1;
 PLANET p2;
 PLANET p3;
 PLANET p4;
+HEART life1;
+HEART life2;
+HEART life3;
+BLOCK blocks[BLOCKCOUNT];
 
-// state enums
-enum {RIGHTBEGIN, RIGHTWALK, LEFTBEGIN, LEFTWALK, SPRITEIDLE};
-enum {SPACE, PLANET1, PLANET2, PLANET3, PLANET4};
-int curLocation;
 
-// Planet states enum
-
-// the directions that the planets are moving
+int prevState;
 
 unsigned short hOff;
 unsigned short vOff;
-  
-    void initGame() {
 
-        initFry();
-        initSpaceShip();
-        initPlanets();
 
-        curLocation = SPACE;        
-        // bringing in the spritesheet
-        DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
-        DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
+// MAIN PART OF THE CODE:
 
+void initGame() {
+    initSpaceship();
+    initFry();
+    initp1();
+    initp2();
+    initp3();
+    initp4();
+
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
+
+    DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
+    DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
+
+}
+
+void initSpaceship() {
+    spaceship.cdel = 1;
+    spaceship.rdel = 1;
+    spaceship.active = 1;
+    spaceship.width = 32;
+    spaceship.height = 32;
+    spaceship.col = SCREENWIDTH / 2 - spaceship.height / 2 + hOff;
+    spaceship.row = SCREENHEIGHT / 2 - spaceship.width / 2 + vOff;
+}
+
+void initFry() {
+    fry.col = 20;
+    fry.row = 90;
+    fry.cdel = 1;
+    fry.rdel = 1;
+    fry.active = 1;
+    fry.width = 64;
+    fry.height = 64;
+    fry.aniState = 0;
+    fry.curFrame = 0;
+    fry.numFrames = 4;
+    fry.aniCounter = 0;
+}
+
+// initialize the alien
+void initAlien() {
+    alien.col = 170;
+    alien.row = 90;
+    alien.cdel = 1;
+    alien.rdel = 1;
+    alien.active = 1;
+    alien.width = 64;
+    alien.height = 64;
+    alien.aniState = 2;
+    alien.curFrame = 1;
+    alien.numFrames = 4;
+    alien.aniCounter = 0;
+}
+
+// initialize the blocks that fry will jump on
+void initBlocks() {
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].col = 80;
+        blocks[i].row = 60;
+        blocks[i].active = 1;
+        blocks[i].width = 32;
+        blocks[i].height = 32;
+    }
+}
+
+
+// initialize the hearts that will represent the lives of the player
+void initLives() {
+    // initiate life 1
+    life1.col = 5;
+    life1.row = 5;
+    life1.active = 1;
+    life1.height = 16;
+    life1.width = 16;
+
+    // initiate life 2
+    life2.col = 26;
+    life2.row = 5;
+    life2.active = 1;
+    life2.height = 16;
+    life2.width = 16;
+
+    // initiate life 3
+    life3.col = 47;
+    life3.row = 5;
+    life3.active = 1;
+    life3.height = 16;
+    life3.width = 16;
+}
+
+// initialize the blocks that fry can jump onto
+// void initBlocks() {
+//     for (int k = 0; k < BLOCKCOUNT; k++) {
+//         blocks[k].col = 130;
+//         blocks[k].row = 40;
+//         blocks[k].height = 32;
+//         blocks[k].width = 32;
+//     }
+// }
+
+void initp1() {
+    p1.col = 200;
+    p1.row = 20;
+    p1.width = 32;
+    p1.height = 32;
+    p1.active = 1;
+}
+
+void initp2() {
+    p2.col = 200;
+    p2.row = 90;
+    p2.width = 32;
+    p2.height = 32;
+    p2.active = 1;
+}
+
+void initp3() {
+    p3.col = 20;
+    p3.row = 10;
+    p3.width = 32;
+    p3.height = 32;
+    p3.active = 1;
+}
+
+void initp4() {
+    p4.col = 180;
+    p4.row = 120;
+    p4.width = 32;
+    p4.height = 32;
+    p4.active = 1;
+}
+
+void updateGame() {
+    
+}
+
+void initSpace() {
+    // initialize the spaceship if its the first time the player is going into space
+    initSpaceship();
+    
+    // initialize the planets
+    initp1();
+    initp2();
+    initp3();
+    initp4();
+
+    DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
+    DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
+
+}
+
+void updateSpace() {
+    drawGame();
+
+    hOff+= 3;
+
+    if (BUTTON_HELD(BUTTON_RIGHT)) {
+        spaceship.col += spaceship.cdel;
+    }
+    if (BUTTON_HELD(BUTTON_LEFT)) {
+        spaceship.col -= spaceship.cdel;
+    }
+    if (BUTTON_HELD(BUTTON_UP)) {
+        spaceship.row -= spaceship.rdel;
+    }
+    if (BUTTON_HELD(BUTTON_DOWN)) {
+        spaceship.row += spaceship.rdel;
     }
 
-    void initFry() {
-        fry.col = 10;
-        fry.row = 80;
-        fry.cdel = 1;
-        fry.active = 0;
-        fry.aniState = RIGHTBEGIN;
-        fry.curFrame = 0;
-        fry.aniCounter = 0;
-        fry.numFrames = 4;
-        fry.aniCounter = 0;
+
+}
+
+void initPlanet1() {
+    hideSprites();
+    initLives();
+    initBlocks();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+
+    // handle collisions with the alien and fry
+    
+
+}
+
+void initPlanet2() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+    // fry.active = 1;
+    // fry.col = 20;
+    // fry.row = 90;
+}
+
+void initPlanet3() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+    // fry.active = 1;  
+    // fry.col = 20;
+    // fry.row = 90; 
+}
+
+void initPlanet4() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry(); 
+    initAlien();
+}
+
+void updatePlanet1() {
+    hOff += 1;
+    vOff = 25;
+
+
+
+    // animate fry
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
     }
 
-    void initSpaceShip() {
-        spaceship.col = 10;
-        spaceship.row = (SCREENHEIGHT / 2) - 32;
-        spaceship.active = 1;
-        spaceship.cdel = 1;
-        spaceship.rdel = 1;
-        spaceship.aniState = 0;
-        spaceship.curFrame = 0;
-        spaceship.active = 0;
+    // move the alien towards fry and animate the alien
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
     }
 
-    void initPlanets() {
-        // p1
-        p1.col = 90;
-        p1.row = 60;
-        p1.height = 32;
-        p1.width = 32;
-        p1.active = 0;
-
-        // p2
-        p2.col = 140;
-        p2.row = 100;
-        p2.height = 32;
-        p2.width = 32;
-        p2.active = 0;
-
-        // p3
-        p3.col = 120;
-        p3.row = 20;
-        p3.height = 32;
-        p3.width = 32;
-        p3.active = 0;
-
-        // p4
-        p4.col = 198;
-        p4.row = 45;
-        p4.height = 32;
-        p4.width = 32;
-        p4.active = 0;
+    // if there is a collision with fry and the alien then you lose a life
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1) {
+        life3.active = 0;
     }
 
-    void updateGame() {
-        hideSprites();
-        if (curLocation == SPACE) {
-            fry.active = 0;
-            spaceship.active = 1;
-            p1.active = 1;
-            p2.active = 1;
-            p3.active = 1;
-            p4.active = 1;
+    // make sure the alien is not active after it goes past fry for now, but soon this will be 
+    // changed to a collision and fry will lose a life 
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+void updatePlanet2() {
+    hOff += 1;
+    vOff = 25;
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
         }
-        if (curLocation == PLANET1) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0; 
-            planet1();         
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
         }
-        if (curLocation == PLANET2) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0; 
-        }
-        if (curLocation == PLANET3) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0; 
-        }
-        if (curLocation == PLANET4) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
-        }
-
-        // check to see if the previous state is idle
-        // if (fry.aniState != SPRITEIDLE) {
-        //     fry.prevAniState = fry.aniState;
-        //     fry.aniState = SPRITEIDLE;
-        // }
-
-        // THIS WORKS FOR FRY WALKING
-        if (fry.aniCounter % 18 == 0 && fry.active == 1) {
-            if (fry.curFrame < fry.numFrames - 1) {
-                fry.curFrame+= 1;
-            } else {
-                fry.curFrame = 0;
-            }
-        }
-
-        hOff++;
- 
-        // update the frame fry is in every 18 frames of the game if he is active
-        // if (fry.active == 1) {
-            
-        //     // if (fry.aniCounter % 18 == 0) {
-        //     //     if (fry.curFrame < 4) {
-        //     //         waitForVBlank();
-        //     //         fry.curFrame++;
-        //     //     } else {
-        //     //         fry.curFrame = 0;
-        //     //     }
-        //     // }
-        // }
-
-        
-       // check the state to see if you must move fry or the spaceship
-
-
-
-        
-        if(BUTTON_HELD(BUTTON_LEFT)) {
-
-            if (spaceship.active == 1) {
-                spaceship.col -= spaceship.cdel;
-            }
-            // if (fry.active == 1) {
-            //     fry.col -= fry.cdel;
-            // }
-
-        }
-        if(BUTTON_HELD(BUTTON_RIGHT)) {
-            //move the background
-            if (curLocation == PLANET1) {
-
-            } else {
-                if (spaceship.active == 1) {
-                    spaceship.col += spaceship.cdel;
-                }
-                if (fry.active == 1) {
-                    //fry.col += fry.cdel;
-
-                }
-            }
-
-
-
-            //hOff++;
-
-
-        }
-        if (BUTTON_HELD(BUTTON_DOWN)) {
-            if (spaceship.active) {
-                vOff++;
-                spaceship.row += spaceship.rdel;
-            }
-
-
-        }
-        if (BUTTON_HELD(BUTTON_UP)) {
-            if (spaceship.active == 1) {
-                vOff--;
-                spaceship.row -= spaceship.rdel;
-            }
-
-        }
-
-        if (fry.aniState == SPRITEIDLE) {
-            fry.aniState = fry.prevAniState;
-        }
-        if (fry.aniState != SPRITEIDLE) {
-            fry.aniCounter++;
-        }
-
-
-        // if there is a planet/spaceship collision, then the spaceship enters that planet
-        if (collision(p1.col, p1.row, p1.width, p1.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
-            curLocation = PLANET1;
-            planet1();
-        }
-        if (collision(p2.col, p2.row, p2.width, p2.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
-            //goToPlanet1();
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
-            planet2();
-        }
-
- // draw fry
-        if (fry.active) {
-            shadowOAM[0].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | fry.row;
-            shadowOAM[0].attr1 = ATTR1_LARGE | fry.col;
-            shadowOAM[0].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(0 * 8, 2 * 8);          
-        }
- 
-        // draw the spaceship
-        if (spaceship.active) {
-            shadowOAM[1].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | spaceship.row;
-            shadowOAM[1].attr1 = ATTR1_LARGE | spaceship.col;
-            shadowOAM[1].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(fry.aniState * 8, fry.curFrame * 8);
-        }
-
-
-        // // draw the planets
-        // draw p1
-        if (p1.active) {
-            shadowOAM[2].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p1.row;
-            shadowOAM[2].attr1 = ATTR1_MEDIUM | p1.col;
-            shadowOAM[2].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(4 * 4, 4 * 4);
-        }
-
-
-        // draw p2
-        if (p2.active) {
-            shadowOAM[3].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p2.row;
-            shadowOAM[3].attr1 = ATTR1_MEDIUM | p2.col;
-            shadowOAM[3].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(5 * 4, 4 * 4);
-        }
-
-        // draw p3
-        if (p3.active) {
-            shadowOAM[4].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p3.row;
-            shadowOAM[4].attr1 = ATTR1_MEDIUM | p3.col;
-            shadowOAM[4].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(6 * 4, 4 * 4);
-        }
-
-
-        // draw p4
-        if (p4.active) {
-            shadowOAM[5].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p4.row;
-            shadowOAM[5].attr1 = ATTR1_MEDIUM | p4.col;
-            shadowOAM[5].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(7 * 4, 4 * 4);
-        }
-        waitForVBlank();   
-
-        DMANow(3, shadowOAM, OAM, spritesheet5PalLen);
-        
-        REG_BG0VOFF = vOff;
-        REG_BG0HOFF = hOff;
-        REG_BG1HOFF = hOff / 4; 
-        REG_BG1VOFF = vOff;
-
-            
     }
 
-    void updatePlanet1() {
+    // if there is a collision with fry and the alien then you lose a life
+    // if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1) {
+    //     for (int i = 0; i < NUMLIVES; i++) {
+    //         lives[i].active = 0;
+    //     }
+    // }
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
     }
+    drawGame();
+}
+
+void updatePlanet3() {
+    hOff += 1;
+    vOff = 45;
+
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
+    }
+
+     // if there is a collision with fry and the alien then you lose a life
+
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+void updatePlanet4() {
+    hOff += 1;
+    vOff = 45;
+
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
+    }
+
+    // if there is a collision with fry and the alien then you lose a life
+    // if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1) {
+    //     lives[1].active = 0;
+    // }
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+// draw the game depending on which are active
+void drawGame() {
+
+    //draw fry
+    if (fry.active == 1) {
+        shadowOAM[0].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | fry.row;
+        shadowOAM[0].attr1 = ATTR1_LARGE | fry.col;
+        shadowOAM[0].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(fry.aniState * 8, fry.curFrame * 8);          
+    }
+    // update the anistate counter so you can animate fry
+    fry.aniCounter++;
+
+    // draw the alien
+    if (alien.active == 1) {
+        shadowOAM[6].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | alien.row;
+        shadowOAM[6].attr1 = ATTR1_LARGE | alien.col;
+        shadowOAM[6].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(alien.aniState * 8, alien.curFrame * 8);        
+    }
+    // update the anistate counter so you can animate the alien
+    alien.aniCounter++;
+
+    // draw the hearts
+    if (life1.active) {
+        shadowOAM[7].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life1.row;
+        shadowOAM[7].attr1 = ATTR1_SMALL | life1.col;
+        shadowOAM[7].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+    }
+
+    if (life2.active) {
+        shadowOAM[8].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life2.row;
+        shadowOAM[8].attr1 = ATTR1_SMALL | life2.col;
+        shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+    }
+
+    if (life3.active) {
+        shadowOAM[9].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life3.row;
+        shadowOAM[9].attr1 = ATTR1_SMALL | life3.col;
+        shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+    }
+
+    // draw the blocks
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        if (blocks[i].active) {
+            shadowOAM[10].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | blocks[i].row;
+            shadowOAM[10].attr1 = ATTR1_MEDIUM | blocks[i].col;
+            shadowOAM[10].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
+        }
+    } 
+
+    //draw spaceship
+    if (spaceship.active) {
+        shadowOAM[1].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | spaceship.row;
+        shadowOAM[1].attr1 = ATTR1_MEDIUM | spaceship.col;
+        shadowOAM[1].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(4 * 4, 1 * 4);
+    }
+    // draw p1
+    if (p1.active) {
+        shadowOAM[2].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p1.row;
+        shadowOAM[2].attr1 = ATTR1_MEDIUM | p1.col;
+        shadowOAM[2].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(4 * 4, 0 * 4);
+    }
+    // draw p2
+    if (p2.active) {
+        shadowOAM[3].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p2.row;
+        shadowOAM[3].attr1 = ATTR1_MEDIUM | p2.col;
+        shadowOAM[3].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(5 * 4, 0 * 4);
+    }
+
+    // draw p3
+    if (p3.active) {
+        shadowOAM[4].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p3.row;
+        shadowOAM[4].attr1 = ATTR1_MEDIUM | p3.col;
+        shadowOAM[4].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(6 * 4, 0 * 4);
+    }
+
+
+    // draw p4
+    if (p4.active) {
+        shadowOAM[5].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p4.row;
+        shadowOAM[5].attr1 = ATTR1_MEDIUM | p4.col;
+        shadowOAM[5].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(7 * 4, 0 * 4);
+    }
+    
+
+    waitForVBlank();   
+
+    DMANow(3, shadowOAM, OAM, spritesheet5PalLen);
+
+    REG_BG0HOFF = hOff / 4; 
+    REG_BG0VOFF = vOff;
+}
+
 
 
 

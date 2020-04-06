@@ -102,437 +102,591 @@ int collision(int colA, int rowA, int widthA, int heightA, int colB, int rowB, i
 # 1 "game.h" 1
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
-    int curFrame;
     int aniCounter;
+    int curFrame;
     int numFrames;
-    int isFry;
 }FRY;
 
-
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
+    int aniCounter;
     int curFrame;
-}BENDER;
+    int numFrames;
+}ALIEN;
+
+
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int prevAniState;
-    int curFrame;
-    int isSpaceship;
 }SPACESHIP;
 
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int curFrame;
-    int isPlanet;
 }PLANET;
 
 
 
-void initGame();
-void updateGame();
-void initFry();
-
-void initSpaceship();
-void updateSpaceShip();
-
-void initBender();
-void updateSpaceShip();
-
-void initPlanets();
-int stateDeterminator(PLANET *);
-void updatePlanets(PLANET *);
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}HEART;
 
 
-void space();
-void initSpace();
-void updateSpace();
-void planet1();
-void planet2();
-void planet3();
-void planet4();
-void planet5();
-
-void goToSpace();
-void goToPlanet1();
-void updatePlanet1();
-
-void goToPlanet2();
-void goToPlanet3();
-void goToPlanet4();
-
-
-
-
-
-
-
-extern FRY fry;
-extern BENDER bender;
-extern SPACESHIP spaceship;
-extern PLANET planets[4];
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}BLOCK;
 
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
+extern FRY fry;
+extern SPACESHIP spaceship;
+extern ALIEN alien;
+extern BLOCK blocks[];
+extern HEART life1;
+extern HEART life2;
+extern HEART life3;
+# 91 "game.h"
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initp1();
+void updatePlanet1();
+
+void initp2();
+void updatePlanet2();
+
+void initp3();
+void updatePlanet3();
+
+void initp4();
+void updatePlanet4();
+
+void drawGame();
+
+void initAlien();
+void initFry();
+void initSpaceship();
+void initBlocks();
+void initLives();
 # 3 "game.c" 2
-# 1 "planets.h" 1
-# 22 "planets.h"
-extern const unsigned short planetsTiles[1808];
-
-
-extern const unsigned short planetsMap[1024];
-
-
-extern const unsigned short planetsPal[256];
-# 4 "game.c" 2
-# 1 "spacebg.h" 1
-# 22 "spacebg.h"
-extern const unsigned short spacebgTiles[11440];
-
-
-extern const unsigned short spacebgMap[1024];
-
-
-extern const unsigned short spacebgPal[256];
-# 5 "game.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
 extern const unsigned short spritesheet5Tiles[16384];
 
 
 extern const unsigned short spritesheet5Pal[256];
-# 6 "game.c" 2
-# 1 "futuramapage.h" 1
-# 22 "futuramapage.h"
-extern const unsigned short futuramapageTiles[1744];
+# 4 "game.c" 2
 
 
-extern const unsigned short futuramapageMap[1024];
+void initGame();
+void updateGame();
 
+void initSpace();
+void updateSpace();
 
-extern const unsigned short futuramapagePal[256];
-# 7 "game.c" 2
-# 1 "planet1.h" 1
-# 22 "planet1.h"
-extern const unsigned short planet1Tiles[1888];
+void initp1();
+void updatePlanet1();
 
+void initp2();
+void updatePlanet2();
 
-extern const unsigned short planet1Map[2048];
+void initp3();
+void updatePlanet3();
 
-
-extern const unsigned short planet1Pal[256];
-# 8 "game.c" 2
+void initp4();
+void updatePlanet4();
 
 
 FRY fry;
-BENDER bender;
 SPACESHIP spaceship;
-PLANET planets[4];
+ALIEN alien;
 PLANET p1;
 PLANET p2;
 PLANET p3;
 PLANET p4;
+HEART life1;
+HEART life2;
+HEART life3;
+BLOCK blocks[3];
 
 
-enum {RIGHTBEGIN, RIGHTWALK, LEFTBEGIN, LEFTWALK, SPRITEIDLE};
-enum {SPACE, PLANET1, PLANET2, PLANET3, PLANET4};
-int curLocation;
-
-
-
-
+int prevState;
 
 unsigned short hOff;
 unsigned short vOff;
 
-    void initGame() {
 
-        initFry();
-        initSpaceShip();
-        initPlanets();
 
-        curLocation = SPACE;
 
-        DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
-        DMANow(3, spritesheet5Tiles, &((charblock *)0x6000000)[4], 32768 / 2);
+void initGame() {
+    initSpaceship();
+    initFry();
+    initp1();
+    initp2();
+    initp3();
+    initp4();
 
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
+
+    DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
+    DMANow(3, spritesheet5Tiles, &((charblock *)0x6000000)[4], 32768 / 2);
+
+}
+
+void initSpaceship() {
+    spaceship.cdel = 1;
+    spaceship.rdel = 1;
+    spaceship.active = 1;
+    spaceship.width = 32;
+    spaceship.height = 32;
+    spaceship.col = 240 / 2 - spaceship.height / 2 + hOff;
+    spaceship.row = 160 / 2 - spaceship.width / 2 + vOff;
+}
+
+void initFry() {
+    fry.col = 20;
+    fry.row = 90;
+    fry.cdel = 1;
+    fry.rdel = 1;
+    fry.active = 1;
+    fry.width = 64;
+    fry.height = 64;
+    fry.aniState = 0;
+    fry.curFrame = 0;
+    fry.numFrames = 4;
+    fry.aniCounter = 0;
+}
+
+
+void initAlien() {
+    alien.col = 170;
+    alien.row = 90;
+    alien.cdel = 1;
+    alien.rdel = 1;
+    alien.active = 1;
+    alien.width = 64;
+    alien.height = 64;
+    alien.aniState = 2;
+    alien.curFrame = 1;
+    alien.numFrames = 4;
+    alien.aniCounter = 0;
+}
+
+
+void initBlocks() {
+    for (int i = 0; i < 3; i++) {
+        blocks[i].col = 80;
+        blocks[i].row = 60;
+        blocks[i].active = 1;
+        blocks[i].width = 32;
+        blocks[i].height = 32;
+    }
+}
+
+
+
+void initLives() {
+
+    life1.col = 5;
+    life1.row = 5;
+    life1.active = 1;
+    life1.height = 16;
+    life1.width = 16;
+
+
+    life2.col = 26;
+    life2.row = 5;
+    life2.active = 1;
+    life2.height = 16;
+    life2.width = 16;
+
+
+    life3.col = 47;
+    life3.row = 5;
+    life3.active = 1;
+    life3.height = 16;
+    life3.width = 16;
+}
+# 146 "game.c"
+void initp1() {
+    p1.col = 200;
+    p1.row = 20;
+    p1.width = 32;
+    p1.height = 32;
+    p1.active = 1;
+}
+
+void initp2() {
+    p2.col = 200;
+    p2.row = 90;
+    p2.width = 32;
+    p2.height = 32;
+    p2.active = 1;
+}
+
+void initp3() {
+    p3.col = 20;
+    p3.row = 10;
+    p3.width = 32;
+    p3.height = 32;
+    p3.active = 1;
+}
+
+void initp4() {
+    p4.col = 180;
+    p4.row = 120;
+    p4.width = 32;
+    p4.height = 32;
+    p4.active = 1;
+}
+
+void updateGame() {
+
+}
+
+void initSpace() {
+
+    initSpaceship();
+
+
+    initp1();
+    initp2();
+    initp3();
+    initp4();
+
+    DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
+    DMANow(3, spritesheet5Tiles, &((charblock *)0x6000000)[4], 32768 / 2);
+
+}
+
+void updateSpace() {
+    drawGame();
+
+    hOff+= 3;
+
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<4)))) {
+        spaceship.col += spaceship.cdel;
+    }
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<5)))) {
+        spaceship.col -= spaceship.cdel;
+    }
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<6)))) {
+        spaceship.row -= spaceship.rdel;
+    }
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
+        spaceship.row += spaceship.rdel;
     }
 
-    void initFry() {
-        fry.col = 10;
-        fry.row = 80;
-        fry.cdel = 1;
-        fry.active = 0;
-        fry.aniState = RIGHTBEGIN;
-        fry.curFrame = 0;
-        fry.aniCounter = 0;
-        fry.numFrames = 4;
-        fry.aniCounter = 0;
+
+}
+
+void initPlanet1() {
+    hideSprites();
+    initLives();
+    initBlocks();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+
+
+
+
+}
+
+void initPlanet2() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+
+
+
+}
+
+void initPlanet3() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+
+
+
+}
+
+void initPlanet4() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    initFry();
+    initAlien();
+}
+
+void updatePlanet1() {
+    hOff += 1;
+    vOff = 25;
+
+
+
+
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
     }
 
-    void initSpaceShip() {
-        spaceship.col = 10;
-        spaceship.row = (160 / 2) - 32;
-        spaceship.active = 1;
-        spaceship.cdel = 1;
-        spaceship.rdel = 1;
-        spaceship.aniState = 0;
-        spaceship.curFrame = 0;
-        spaceship.active = 0;
+
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
     }
 
-    void initPlanets() {
 
-        p1.col = 90;
-        p1.row = 60;
-        p1.height = 32;
-        p1.width = 32;
-        p1.active = 0;
-
-
-        p2.col = 140;
-        p2.row = 100;
-        p2.height = 32;
-        p2.width = 32;
-        p2.active = 0;
-
-
-        p3.col = 120;
-        p3.row = 20;
-        p3.height = 32;
-        p3.width = 32;
-        p3.active = 0;
-
-
-        p4.col = 198;
-        p4.row = 45;
-        p4.height = 32;
-        p4.width = 32;
-        p4.active = 0;
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1) {
+        life3.active = 0;
     }
 
-    void updateGame() {
-        hideSprites();
-        if (curLocation == SPACE) {
-            fry.active = 0;
-            spaceship.active = 1;
-            p1.active = 1;
-            p2.active = 1;
-            p3.active = 1;
-            p4.active = 1;
+
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+void updatePlanet2() {
+    hOff += 1;
+    vOff = 25;
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
         }
-        if (curLocation == PLANET1) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
-            planet1();
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
         }
-        if (curLocation == PLANET2) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
+    }
+# 338 "game.c"
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+void updatePlanet3() {
+    hOff += 1;
+    vOff = 45;
+
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
         }
-        if (curLocation == PLANET3) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
         }
-        if (curLocation == PLANET4) {
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
-        }
-# 148 "game.c"
-        if (fry.aniCounter % 18 == 0 && fry.active == 1) {
-            if (fry.curFrame < fry.numFrames - 1) {
-                fry.curFrame+= 1;
-            } else {
-                fry.curFrame = 0;
-            }
-        }
-
-        hOff++;
-# 177 "game.c"
-        if((~((*(volatile unsigned short *)0x04000130)) & ((1<<5)))) {
-
-            if (spaceship.active == 1) {
-                spaceship.col -= spaceship.cdel;
-            }
-
-
-
-
-        }
-        if((~((*(volatile unsigned short *)0x04000130)) & ((1<<4)))) {
-
-            if (curLocation == PLANET1) {
-
-            } else {
-                if (spaceship.active == 1) {
-                    spaceship.col += spaceship.cdel;
-                }
-                if (fry.active == 1) {
-
-
-                }
-            }
-
-
-
-
-
-
-        }
-        if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
-            if (spaceship.active) {
-                vOff++;
-                spaceship.row += spaceship.rdel;
-            }
-
-
-        }
-        if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<6)))) {
-            if (spaceship.active == 1) {
-                vOff--;
-                spaceship.row -= spaceship.rdel;
-            }
-
-        }
-
-        if (fry.aniState == SPRITEIDLE) {
-            fry.aniState = fry.prevAniState;
-        }
-        if (fry.aniState != SPRITEIDLE) {
-            fry.aniCounter++;
-        }
-
-
-
-        if (collision(p1.col, p1.row, p1.width, p1.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
-            curLocation = PLANET1;
-            planet1();
-        }
-        if (collision(p2.col, p2.row, p2.width, p2.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
-
-            fry.active = 1;
-            spaceship.active = 0;
-            p1.active = 0;
-            p2.active = 0;
-            p3.active = 0;
-            p4.active = 0;
-            planet2();
-        }
-
-
-        if (fry.active) {
-            shadowOAM[0].attr0 = (0<<8) | (0<<13) | (0<<14) | fry.row;
-            shadowOAM[0].attr1 = (3<<14) | fry.col;
-            shadowOAM[0].attr2 = ((0)<<12) | ((2 * 8)*32+(0 * 8));
-        }
-
-
-        if (spaceship.active) {
-            shadowOAM[1].attr0 = (0<<8) | (0<<13) | (0<<14) | spaceship.row;
-            shadowOAM[1].attr1 = (3<<14) | spaceship.col;
-            shadowOAM[1].attr2 = ((0)<<12) | ((fry.curFrame * 8)*32+(fry.aniState * 8));
-        }
-
-
-
-
-        if (p1.active) {
-            shadowOAM[2].attr0 = (0<<8) | (0<<13) | (0<<14) | p1.row;
-            shadowOAM[2].attr1 = (2<<14) | p1.col;
-            shadowOAM[2].attr2 = ((0)<<12) | ((4 * 4)*32+(4 * 4));
-        }
-
-
-
-        if (p2.active) {
-            shadowOAM[3].attr0 = (0<<8) | (0<<13) | (0<<14) | p2.row;
-            shadowOAM[3].attr1 = (2<<14) | p2.col;
-            shadowOAM[3].attr2 = ((0)<<12) | ((4 * 4)*32+(5 * 4));
-        }
-
-
-        if (p3.active) {
-            shadowOAM[4].attr0 = (0<<8) | (0<<13) | (0<<14) | p3.row;
-            shadowOAM[4].attr1 = (2<<14) | p3.col;
-            shadowOAM[4].attr2 = ((0)<<12) | ((4 * 4)*32+(6 * 4));
-        }
-
-
-
-        if (p4.active) {
-            shadowOAM[5].attr0 = (0<<8) | (0<<13) | (0<<14) | p4.row;
-            shadowOAM[5].attr1 = (2<<14) | p4.col;
-            shadowOAM[5].attr2 = ((0)<<12) | ((4 * 4)*32+(7 * 4));
-        }
-        waitForVBlank();
-
-        DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 512);
-
-        (*(volatile unsigned short *)0x04000012) = vOff;
-        (*(volatile unsigned short *)0x04000010) = hOff;
-        (*(volatile unsigned short *)0x04000014) = hOff / 4;
-        (*(volatile unsigned short *)0x04000016) = vOff;
-
-
     }
 
-    void updatePlanet1() {
+
+
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
     }
+    drawGame();
+}
+
+void updatePlanet4() {
+    hOff += 1;
+    vOff = 45;
+
+    if (fry.aniCounter % 18 == 0) {
+        if (fry.curFrame < fry.numFrames - 1) {
+            fry.curFrame++;
+        } else {
+            fry.curFrame = 0;
+        }
+    }
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
+    }
+
+
+
+
+
+
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
+    drawGame();
+}
+
+
+void drawGame() {
+
+
+    if (fry.active == 1) {
+        shadowOAM[0].attr0 = (0<<8) | (0<<13) | (0<<14) | fry.row;
+        shadowOAM[0].attr1 = (3<<14) | fry.col;
+        shadowOAM[0].attr2 = ((0)<<12) | ((fry.curFrame * 8)*32+(fry.aniState * 8));
+    }
+
+    fry.aniCounter++;
+
+
+    if (alien.active == 1) {
+        shadowOAM[6].attr0 = (0<<8) | (0<<13) | (0<<14) | alien.row;
+        shadowOAM[6].attr1 = (3<<14) | alien.col;
+        shadowOAM[6].attr2 = ((0)<<12) | ((alien.curFrame * 8)*32+(alien.aniState * 8));
+    }
+
+    alien.aniCounter++;
+
+
+    if (life1.active) {
+        shadowOAM[7].attr0 = (0<<8) | (0<<13) | (0<<14) | life1.row;
+        shadowOAM[7].attr1 = (1<<14) | life1.col;
+        shadowOAM[7].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
+    }
+
+    if (life2.active) {
+        shadowOAM[8].attr0 = (0<<8) | (0<<13) | (0<<14) | life2.row;
+        shadowOAM[8].attr1 = (1<<14) | life2.col;
+        shadowOAM[8].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
+    }
+
+    if (life3.active) {
+        shadowOAM[9].attr0 = (0<<8) | (0<<13) | (0<<14) | life3.row;
+        shadowOAM[9].attr1 = (1<<14) | life3.col;
+        shadowOAM[9].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
+    }
+
+
+    for (int i = 0; i < 3; i++) {
+        if (blocks[i].active) {
+            shadowOAM[10].attr0 = (0<<8) | (0<<13) | (0<<14) | blocks[i].row;
+            shadowOAM[10].attr1 = (2<<14) | blocks[i].col;
+            shadowOAM[10].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
+        }
+    }
+
+
+    if (spaceship.active) {
+        shadowOAM[1].attr0 = (0<<8) | (0<<13) | (0<<14) | spaceship.row;
+        shadowOAM[1].attr1 = (2<<14) | spaceship.col;
+        shadowOAM[1].attr2 = ((0)<<12) | ((1 * 4)*32+(4 * 4));
+    }
+
+    if (p1.active) {
+        shadowOAM[2].attr0 = (0<<8) | (0<<13) | (0<<14) | p1.row;
+        shadowOAM[2].attr1 = (2<<14) | p1.col;
+        shadowOAM[2].attr2 = ((0)<<12) | ((0 * 4)*32+(4 * 4));
+    }
+
+    if (p2.active) {
+        shadowOAM[3].attr0 = (0<<8) | (0<<13) | (0<<14) | p2.row;
+        shadowOAM[3].attr1 = (2<<14) | p2.col;
+        shadowOAM[3].attr2 = ((0)<<12) | ((0 * 4)*32+(5 * 4));
+    }
+
+
+    if (p3.active) {
+        shadowOAM[4].attr0 = (0<<8) | (0<<13) | (0<<14) | p3.row;
+        shadowOAM[4].attr1 = (2<<14) | p3.col;
+        shadowOAM[4].attr2 = ((0)<<12) | ((0 * 4)*32+(6 * 4));
+    }
+
+
+
+    if (p4.active) {
+        shadowOAM[5].attr0 = (0<<8) | (0<<13) | (0<<14) | p4.row;
+        shadowOAM[5].attr1 = (2<<14) | p4.col;
+        shadowOAM[5].attr2 = ((0)<<12) | ((0 * 4)*32+(7 * 4));
+    }
+
+
+    waitForVBlank();
+
+    DMANow(3, shadowOAM, ((OBJ_ATTR*)(0x7000000)), 512);
+
+    (*(volatile unsigned short *)0x04000010) = hOff / 4;
+    (*(volatile unsigned short *)0x04000012) = vOff;
+}

@@ -99,151 +99,133 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 
 int collision(int colA, int rowA, int widthA, int heightA, int colB, int rowB, int widthB, int heightB);
 # 2 "main.c" 2
-# 1 "starsbg.h" 1
-# 22 "starsbg.h"
-extern const unsigned short starsbgTiles[1472];
-
-
-extern const unsigned short starsbgMap[2048];
-
-
-extern const unsigned short starsbgPal[256];
-# 3 "main.c" 2
-# 1 "planets.h" 1
-# 22 "planets.h"
-extern const unsigned short planetsTiles[1808];
-
-
-extern const unsigned short planetsMap[1024];
-
-
-extern const unsigned short planetsPal[256];
-# 4 "main.c" 2
-# 1 "Fry.h" 1
-# 21 "Fry.h"
-extern const unsigned short FryTiles[6144];
-
-
-extern const unsigned short FryPal[256];
-# 5 "main.c" 2
 # 1 "game.h" 1
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
-    int curFrame;
     int aniCounter;
+    int curFrame;
     int numFrames;
-    int isFry;
 }FRY;
 
-
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
+    int aniCounter;
     int curFrame;
-}BENDER;
+    int numFrames;
+}ALIEN;
+
+
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int prevAniState;
-    int curFrame;
-    int isSpaceship;
 }SPACESHIP;
 
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int curFrame;
-    int isPlanet;
 }PLANET;
 
 
 
-void initGame();
-void updateGame();
-void initFry();
-
-void initSpaceship();
-void updateSpaceShip();
-
-void initBender();
-void updateSpaceShip();
-
-void initPlanets();
-int stateDeterminator(PLANET *);
-void updatePlanets(PLANET *);
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}HEART;
 
 
-void space();
-void initSpace();
-void updateSpace();
-void planet1();
-void planet2();
-void planet3();
-void planet4();
-void planet5();
-
-void goToSpace();
-void goToPlanet1();
-void updatePlanet1();
-
-void goToPlanet2();
-void goToPlanet3();
-void goToPlanet4();
-
-
-
-
-
-
-
-extern FRY fry;
-extern BENDER bender;
-extern SPACESHIP spaceship;
-extern PLANET planets[4];
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}BLOCK;
 
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
-# 6 "main.c" 2
+extern FRY fry;
+extern SPACESHIP spaceship;
+extern ALIEN alien;
+extern BLOCK blocks[];
+extern HEART life1;
+extern HEART life2;
+extern HEART life3;
+# 91 "game.h"
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initp1();
+void updatePlanet1();
+
+void initp2();
+void updatePlanet2();
+
+void initp3();
+void updatePlanet3();
+
+void initp4();
+void updatePlanet4();
+
+void drawGame();
+
+void initAlien();
+void initFry();
+void initSpaceship();
+void initBlocks();
+void initLives();
+# 3 "main.c" 2
+# 1 "spritesheet5.h" 1
+# 21 "spritesheet5.h"
+extern const unsigned short spritesheet5Tiles[16384];
+
+
+extern const unsigned short spritesheet5Pal[256];
+# 4 "main.c" 2
+# 1 "spacebg.h" 1
+# 22 "spacebg.h"
+extern const unsigned short spacebgTiles[11440];
+
+
+extern const unsigned short spacebgMap[1024];
+
+
+extern const unsigned short spacebgPal[256];
+# 5 "main.c" 2
 # 1 "futuramapage.h" 1
 # 22 "futuramapage.h"
 extern const unsigned short futuramapageTiles[1744];
@@ -253,7 +235,7 @@ extern const unsigned short futuramapageMap[1024];
 
 
 extern const unsigned short futuramapagePal[256];
-# 7 "main.c" 2
+# 6 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
 extern const unsigned short pauseTiles[6640];
@@ -263,7 +245,7 @@ extern const unsigned short pauseMap[1024];
 
 
 extern const unsigned short pausePal[256];
-# 8 "main.c" 2
+# 7 "main.c" 2
 # 1 "planet1PS.h" 1
 # 22 "planet1PS.h"
 extern const unsigned short planet1PSTiles[18080];
@@ -273,7 +255,47 @@ extern const unsigned short planet1PSMap[2048];
 
 
 extern const unsigned short planet1PSPal[256];
+# 8 "main.c" 2
+# 1 "bg.h" 1
+# 22 "bg.h"
+extern const unsigned short bgTiles[1632];
+
+
+extern const unsigned short bgMap[1024];
+
+
+extern const unsigned short bgPal[256];
 # 9 "main.c" 2
+# 1 "planet2bg.h" 1
+# 22 "planet2bg.h"
+extern const unsigned short planet2bgTiles[9840];
+
+
+extern const unsigned short planet2bgMap[1024];
+
+
+extern const unsigned short planet2bgPal[256];
+# 10 "main.c" 2
+# 1 "planet3bg.h" 1
+# 22 "planet3bg.h"
+extern const unsigned short planet3bgTiles[15696];
+
+
+extern const unsigned short planet3bgMap[2048];
+
+
+extern const unsigned short planet3bgPal[256];
+# 11 "main.c" 2
+# 1 "planet4bg.h" 1
+# 22 "planet4bg.h"
+extern const unsigned short planet4bgTiles[13296];
+
+
+extern const unsigned short planet4bgMap[1024];
+
+
+extern const unsigned short planet4bgPal[256];
+# 12 "main.c" 2
 
 
 
@@ -283,8 +305,18 @@ void game();
 
 void goToStart();
 void start();
+void goToGame();
+void game();
 void goToSpace();
 void space();
+void goToPlanet1();
+void planet1();
+void goToPlanet2();
+void planet2();
+void goToPlanet3();
+void planet3();
+void goToPlanet4();
+void planet4();
 void goToPause();
 void pause();
 void goToWin();
@@ -293,12 +325,29 @@ void goToLose();
 void lose();
 
 
-enum {START, GAME, PAUSE, LOSE, WIN};
+
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initPlanet1();
+void updatePlanet1();
+
+void initPlanet2();
+void updatePlanet2();
+
+void initPlanet3();
+void updatePlanet3();
+
+void initPlanet4();
+void updatePlanet4();
+
+
+enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE};
 int state;
-
-
-enum {SPACE, PLANET1, PLANET2, PLANET3, PLANET4};
-int curLocation;
+int prevState;
 
 
 unsigned short buttons;
@@ -307,7 +356,6 @@ unsigned short oldButtons;
 
 unsigned short hOff;
 unsigned short vOff;
-int counter;
 
 
 OBJ_ATTR shadowOAM[128];
@@ -318,57 +366,64 @@ int main() {
 
     initialize();
 
-    while(1) {
+    while (1) {
+
 
         oldButtons = buttons;
         buttons = (*(volatile unsigned short *)0x04000130);
 
-        switch (state) {
+        switch(state) {
         case START:
             start();
             break;
         case GAME:
             game();
-             break;
+            break;
+        case SPACE:
+            space();
+            break;
+        case PLANET1:
+            planet1();
+            break;
+        case PLANET2:
+            planet2();
+            break;
+        case PLANET3:
+            planet3();
+            break;
+        case PLANET4:
+            planet4();
+            break;
         case PAUSE:
             pause();
-            break;
-        case LOSE:
-            lose();
             break;
         case WIN:
             win();
             break;
+        case LOSE:
+            lose();
+            break;
         default:
             break;
         }
-
-
     }
+
 }
 
 
 void initialize() {
-    counter = 0;
 
-    (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
+      (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
 
-
-
-    curLocation = 0;
-
-
-
-
-    hOff = 0;
-    vOff = 0;
-    buttons = (*(volatile unsigned short *)0x04000130);
-    goToStart();
+      hOff = 0;
+      vOff = 0;
+      buttons = (*(volatile unsigned short *)0x04000130);
+      goToStart();
 
 }
 
-void goToStart() {
 
+void goToStart() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, futuramapagePal, ((unsigned short *)0x5000000), 512 / 2);
@@ -376,61 +431,183 @@ void goToStart() {
     DMANow(3, futuramapageMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
     state = START;
+
 }
 
 void start() {
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
-        goToGame();
+        goToSpace();
     }
 
 }
 
 void goToGame() {
-    (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
 
     initGame();
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (3<<14);
-    DMANow(3, starsbgTiles, &((charblock *)0x6000000)[0], 2944 / 2);
-    DMANow(3, starsbgMap, &((screenblock *)0x6000000)[28], 4096 / 2);
+    DMANow(3, bgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, bgTiles, &((charblock *)0x6000000)[0], 3264 / 2);
+    DMANow(3, bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
-    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((30)<<8) | (1<<14);
-    DMANow(3, 3616, &((charblock *)0x6000000)[1], 3616);
-    DMANow(3, planetsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+
+
     state = GAME;
+
 }
 
 void game() {
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToSpace();
+    }
 
-    updateGame();
+
+
+}
+
+void goToSpace() {
+    initSpace();
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, bgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, bgTiles, &((charblock *)0x6000000)[0], 3264 / 2);
+    DMANow(3, bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    state = SPACE;
+}
+
+void space() {
+    updateSpace();
+
+
+    if (collision(p1.col, p1.row, p1.width, p1.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
+        goToPlanet1();
+    }
+    if (collision(p2.col, p2.row, p2.width, p2.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
+        goToPlanet2();
+    }
+    if (collision(p3.col, p3.row, p3.width, p3.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
+        goToPlanet3();
+    }
+    if (collision(p4.col, p4.row, p4.width, p4.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
+        goToPlanet4();
+    }
+}
+
+void goToPlanet1() {
+    initPlanet1();
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
+    DMANow(3, planet1PSPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet1PSTiles, &((charblock *)0x6000000)[0], 36160 / 2);
+    DMANow(3, planet1PSMap, &((screenblock *)0x6000000)[30], 4096 / 2);
+    state = PLANET1;
+}
+
+void planet1() {
+    updatePlanet1();
+    prevState = PLANET1;
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToPause();
+    }
+    if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        goToSpace();
+    }
+
+}
+
+void goToPlanet2() {
+    initPlanet2();
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, planet2bgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet2bgTiles, &((charblock *)0x6000000)[0], 19680 / 2);
+    DMANow(3, planet2bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    state = PLANET2;
+}
+
+void planet2() {
+    updatePlanet2();
+    prevState = PLANET2;
+    if (!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3)))) {
+        goToPause();
+    }
+    if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        goToSpace();
+    }
+}
+
+void goToPlanet3() {
+    initPlanet3();
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
+    DMANow(3, planet3bgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet3bgTiles, &((charblock *)0x6000000)[0], 31392 / 2);
+    DMANow(3, planet3bgMap, &((screenblock *)0x6000000)[30], 4096 / 2);
+    state = PLANET3;
+}
+
+void planet3() {
+    updatePlanet3();
+    prevState = PLANET3;
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToPause();
+    }
+    if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        goToSpace();
+    }
+}
+
+void goToPlanet4() {
+    initPlanet4();
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, planet4bgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet4bgTiles, &((charblock *)0x6000000)[0], 26592 / 2);
+    DMANow(3, planet4bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    state = PLANET4;
+
+}
+
+void planet4() {
+    updatePlanet4();
+
+    prevState = PLANET4;
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         goToPause();
     }
-
-
+    if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        goToSpace();
+    }
 }
 
 void goToPause() {
-    (*(volatile unsigned short *)0x04000014) = 0;
-    (*(volatile unsigned short *)0x04000010) = 0;
-    (*(volatile unsigned short *)0x04000016) = 0;
 
-    hideSprites();
-
-    (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<12);
-    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (0<<14);
+    fry.active = 0;
+    alien.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    for (int i = 0; i < 3; i++) {
+        blocks[i].active = 0;
+    }
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
+    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, pausePal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, pauseTiles, &((charblock *)0x6000000)[1], 13280 / 2);
-    DMANow(3, pauseMap, &((screenblock *)0x6000000)[28], 2048 / 2);
+    DMANow(3, pauseMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
     state = PAUSE;
-
 }
 
 void pause() {
     hideSprites();
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+    drawGame();
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
-        goToGame();
+        if (prevState == PLANET1) {
+            goToPlanet1();
+        } else if (prevState == PLANET2) {
+            goToPlanet2();
+        } else if (prevState == PLANET3) {
+            goToPlanet3();
+        } else {
+            goToPlanet4();
+        }
     }
 }
 
@@ -447,62 +624,5 @@ void goToLose() {
 }
 
 void lose() {
-
-}
-
-
-void planet1() {
-    (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<12);
-    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (1<<14);
-    DMANow(3, planet1PSPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, planet1PSTiles, &((charblock *)0x6000000)[1], 36160 / 2);
-    DMANow(3, planet1PSMap, &((screenblock *)0x6000000)[28], 4096 / 2);
-
-    waitForVBlank();
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame+= 1;
-        } else {
-            fry.curFrame = 1;
-        }
-    }
-
-
-    updatePlanet1();
-
-
-
-}
-
-void planet2() {
-
-}
-
-void planet3() {
-
-}
-
-void planet4() {
-
-}
-
-void goToPlanet1() {
-# 236 "main.c"
-}
-
-void goToPlanet2() {
-
-}
-
-void goToPlanet3() {
-
-}
-
-void goToPlanet4() {
 
 }
