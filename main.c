@@ -236,6 +236,10 @@ void planet1() {
         goToLose();
     }
 
+    if (treasureNum > 0) {
+        goToSpace();
+    }
+
 }
 
 void goToPlanet2() {
@@ -314,14 +318,19 @@ void planet4() {
 
 void goToPause() {
 
+    hideSprites();
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
     life1.active = 0;
     life2.active = 0;
     life3.active = 0;
+    treasureP1.active = 0;
     for (int i = 0; i < BLOCKCOUNT; i++) {
         blocks[i].active = 0;
+    }
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].active = 0;
     }
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;

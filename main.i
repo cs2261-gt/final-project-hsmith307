@@ -113,6 +113,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }FRY;
 
 
@@ -128,6 +129,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int bulletTimer;
 }LEELA;
 
 typedef struct {
@@ -186,6 +188,33 @@ typedef struct {
     int active;
 }BLOCK;
 
+
+typedef struct {
+    int col;
+    int row;
+    int rdel;
+    int cdel;
+    int height;
+    int width;
+    int active;
+}BULLET;
+
+
+typedef struct {
+    int col;
+    int row;
+    int cdel;
+    int height;
+    int width;
+    int active;
+    int treasureCounter;
+}TREASURE;
+
+
+
+
+
+
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
@@ -198,6 +227,8 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
+extern BULLET bullets[10];
+extern TREASURE treasureP1;
 
 
 extern int life1Counter;
@@ -207,7 +238,12 @@ extern int life4Counter;
 
 extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
-# 116 "game.h"
+
+
+
+
+
+
 void initGame();
 void updateGame();
 
@@ -231,13 +267,29 @@ void initLose();
 void drawGame();
 
 void initAlien();
+
 void initFry();
+void updateFry();
+
 void initSpaceship();
+
 void initBlocks();
+
 void initLives();
+
+void initTreasure();
+void updateTreasure();
+
 void initLeela();
+void updateLeela();
+
+void initBullets();
+
+void shootBullets();
+void updateBullets(BULLET *);
 
 extern int isLost;
+extern int treasureNum;
 # 3 "main.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -338,7 +390,7 @@ extern const unsigned short losebgPal[256];
 # 13 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[32];
+extern const unsigned short instructionsTiles[3696];
 
 
 extern const unsigned short instructionsMap[1024];
@@ -498,7 +550,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 64 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 7392 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -569,6 +621,10 @@ void planet1() {
 
     if (isLost == 1) {
         goToLose();
+    }
+
+    if (treasureNum > 0) {
+        goToSpace();
     }
 
 }
@@ -649,14 +705,19 @@ void planet4() {
 
 void goToPause() {
 
+    hideSprites();
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
     life1.active = 0;
     life2.active = 0;
     life3.active = 0;
+    treasureP1.active = 0;
     for (int i = 0; i < 3; i++) {
         blocks[i].active = 0;
+    }
+    for (int i = 0; i < 10; i++) {
+        bullets[i].active = 0;
     }
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);

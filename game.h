@@ -101,9 +101,11 @@ typedef struct {
 typedef struct {
     int col;
     int row;
+    int cdel;
     int height;
     int width;
     int active;
+    int treasureCounter;
 }TREASURE;
 
 // game macros
@@ -124,6 +126,7 @@ extern HEART life1;
 extern HEART life2;
 extern HEART life3;
 extern BULLET bullets[BULLETCOUNT];
+extern TREASURE treasureP1;
 
 // counters to count which life is being lost and thus which should be hidden
 extern int life1Counter;
@@ -173,6 +176,7 @@ void initBlocks();
 void initLives();
 
 void initTreasure();
+void updateTreasure();
 
 void initLeela();
 void updateLeela();
@@ -180,8 +184,9 @@ void updateLeela();
 void initBullets();
 
 void shootBullets();
-void updateBullets();
+void updateBullets(BULLET *);
 
 extern int isLost;
+extern int treasureNum;
 
 

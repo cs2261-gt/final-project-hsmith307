@@ -203,9 +203,11 @@ typedef struct {
 typedef struct {
     int col;
     int row;
+    int cdel;
     int height;
     int width;
     int active;
+    int treasureCounter;
 }TREASURE;
 
 
@@ -226,6 +228,7 @@ extern HEART life1;
 extern HEART life2;
 extern HEART life3;
 extern BULLET bullets[10];
+extern TREASURE treasureP1;
 
 
 extern int life1Counter;
@@ -275,6 +278,7 @@ void initBlocks();
 void initLives();
 
 void initTreasure();
+void updateTreasure();
 
 void initLeela();
 void updateLeela();
@@ -282,9 +286,10 @@ void updateLeela();
 void initBullets();
 
 void shootBullets();
-void updateBullets();
+void updateBullets(BULLET *);
 
 extern int isLost;
+extern int treasureNum;
 # 3 "game.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -340,6 +345,7 @@ int life4Counter;
 
 int prevState;
 int isLost;
+int treasureNum;
 
 
 
@@ -360,6 +366,7 @@ void initGame() {
     initTreasure();
 
     isLost = 0;
+    treasureNum = 0;
 
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
 
@@ -459,11 +466,19 @@ void initLives() {
 }
 
 void initBullets() {
-    bullet.col = 45;
-    bullet.row = 45;
-    bullet.height = 16;
-    bullet.width = 16;
-    bullet.active = 1;
+    for (int i = 0; i < 10; i++) {
+        bullets[i].col = leela.col + leela.width;
+        bullets[i].row = leela.row + 20;
+        bullets[i].height = 8;
+        bullets[i].width = 8;
+        bullets[i].active = 0;
+        bullets[i].cdel = 1;
+    }
+
+
+
+
+
 }
 
 void initTreasure() {
@@ -472,8 +487,10 @@ void initTreasure() {
     treasureP1.active = 0;
     treasureP1.width = 32;
     treasureP1.height = 32;
+    treasureP1.treasureCounter = 0;
+    treasureP1.cdel = 1;
 }
-# 195 "game.c"
+# 207 "game.c"
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -559,7 +576,12 @@ void initPlanet1() {
     initLives();
     initBlocks();
     initBullets();
-    treasureP1.active = 1;
+    treasureP1.col = 203;
+    treasureP1.row = 120;
+    treasureP1.cdel = 1;
+    for (int i = 0; i < 10; i++) {
+        bullets[i].cdel = 1;
+    }
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
@@ -663,7 +685,7 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-# 393 "game.c"
+# 410 "game.c"
     updateFry();
 
 
@@ -677,51 +699,70 @@ void updatePlanet1() {
     }
     updateLeela();
 
-    updateBullets();
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
+
+
+
+    if (treasureP1.treasureCounter > 270) {
+        treasureP1.active = 1;
+        updateTreasure();
+    }
+    treasureP1.treasureCounter++;
+
+
+
+    for (int i = 0; i < 10; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
+
+
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 0) && (alien.active) && (fry.active)) {
        life3.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 1) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 1) && (alien.active) && (fry.active)) {
        life2.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 2) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 2) && (alien.active) && (fry.active)) {
        life1.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 3) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 3) && (alien.active) && (fry.active)) {
         isLost = 1;
     }
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life1Counter == 0) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 0) && (alien.active) && (leela.active)) {
        life3.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life1Counter == 1) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 1) && (alien.active) && (leela.active)) {
        life2.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life1Counter == 2) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 2) && (alien.active) && (leela.active)) {
        life1.active = 0;
        life1Counter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life1Counter == 3) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 3) && (alien.active) && (leela.active)) {
         isLost = 1;
     }
 
@@ -812,7 +853,7 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 550 "game.c"
+# 586 "game.c"
     updateFry();
 
     alien.col -= alien.cdel;
@@ -967,6 +1008,7 @@ void initLose() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
+    treasureP1.active = 0;
     for (int i = 0; i < 3; i++) {
         blocks[i].active = 0;
     }
@@ -982,6 +1024,12 @@ void updateFry() {
             fry.curFrame = 0;
         }
     }
+    if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
+        shootBullets();
+        fry.bulletTimer = 0;
+    }
+
+    fry.bulletTimer++;
 }
 
 void updateLeela() {
@@ -995,7 +1043,7 @@ void updateLeela() {
         }
     }
 
-    if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4)))) && leela.bulletTimer >= 7) {
+    if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
         leela.bulletTimer = 0;
     }
@@ -1004,15 +1052,55 @@ void updateLeela() {
 }
 
 void shootBullets() {
-# 756 "game.c"
-    bullets[0].active = 1;
+
+    for (int i = 0; i < 10; i++) {
+        if (!bullets[i].active && characterChoice == LEELACHARACTER) {
+            bullets[i].col = leela.col + leela.width;
+            bullets[i].row = leela.row + 20;
+            bullets[i].active = 1;
+        }
+        if (!bullets[i].active && characterChoice == FRYCHARACTER) {
+            bullets[i].col = fry.col + fry.width;
+            bullets[i].row = fry.row + 10;
+            bullets[i].active = 1;
+        }
+    }
 }
 
 
-void updateBullets() {
+void updateBullets(BULLET * b) {
+    if (b->active) {
+  if (b->row + b->width-1 >= 0
+            && b->col + b->cdel > 0
+            && b->col + b->cdel < 240 -1) {
 
+   b->row += b->rdel;
+            b->col += b->cdel;
+  } else {
+   b->active = 0;
+  }
+    }
+}
 
- bullet.col += 1;
+void updateTreasure() {
+    treasureP1.col -= treasureP1.cdel;
+    hideSprites();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(leela.col, leela.row, leela.width, leela.height, treasureP1.col,
+        treasureP1.row, treasureP1.width, treasureP1.height)) {
+            treasureP1.active = 0;
+            treasureNum++;
+
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(fry.col, fry.row, fry.width, fry.height, treasureP1.col,
+        treasureP1.row, treasureP1.width, treasureP1.height)) {
+            treasureP1.active = 0;
+            treasureNum++;
+
+        }
+    }
 }
 
 
@@ -1073,13 +1161,13 @@ void drawGame() {
     }
 
 
-
-        if (bullet.active) {
-            shadowOAM[12].attr0 = (0<<8) | (0<<13) | (0<<14) | bullet.row;
-            shadowOAM[12].attr1 = (1<<14) | bullet.col;
-            shadowOAM[12].attr2 = ((0)<<12) | ((3 * 2)*32+(12 * 2));
+    for (int i = 0; i < 10; i++) {
+        if (bullets[i].active) {
+            shadowOAM[14].attr0 = (0<<8) | (0<<13) | (0<<14) | bullets[i].row;
+            shadowOAM[14].attr1 = (0<<14) | bullets[i].col;
+            shadowOAM[14].attr2 = ((0)<<12) | ((4 * 1)*32+(26 * 1));
         }
-
+    }
 
 
     if (spaceship.active) {
@@ -1092,7 +1180,7 @@ void drawGame() {
     if (treasureP1.active) {
         shadowOAM[13].attr0 = (0<<8) | (0<<13) | (0<<14) | treasureP1.row;
         shadowOAM[13].attr1 = (2<<14) | treasureP1.col;
-        shadowOAM[13].attr2 = ((0)<<12) | ((1 * 4)*32+(4 * 4));
+        shadowOAM[13].attr2 = ((0)<<12) | ((1 * 4)*32+(7 * 4));
     }
 
     if (p1.active) {
