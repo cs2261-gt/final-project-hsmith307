@@ -519,12 +519,19 @@ void initPlanet2() {
     p3.active = 0;
     p4.active = 0;
 
-    fry.active = 1;
     initAlien();
     initLives();
 
 
 
+
+
+    if (characterChoice == LEELACHARACTER) {
+        leela.active = 1;
+    }
+    if (characterChoice == FRYCHARACTER) {
+        fry.active = 1;
+    }
 
     life1Counter = 0;
 
@@ -538,12 +545,20 @@ void initPlanet3() {
     p3.active = 0;
     p4.active = 0;
 
-    fry.active = 1;
+
     initAlien();
     initLives();
 
 
 
+
+
+    if (characterChoice == LEELACHARACTER) {
+        leela.active = 1;
+    }
+    if (characterChoice == FRYCHARACTER) {
+        fry.active = 1;
+    }
 
     life3Counter = 0;
 
@@ -557,9 +572,16 @@ void initPlanet4() {
     p3.active = 0;
     p4.active = 0;
 
-    fry.active = 1;
     initLives();
     initAlien();
+
+
+    if (characterChoice == LEELACHARACTER) {
+        leela.active = 1;
+    }
+    if (characterChoice == FRYCHARACTER) {
+        fry.active = 1;
+    }
 
     life4Counter = 0;
 
