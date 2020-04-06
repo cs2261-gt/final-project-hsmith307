@@ -389,6 +389,7 @@ void initLeela() {
     leela.curFrame = 0;
     leela.numFrames = 4;
     leela.aniCounter = 0;
+    leela.bulletTimer = 0;
 }
 
 
@@ -444,15 +445,15 @@ void initLives() {
 
 void initBullets() {
     for (int i = 0; i < 10; i++) {
-        bullets[i].col = fry.col + fry.width;
-        bullets[i].row = fry.row + 10;
+        bullets[i].col = leela.col + leela.width;
+        bullets[i].row = leela.row + 10;
         bullets[i].width = 8;
         bullets[i].height = 8;
         bullets[i].cdel = 1;
         bullets[i].active = 0;
     }
 }
-# 185 "game.c"
+# 186 "game.c"
 void initp1() {
     initBullets();
     p1.col = 200;
@@ -641,7 +642,7 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-# 382 "game.c"
+# 383 "game.c"
     updateFry();
 
 
@@ -791,7 +792,7 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 540 "game.c"
+# 541 "game.c"
     updateFry();
 
     alien.col -= alien.cdel;
@@ -985,11 +986,11 @@ void updateLeela() {
 void shootBullets() {
 
  for (int i = 0; i < 10; i++) {
-  if (!bullets[i].active) {
+
 
 
    bullets[i].row = leela.row;
-   bullets[i].col = leela.col + leela.width/2
+   bullets[i].col = leela.col + leela.width
     - bullets[i].width/2;
 
 
@@ -997,7 +998,7 @@ void shootBullets() {
 
 
    break;
-  }
+
  }
 }
 

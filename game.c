@@ -108,6 +108,7 @@ void initLeela() {
     leela.curFrame = 0;
     leela.numFrames = 4;
     leela.aniCounter = 0;
+    leela.bulletTimer = 0;
 }
 
 // initialize the alien
@@ -163,8 +164,8 @@ void initLives() {
 
 void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
-        bullets[i].col = fry.col + fry.width;
-        bullets[i].row = fry.row + 10;
+        bullets[i].col = leela.col + leela.width;
+        bullets[i].row = leela.row + 10;
         bullets[i].width = 8;
         bullets[i].height = 8;
         bullets[i].cdel = 1;
@@ -730,11 +731,11 @@ void updateLeela() {
 void shootBullets() {
   	// Find the first inactive bullet
 	for (int i = 0; i < BULLETCOUNT; i++) {
-		if (!bullets[i].active) {
+		//if (!bullets[i].active) {
 
 			// Position the new bullet
 			bullets[i].row = leela.row;
-			bullets[i].col = leela.col + leela.width/2
+			bullets[i].col = leela.col + leela.width
 				- bullets[i].width/2;
 
 			// Take the bullet out of the pool
@@ -742,7 +743,7 @@ void shootBullets() {
 
 			// Break out of the loop
 			break;
-		}
+		//}
 	}  
 }
 
