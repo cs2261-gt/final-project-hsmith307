@@ -115,6 +115,21 @@ typedef struct {
     int numFrames;
 }FRY;
 
+
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+    int aniState;
+    int aniCounter;
+    int curFrame;
+    int numFrames;
+}LEELA;
+
 typedef struct {
     int col;
     int row;
@@ -176,6 +191,7 @@ extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
 extern FRY fry;
+extern LEELA leela;
 extern SPACESHIP spaceship;
 extern ALIEN alien;
 extern BLOCK blocks[];
@@ -188,7 +204,10 @@ extern int life1Counter;
 extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
-# 97 "game.h"
+
+extern enum {FRYCHARACTER, LEELACHARACTER};
+extern int characterChoice;
+# 116 "game.h"
 void initGame();
 void updateGame();
 
@@ -216,6 +235,7 @@ void initFry();
 void initSpaceship();
 void initBlocks();
 void initLives();
+void initLeela();
 
 extern int isLost;
 # 3 "main.c" 2
@@ -238,7 +258,7 @@ extern const unsigned short spacebgPal[256];
 # 5 "main.c" 2
 # 1 "futuramapage.h" 1
 # 22 "futuramapage.h"
-extern const unsigned short futuramapageTiles[1744];
+extern const unsigned short futuramapageTiles[1936];
 
 
 extern const unsigned short futuramapageMap[1024];
@@ -316,6 +336,16 @@ extern const unsigned short losebgMap[1024];
 
 extern const unsigned short losebgPal[256];
 # 13 "main.c" 2
+# 1 "instructions.h" 1
+# 22 "instructions.h"
+extern const unsigned short instructionsTiles[32];
+
+
+extern const unsigned short instructionsMap[1024];
+
+
+extern const unsigned short instructionsPal[256];
+# 14 "main.c" 2
 
 
 
@@ -450,7 +480,7 @@ void goToStart() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, futuramapagePal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, futuramapageTiles, &((charblock *)0x6000000)[0], 3488 / 2);
+    DMANow(3, futuramapageTiles, &((charblock *)0x6000000)[0], 3872 / 2);
     DMANow(3, futuramapageMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
     state = START;
@@ -459,17 +489,17 @@ void goToStart() {
 
 void start() {
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
-        goToSpace();
+        goToGame();
     }
 
 }
 
 void goToGame() {
 
-    initGame();
-    DMANow(3, bgPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, bgTiles, &((charblock *)0x6000000)[0], 3264 / 2);
-    DMANow(3, bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 64 / 2);
+    DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
 
@@ -478,7 +508,12 @@ void goToGame() {
 }
 
 void game() {
-    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+    if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        characterChoice = FRYCHARACTER;
+        goToSpace();
+    }
+    if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
+        characterChoice = LEELACHARACTER;
         goToSpace();
     }
 
@@ -615,6 +650,7 @@ void planet4() {
 void goToPause() {
 
     fry.active = 0;
+    leela.active = 0;
     alien.active = 0;
     life1.active = 0;
     life2.active = 0;

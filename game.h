@@ -13,6 +13,21 @@ typedef struct {
     int numFrames;
 }FRY;
 
+// leela struct 
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+    int aniState;
+    int aniCounter;
+    int curFrame;
+    int numFrames;
+}LEELA;
+
 typedef struct {
     int col;
     int row;
@@ -74,6 +89,7 @@ extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
 extern FRY fry;
+extern LEELA leela;
 extern SPACESHIP spaceship;
 extern ALIEN alien;
 extern BLOCK blocks[];
@@ -86,6 +102,9 @@ extern int life1Counter;
 extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
+
+extern enum {FRYCHARACTER, LEELACHARACTER};
+extern int characterChoice;
 
 
 // game macros
@@ -121,6 +140,7 @@ void initFry();
 void initSpaceship();
 void initBlocks();
 void initLives();
+void initLeela();
 
 extern int isLost;
 

@@ -10,6 +10,7 @@
 #include "planet3bg.h"
 #include "planet4bg.h"
 #include "losebg.h"
+#include "instructions.h"
 
 
 // Function prototypes
@@ -153,17 +154,17 @@ void goToStart() {
 
 void start() {
     if (BUTTON_PRESSED(BUTTON_START)) {
-        goToSpace();
+        goToGame();
     }
 
 }
 
 void goToGame() {
 
-    initGame();
-    DMANow(3, bgPal, PALETTE, bgPalLen / 2);
-    DMANow(3, bgTiles, &CHARBLOCK[0], bgTilesLen / 2);
-    DMANow(3, bgMap, &SCREENBLOCK[30], bgMapLen / 2);
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    DMANow(3, instructionsPal, PALETTE, instructionsPalLen / 2);
+    DMANow(3, instructionsTiles, &CHARBLOCK[0], instructionsTilesLen / 2);
+    DMANow(3, instructionsMap, &SCREENBLOCK[30], instructionsMapLen / 2);
 
 
     //state = GAME;
@@ -172,7 +173,12 @@ void goToGame() {
 }
 
 void game() {
-    if (BUTTON_PRESSED(BUTTON_START)) {
+    if (BUTTON_PRESSED(BUTTON_LEFT)) {
+        characterChoice = FRYCHARACTER;
+        goToSpace();
+    }
+    if (BUTTON_PRESSED(BUTTON_RIGHT)) {
+        characterChoice = LEELACHARACTER;
         goToSpace();
     }
 
@@ -309,6 +315,7 @@ void planet4() {
 void goToPause() {
 
     fry.active = 0;
+    leela.active = 0;
     alien.active = 0;
     life1.active = 0;
     life2.active = 0;
