@@ -9,6 +9,7 @@
 #include "planet2bg.h"
 #include "planet3bg.h"
 #include "planet4bg.h"
+#include "losebg.h"
 
 
 // Function prototypes
@@ -137,6 +138,9 @@ void initialize() {
 
 // load the start state
 void goToStart() {
+    hOff = 0;
+    vOff = 0;
+    isLost = 0;
 
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, futuramapagePal, PALETTE, futuramapagePalLen / 2);
@@ -222,6 +226,10 @@ void planet1() {
         goToSpace();
     }
 
+    if (isLost == 1) {
+        goToLose();
+    }
+
 }
 
 void goToPlanet2() {
@@ -242,6 +250,10 @@ void planet2() {
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
         goToSpace();
     }
+
+   if (isLost == 1) {
+        goToLose();
+    }
 }
 
 void goToPlanet3() {
@@ -261,6 +273,10 @@ void planet3() {
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
         goToSpace();
+    }
+
+   if (isLost == 1) {
+        goToLose();
     }
 }
 
@@ -284,6 +300,9 @@ void planet4() {
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
         goToSpace();
+    }
+    if (isLost == 1) {
+        goToLose();
     }
 }
 
@@ -333,9 +352,20 @@ void win() {
 }
 
 void goToLose() {
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+    hideSprites();
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
+    REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    DMANow(3, losebgPal, PALETTE, losebgPalLen / 2);
+    DMANow(3, losebgTiles, &CHARBLOCK[1], losebgTilesLen / 2);
+    DMANow(3, losebgMap, &SCREENBLOCK[30], losebgMapLen / 2); 
 
+    state = LOSE;
 }
 
 void lose() {
-
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        goToStart();
+    }
 }

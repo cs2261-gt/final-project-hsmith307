@@ -182,7 +182,13 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
-# 91 "game.h"
+
+
+extern int life1Counter;
+extern int life2Counter;
+extern int life3Counter;
+extern int life4Counter;
+# 97 "game.h"
 void initGame();
 void updateGame();
 
@@ -208,6 +214,8 @@ void initFry();
 void initSpaceship();
 void initBlocks();
 void initLives();
+
+extern int isLost;
 # 3 "game.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -250,7 +258,14 @@ HEART life3;
 BLOCK blocks[3];
 
 
+int life1Counter;
+int life2Counter;
+int life3Counter;
+int life4Counter;
+
+
 int prevState;
+int isLost;
 
 unsigned short hOff;
 unsigned short vOff;
@@ -265,6 +280,8 @@ void initGame() {
     initp2();
     initp3();
     initp4();
+
+    isLost = 0;
 
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
 
@@ -288,7 +305,7 @@ void initFry() {
     fry.row = 90;
     fry.cdel = 1;
     fry.rdel = 1;
-    fry.active = 1;
+    fry.active = 0;
     fry.width = 64;
     fry.height = 64;
     fry.aniState = 0;
@@ -347,7 +364,7 @@ void initLives() {
     life3.height = 16;
     life3.width = 16;
 }
-# 146 "game.c"
+# 155 "game.c"
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -387,6 +404,9 @@ void updateGame() {
 void initSpace() {
 
     initSpaceship();
+
+
+    initFry();
 
 
     initp1();
@@ -429,8 +449,11 @@ void initPlanet1() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initFry();
+
+    fry.active = 1;
     initAlien();
+
+    life1Counter = 0;
 
 
 
@@ -444,10 +467,15 @@ void initPlanet2() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initFry();
+
+    fry.active = 1;
     initAlien();
+    initLives();
 
 
+
+
+    life1Counter = 0;
 
 }
 
@@ -458,10 +486,15 @@ void initPlanet3() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initFry();
+
+    fry.active = 1;
     initAlien();
+    initLives();
 
 
+
+
+    life3Counter = 0;
 
 }
 
@@ -472,18 +505,24 @@ void initPlanet4() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initFry();
+
+    fry.active = 1;
+    initLives();
     initAlien();
+
+    life4Counter = 0;
+
 }
 
 void updatePlanet1() {
     hOff += 1;
     vOff = 25;
 
+    hideSprites();
 
 
 
-    if (fry.aniCounter % 18 == 0) {
+    if (fry.aniCounter % 18 == 0 && fry.active == 1) {
         if (fry.curFrame < fry.numFrames - 1) {
             fry.curFrame++;
         } else {
@@ -502,8 +541,26 @@ void updatePlanet1() {
     }
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1) {
-        life3.active = 0;
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 0) {
+       life3.active = 0;
+       life1Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 1) {
+       life2.active = 0;
+       life1Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 2) {
+       life1.active = 0;
+       life1Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life1Counter == 3) {
+        isLost = 1;
     }
 
 
@@ -517,6 +574,9 @@ void updatePlanet1() {
 void updatePlanet2() {
     hOff += 1;
     vOff = 25;
+
+    hideSprites();
+
     if (fry.aniCounter % 18 == 0) {
         if (fry.curFrame < fry.numFrames - 1) {
             fry.curFrame++;
@@ -532,7 +592,30 @@ void updatePlanet2() {
             alien.curFrame = 1;
         }
     }
-# 338 "game.c"
+
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 0) {
+       life3.active = 0;
+       life2Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 1) {
+       life2.active = 0;
+       life2Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 2) {
+       life1.active = 0;
+       life2Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 3) {
+        isLost = 1;
+    }
+
     if (alien.col + alien.width == 0) {
         alien.active = 0;
     }
@@ -543,6 +626,9 @@ void updatePlanet3() {
     hOff += 1;
     vOff = 45;
 
+
+    hideSprites();
+
     if (fry.aniCounter % 18 == 0) {
         if (fry.curFrame < fry.numFrames - 1) {
             fry.curFrame++;
@@ -560,6 +646,27 @@ void updatePlanet3() {
     }
 
 
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 0) {
+       life3.active = 0;
+       life3Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 1) {
+       life2.active = 0;
+       life3Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 2) {
+       life1.active = 0;
+       life3Counter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 3) {
+        isLost = 1;
+    }
 
 
     if (alien.col + alien.width == 0) {
@@ -572,6 +679,9 @@ void updatePlanet4() {
     hOff += 1;
     vOff = 45;
 
+
+    hideSprites();
+
     if (fry.aniCounter % 18 == 0) {
         if (fry.curFrame < fry.numFrames - 1) {
             fry.curFrame++;
@@ -589,9 +699,27 @@ void updatePlanet4() {
     }
 
 
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 0) {
+       life3.active = 0;
+       life4Counter++;
+       alien.col = 190;
+    }
 
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 1) {
+       life2.active = 0;
+       life4Counter++;
+       alien.col = 190;
+    }
 
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 2) {
+       life1.active = 0;
+       life4Counter++;
+       alien.col = 190;
+    }
 
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 3) {
+        isLost = 1;
+    }
 
     if (alien.col + alien.width == 0) {
         alien.active = 0;

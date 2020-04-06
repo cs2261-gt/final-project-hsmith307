@@ -182,7 +182,13 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
-# 91 "game.h"
+
+
+extern int life1Counter;
+extern int life2Counter;
+extern int life3Counter;
+extern int life4Counter;
+# 97 "game.h"
 void initGame();
 void updateGame();
 
@@ -208,6 +214,8 @@ void initFry();
 void initSpaceship();
 void initBlocks();
 void initLives();
+
+extern int isLost;
 # 3 "main.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -296,6 +304,16 @@ extern const unsigned short planet4bgMap[1024];
 
 extern const unsigned short planet4bgPal[256];
 # 12 "main.c" 2
+# 1 "losebg.h" 1
+# 22 "losebg.h"
+extern const unsigned short losebgTiles[6064];
+
+
+extern const unsigned short losebgMap[1024];
+
+
+extern const unsigned short losebgPal[256];
+# 13 "main.c" 2
 
 
 
@@ -424,6 +442,9 @@ void initialize() {
 
 
 void goToStart() {
+    hOff = 0;
+    vOff = 0;
+    isLost = 0;
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, futuramapagePal, ((unsigned short *)0x5000000), 512 / 2);
@@ -509,6 +530,10 @@ void planet1() {
         goToSpace();
     }
 
+    if (isLost == 1) {
+        goToLose();
+    }
+
 }
 
 void goToPlanet2() {
@@ -529,6 +554,10 @@ void planet2() {
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
         goToSpace();
     }
+
+   if (isLost == 1) {
+        goToLose();
+    }
 }
 
 void goToPlanet3() {
@@ -548,6 +577,10 @@ void planet3() {
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
         goToSpace();
+    }
+
+   if (isLost == 1) {
+        goToLose();
     }
 }
 
@@ -571,6 +604,9 @@ void planet4() {
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
         goToSpace();
+    }
+    if (isLost == 1) {
+        goToLose();
     }
 }
 
@@ -620,9 +656,20 @@ void win() {
 }
 
 void goToLose() {
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+    hideSprites();
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
+    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, losebgPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, losebgTiles, &((charblock *)0x6000000)[1], 12128 / 2);
+    DMANow(3, losebgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
+    state = LOSE;
 }
 
 void lose() {
-
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToStart();
+    }
 }

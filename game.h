@@ -81,6 +81,12 @@ extern HEART life1;
 extern HEART life2;
 extern HEART life3;
 
+// counters to count which life is being lost and thus which should be hidden
+extern int life1Counter;
+extern int life2Counter;
+extern int life3Counter;
+extern int life4Counter;
+
 
 // game macros
 #define BLOCKCOUNT 3
@@ -113,5 +119,7 @@ void initFry();
 void initSpaceship();
 void initBlocks();
 void initLives();
+
+extern int isLost;
 
 
