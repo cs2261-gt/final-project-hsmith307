@@ -186,11 +186,6 @@ void initBullets() {
         bullets[i].active = 0;
         bullets[i].cdel = 1;
     }
-    // bullet.col = leela.col + leela.width;
-    // bullet.row = leela.row + 20;
-    // bullet.height = 8;
-    // bullet.width = 8;
-    // bullet.active = 1;
 }
 
 void initTreasure() {
@@ -319,12 +314,6 @@ void initPlanet1() {
     if (characterChoice == FRYCHARACTER) {
         fry.active = 1;
     }
-
-    //life1Counter = 0;
-
-    // handle collisions with the alien and fry
-    
-
 }
 
 void initPlanet2() {
@@ -362,13 +351,8 @@ void initPlanet3() {
     p3.active = 0;
     p4.active = 0;
     initBullets();
-    //initFry();
 
     initAlien();
-    //initLives();
-    // fry.active = 1;  
-    // fry.col = 20;
-    // fry.row = 90; 
 
     // keep track of what planet you are on
     curLocation = PLAN3;
@@ -380,8 +364,6 @@ void initPlanet3() {
     if (characterChoice == FRYCHARACTER) {
         fry.active = 1;
     }
-
-    //life3Counter = 0;
 
 }
 
@@ -407,8 +389,6 @@ void initPlanet4() {
     if (characterChoice == FRYCHARACTER) {
         fry.active = 1;
     }
-
-    //life4Counter = 0;
 
 }
 
@@ -440,10 +420,6 @@ void updatePlanet1() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        // if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
-        //     alien.active = 0;
-        //     bullets[i].active = 0;
-        // }
         if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
@@ -474,10 +450,6 @@ void updatePlanet2() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        // if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
-        //     alien.active = 0;
-        //     bullets[i].active = 0;
-        // }
         if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
@@ -510,10 +482,6 @@ void updatePlanet3() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        // if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
-        //     alien.active = 0;
-        //     bullets[i].active = 0;
-        // }
         if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
@@ -546,10 +514,6 @@ void updatePlanet4() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        // if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
-        //     alien.active = 0;
-        //     bullets[i].active = 0;
-        // }
         if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
