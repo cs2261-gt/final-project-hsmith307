@@ -640,7 +640,7 @@ void initPlanet2() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-
+    initBullets();
     initAlien();
 
 
@@ -667,6 +667,7 @@ void initPlanet3() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
+    initBullets();
 
 
     initAlien();
@@ -700,6 +701,7 @@ void initPlanet4() {
 
 
     initAlien();
+    initBullets();
 
 
     curLocation = PLAN4;
@@ -773,6 +775,14 @@ void updatePlanet2() {
     updateLives();
 
 
+    for (int i = 0; i < 10; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
+
+
     drawGame();
 }
 
@@ -797,6 +807,14 @@ void updatePlanet3() {
     updateLives();
 
 
+    for (int i = 0; i < 10; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
+
+
     drawGame();
 }
 
@@ -819,6 +837,14 @@ void updatePlanet4() {
 
 
     updateLives();
+
+
+    for (int i = 0; i < 10; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
 
 
     drawGame();
@@ -904,7 +930,7 @@ void shootBullets() {
         }
         if (!bullets[i].active && characterChoice == FRYCHARACTER) {
             bullets[i].col = fry.col + fry.width;
-            bullets[i].row = fry.row + 10;
+            bullets[i].row = fry.row + 20;
             bullets[i].active = 1;
         }
     }

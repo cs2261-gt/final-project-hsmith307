@@ -539,6 +539,20 @@ void goToStart() {
     vOff = 0;
     isLost = 0;
 
+    hideSprites();
+
+
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, futuramapagePal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, futuramapageTiles, &((charblock *)0x6000000)[0], 3872 / 2);
@@ -549,6 +563,9 @@ void goToStart() {
 }
 
 void start() {
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         goToGame();
     }
@@ -612,6 +629,10 @@ void space() {
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         goToPause();
+    }
+
+    if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0))))) {
+        goToStart();
     }
 }
 

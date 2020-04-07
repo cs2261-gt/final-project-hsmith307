@@ -334,7 +334,7 @@ void initPlanet2() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-
+    initBullets();
     initAlien();
 
 
@@ -361,6 +361,7 @@ void initPlanet3() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
+    initBullets();
     //initFry();
 
     initAlien();
@@ -394,6 +395,7 @@ void initPlanet4() {
     //initFry(); 
     //initLives();
     initAlien();
+    initBullets();
 
     // keep track of what planet you are on
     curLocation = PLAN4;
@@ -466,6 +468,14 @@ void updatePlanet2() {
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
+    // check alien/bullet collisions
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
+
     // draw the game with the updates
     drawGame();
 }
@@ -490,6 +500,14 @@ void updatePlanet3() {
      // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
+    // check alien/bullet collisions
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
+
     // draw the game with the updates
     drawGame();
 }
@@ -513,6 +531,14 @@ void updatePlanet4() {
 
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
+
+    // check alien/bullet collisions
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        if (alien.col == (bullets[i].col + bullets[i].width) && alien.active) {
+            alien.active = 0;
+            bullets[i].active = 0;
+        }
+    }
 
     // draw the game with the updates
     drawGame();
@@ -598,7 +624,7 @@ void shootBullets() {
         }
         if (!bullets[i].active && characterChoice == FRYCHARACTER) {
             bullets[i].col = fry.col + fry.width;
-            bullets[i].row = fry.row + 10;
+            bullets[i].row = fry.row + 20;
             bullets[i].active = 1;
         }
     }

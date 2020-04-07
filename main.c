@@ -143,6 +143,20 @@ void goToStart() {
     vOff = 0;
     isLost = 0;
 
+    hideSprites();
+
+    // make things inactive in case you go back to start the game over at any point
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, futuramapagePal, PALETTE, futuramapagePalLen / 2);
     DMANow(3, futuramapageTiles, &CHARBLOCK[0], futuramapageTilesLen / 2);
@@ -153,6 +167,9 @@ void goToStart() {
 }
 
 void start() {
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToGame();
     }
@@ -216,6 +233,10 @@ void space() {
 
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToPause();
+    }
+
+    if (BUTTON_PRESSED(BUTTON_A)) {
+        goToStart();
     }
 }
 
