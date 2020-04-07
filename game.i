@@ -270,6 +270,7 @@ void initLose();
 void drawGame();
 
 void initAlien();
+void updateAlien();
 
 void initFry();
 void updateFry();
@@ -507,7 +508,7 @@ void initTreasure() {
     treasureP1.treasureCounter = 0;
     treasureP1.cdel = 1;
 }
-# 216 "game.c"
+
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -564,13 +565,13 @@ void initSpace() {
     initp3();
     initp4();
 
-
-
-
     DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
     DMANow(3, spritesheet5Tiles, &((charblock *)0x6000000)[4], 32768 / 2);
 
+
     isLost = 0;
+
+
     treasureNum = 0;
     prevTreasureNum = 0;
 }
@@ -641,9 +642,6 @@ void initPlanet2() {
     p4.active = 0;
 
     initAlien();
-
-
-
 
 
 
@@ -723,18 +721,10 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-# 440 "game.c"
+
+
     updateFry();
-
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
+    updateAlien();
     updateLeela();
 
 
@@ -742,7 +732,7 @@ void updatePlanet1() {
 
 
 
-    if (treasureP1.treasureCounter > 270) {
+    if (treasureP1.treasureCounter > 1000) {
         treasureP1.active = 1;
         updateTreasure();
     }
@@ -760,14 +750,6 @@ void updatePlanet1() {
         }
     }
 
-
-
-
-
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
     drawGame();
 }
 
@@ -777,17 +759,9 @@ void updatePlanet2() {
 
     hideSprites();
 
+
     updateFry();
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    updateAlien();
     updateLeela();
 
 
@@ -803,27 +777,14 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 528 "game.c"
+
+
     updateFry();
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    updateAlien();
     updateLeela();
 
 
     updateLives();
-
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
 
 
     drawGame();
@@ -836,33 +797,13 @@ void updatePlanet4() {
 
     hideSprites();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
 
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    updateFry();
+    updateAlien();
     updateLeela();
 
 
     updateLives();
-
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
 
 
     drawGame();
@@ -921,6 +862,21 @@ void updateLeela() {
     }
 
     leela.bulletTimer++;
+}
+
+void updateAlien() {
+
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
+    }
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
 }
 
 void shootBullets() {

@@ -334,12 +334,9 @@ void initPlanet2() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    //initFry();
+
     initAlien();
-    //initLives();
-    // fry.active = 1;
-    // fry.col = 20;
-    // fry.row = 90;
+
 
 
     // keep track of what planet you are on
@@ -419,25 +416,9 @@ void updatePlanet1() {
 
     hideSprites();
 
-    // // animate fry
-    // if (fry.aniCounter % 18 == 0 && fry.active == 1) {
-    //     if (fry.curFrame < fry.numFrames - 1) {
-    //         fry.curFrame++;
-    //     } else {
-    //         fry.curFrame = 0;
-    //     }
-    // }
+    // update the movement of the characters
     updateFry();
-
-    // move the alien towards fry and animate the alien
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
+    updateAlien();
     updateLeela();
 
     // for (int i = 0; i < BULLETCOUNT; i++) {
@@ -445,7 +426,7 @@ void updatePlanet1() {
     // } 
  
 
-    if (treasureP1.treasureCounter > 270) {
+    if (treasureP1.treasureCounter > 1000) {
         treasureP1.active = 1;
         updateTreasure();
     }
@@ -463,14 +444,6 @@ void updatePlanet1() {
         }
     }
 
-
-
-
-    // make sure the alien is not active after it goes past fry for now, but soon this will be 
-    // changed to a collision and fry will lose a life 
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
     drawGame();
 }
 
@@ -480,17 +453,9 @@ void updatePlanet2() {
 
     hideSprites();
 
+    // update the movement of all the characters that are active
     updateFry();
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    updateAlien();
     updateLeela();
 
     // if there is a collision with fry/leela and the alien then you lose a life
@@ -507,34 +472,13 @@ void updatePlanet3() {
     // make sure we erase the sprites if there is a collision
     hideSprites();
 
-    // if (fry.aniCounter % 18 == 0) {
-    //     if (fry.curFrame < fry.numFrames - 1) {
-    //         fry.curFrame++;
-    //     } else {
-    //         fry.curFrame = 0;
-    //     }
-    // }
-
+    // update the movement of all the characters
     updateFry();
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    updateAlien();
     updateLeela();
 
      // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
-
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
 
     // draw the game with the updates
     drawGame();
@@ -547,33 +491,13 @@ void updatePlanet4() {
     // make sure we erase the sprites if there is a collision
     hideSprites();
 
-    if (fry.aniCounter % 18 == 0) {
-        if (fry.curFrame < fry.numFrames - 1) {
-            fry.curFrame++;
-        } else {
-            fry.curFrame = 0;
-        }
-    }
-
-
-    alien.col -= alien.cdel;
-    if (alien.aniCounter % 18 == 0) {
-        if (alien.curFrame < alien.numFrames - 1) {
-            alien.curFrame++;
-        } else {
-            alien.curFrame = 1;
-        }
-    }
-
+    // update the characters
+    updateFry();
+    updateAlien();
     updateLeela();
 
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
-
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
 
     // draw the game with the updates
     drawGame();
@@ -632,6 +556,21 @@ void updateLeela() {
     }
 
     leela.bulletTimer++;
+}
+
+void updateAlien() {
+    // move the alien towards fry and animate the alien
+    alien.col -= alien.cdel;
+    if (alien.aniCounter % 18 == 0) {
+        if (alien.curFrame < alien.numFrames - 1) {
+            alien.curFrame++;
+        } else {
+            alien.curFrame = 1;
+        }
+    }
+    if (alien.col + alien.width == 0) {
+        alien.active = 0;
+    }
 }
 
 void shootBullets() {

@@ -599,24 +599,27 @@ space:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, r5, r6, r7, lr}
-	ldr	r4, .L75
+	ldr	r3, .L75
 	sub	sp, sp, #20
-	ldr	r3, .L75+4
 	mov	lr, pc
 	bx	r3
+	mov	lr, #2
+	ldr	r4, .L75+4
+	ldr	ip, [r4, #8]
 	ldr	r1, [r4, #12]
 	ldr	r2, [r4, #4]
 	ldr	r3, [r4]
-	ldr	ip, [r4, #8]
-	str	r1, [sp, #8]
 	str	ip, [sp, #12]
+	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
 	ldr	r0, .L75+8
-	ldr	r5, .L75+12
+	ldr	ip, .L75+12
 	ldr	r3, [r0, #8]
 	ldr	r2, [r0, #12]
+	str	lr, [ip]
 	ldm	r0, {r0, r1}
+	ldr	r5, .L75+16
 	mov	lr, pc
 	bx	r5
 	cmp	r0, #1
@@ -624,7 +627,7 @@ space:
 .L61:
 	add	r6, r4, #8
 	ldm	r6, {r6, ip}
-	ldr	r0, .L75+16
+	ldr	r0, .L75+20
 	ldr	lr, [r4, #4]
 	ldr	r3, [r0, #8]
 	ldr	r2, [r0, #12]
@@ -640,7 +643,7 @@ space:
 .L62:
 	add	r6, r4, #8
 	ldm	r6, {r6, ip}
-	ldr	r0, .L75+20
+	ldr	r0, .L75+24
 	ldr	lr, [r4, #4]
 	ldr	r3, [r0, #8]
 	ldr	r2, [r0, #12]
@@ -654,7 +657,7 @@ space:
 	cmp	r0, #1
 	beq	.L72
 .L63:
-	ldr	r0, .L75+24
+	ldr	r0, .L75+28
 	ldr	r7, [r4, #8]
 	ldr	r6, [r4, #12]
 	ldm	r4, {ip, lr}
@@ -669,11 +672,11 @@ space:
 	cmp	r0, #1
 	beq	.L73
 .L64:
-	ldr	r3, .L75+28
+	ldr	r3, .L75+32
 	ldrh	r3, [r3]
 	tst	r3, #8
 	beq	.L60
-	ldr	r3, .L75+32
+	ldr	r3, .L75+36
 	ldrh	r3, [r3]
 	tst	r3, #8
 	beq	.L74
@@ -702,9 +705,10 @@ space:
 .L76:
 	.align	2
 .L75:
-	.word	spaceship
 	.word	updateSpace
+	.word	spaceship
 	.word	p1
+	.word	prevState
 	.word	collision
 	.word	p2
 	.word	p3

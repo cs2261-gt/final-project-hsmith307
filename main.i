@@ -270,6 +270,7 @@ void initLose();
 void drawGame();
 
 void initAlien();
+void updateAlien();
 
 void initFry();
 void updateFry();
@@ -592,6 +593,8 @@ void goToSpace() {
 
 void space() {
     updateSpace();
+
+    prevState = SPACE;
 
 
     if (collision(p1.col, p1.row, p1.width, p1.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {

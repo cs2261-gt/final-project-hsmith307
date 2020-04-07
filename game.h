@@ -168,6 +168,7 @@ void initLose();
 void drawGame();
 
 void initAlien();
+void updateAlien();
 
 void initFry();
 void updateFry();

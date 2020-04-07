@@ -198,6 +198,8 @@ void goToSpace() {
 void space() {
     updateSpace();
 
+    prevState = SPACE;
+
     //check for collision with planet 1 and spaceship
     if (collision(p1.col, p1.row, p1.width, p1.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
         goToPlanet1();
