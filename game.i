@@ -920,6 +920,15 @@ void initWin() {
     alien.active = 0;
     spaceship.active = 0;
     treasureP1.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
     for (int i = 0; i < 3; i++) {
             blocks[i].active = 0;
     }

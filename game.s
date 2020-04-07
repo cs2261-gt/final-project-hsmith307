@@ -1916,19 +1916,37 @@ initWin:
 	mov	lr, pc
 	bx	r3
 	mov	r2, #0
-	ldr	ip, .L261+4
-	ldr	r0, .L261+8
-	ldr	r3, .L261+12
-	str	r2, [r0, #16]
+	ldr	lr, .L261+4
+	ldr	ip, .L261+8
+	ldr	r0, .L261+12
+	ldr	r3, .L261+16
 	str	r2, [ip, #16]
-	ldr	r0, .L261+16
+	str	r2, [r0, #16]
+	str	r2, [lr, #16]
 	str	r2, [r3, #16]
 	ldr	lr, .L261+20
 	ldr	ip, .L261+24
-	ldr	r3, .L261+28
+	ldr	r0, .L261+28
+	ldr	r3, .L261+32
+	str	r2, [ip, #16]
+	str	r2, [r0, #16]
+	str	r2, [r3, #16]
+	str	r2, [lr, #20]
+	ldr	ip, .L261+36
+	ldr	lr, .L261+40
+	ldr	r0, .L261+44
+	ldr	r3, .L261+48
+	str	r2, [lr, #16]
+	str	r2, [ip, #16]
+	str	r2, [r0, #16]
+	str	r2, [r3, #16]
+	ldr	r0, .L261+52
+	ldr	lr, .L261+56
+	ldr	ip, .L261+60
+	ldr	r3, .L261+64
 	mov	r1, r2
 	str	r2, [lr, #16]
-	str	r2, [ip, #20]
+	str	r2, [ip, #16]
 	str	r2, [r0, #16]
 	str	r2, [r0, #36]
 	str	r2, [r0, #56]
@@ -1947,9 +1965,18 @@ initWin:
 	.word	fry
 	.word	leela
 	.word	alien
-	.word	blocks
 	.word	spaceship
 	.word	treasureP1
+	.word	p1
+	.word	p2
+	.word	p3
+	.word	life1
+	.word	p4
+	.word	life2
+	.word	life3
+	.word	blocks
+	.word	life4
+	.word	life5
 	.word	bullets
 	.size	initWin, .-initWin
 	.align	2
