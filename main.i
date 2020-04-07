@@ -294,6 +294,10 @@ void updateBullets(BULLET *);
 
 extern int isLost;
 extern int treasureNum;
+extern int prevTreasureNum;
+
+
+extern int curLocation;
 # 3 "main.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -602,6 +606,10 @@ void space() {
     if (collision(p4.col, p4.row, p4.width, p4.height, spaceship.col, spaceship.row, spaceship.width, spaceship.height) == 1) {
         goToPlanet4();
     }
+
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToPause();
+    }
 }
 
 void goToPlanet1() {
@@ -639,8 +647,11 @@ void planet1() {
         goToLose();
     }
 
-    if (treasureNum > 0) {
+    if (treasureNum > prevTreasureNum && treasureNum < 4) {
         goToSpace();
+    }
+    if (treasureNum == 4) {
+        goToWin();
     }
 
 }
@@ -673,6 +684,11 @@ void planet2() {
         for (int j = 0; j < 10; j++) {
             bullets[j].active = 0;
         }
+        goToSpace();
+    }
+
+
+    if (treasureNum > prevTreasureNum) {
         goToSpace();
     }
 
@@ -709,6 +725,11 @@ void planet3() {
         for (int j = 0; j < 10; j++) {
             bullets[j].active = 0;
         }
+        goToSpace();
+    }
+
+
+    if (treasureNum > prevTreasureNum) {
         goToSpace();
     }
 
@@ -750,6 +771,12 @@ void planet4() {
         p1.active = 1;
         goToSpace();
     }
+
+
+    if (treasureNum > prevTreasureNum) {
+        goToSpace();
+    }
+
     if (isLost == 1) {
         goToLose();
     }
@@ -761,10 +788,12 @@ void goToPause() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    life1.active = 0;
-    life2.active = 0;
-    life3.active = 0;
     treasureP1.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
     for (int i = 0; i < 3; i++) {
         blocks[i].active = 0;
     }
@@ -792,8 +821,10 @@ void pause() {
             goToPlanet2();
         } else if (prevState == PLANET3) {
             goToPlanet3();
-        } else {
+        } else if (prevState == PLANET4) {
             goToPlanet4();
+        } else {
+            goToSpace();
         }
     }
 }

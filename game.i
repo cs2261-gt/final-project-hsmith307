@@ -294,6 +294,10 @@ void updateBullets(BULLET *);
 
 extern int isLost;
 extern int treasureNum;
+extern int prevTreasureNum;
+
+
+extern int curLocation;
 # 3 "game.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
@@ -342,6 +346,10 @@ BULLET bullet;
 TREASURE treasureP1;
 
 
+enum {PLAN1, PLAN2, PLAN3, PLAN4};
+int curLocation;
+
+
 
 int lifeCounter;
 int life1Counter;
@@ -353,6 +361,7 @@ int life4Counter;
 int prevState;
 int isLost;
 int treasureNum;
+int prevTreasureNum;
 
 
 
@@ -498,7 +507,7 @@ void initTreasure() {
     treasureP1.treasureCounter = 0;
     treasureP1.cdel = 1;
 }
-# 211 "game.c"
+# 216 "game.c"
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -563,6 +572,7 @@ void initSpace() {
 
     isLost = 0;
     treasureNum = 0;
+    prevTreasureNum = 0;
 }
 
 void updateSpace() {
@@ -605,6 +615,9 @@ void initPlanet1() {
     initAlien();
 
 
+    curLocation = PLAN1;
+
+
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
     }
@@ -634,6 +647,10 @@ void initPlanet2() {
 
 
 
+
+    curLocation = PLAN2;
+
+
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
     }
@@ -661,6 +678,9 @@ void initPlanet3() {
 
 
 
+    curLocation = PLAN3;
+
+
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
     }
@@ -684,6 +704,9 @@ void initPlanet4() {
     initAlien();
 
 
+    curLocation = PLAN4;
+
+
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
     }
@@ -700,7 +723,7 @@ void updatePlanet1() {
     vOff = 25;
 
     hideSprites();
-# 421 "game.c"
+# 440 "game.c"
     updateFry();
 
 
@@ -780,7 +803,7 @@ void updatePlanet3() {
 
 
     hideSprites();
-# 509 "game.c"
+# 528 "game.c"
     updateFry();
 
     alien.col -= alien.cdel;
@@ -937,16 +960,64 @@ void updateTreasure() {
     if (characterChoice == LEELACHARACTER) {
         if (collision(leela.col, leela.row, leela.width, leela.height, treasureP1.col,
         treasureP1.row, treasureP1.width, treasureP1.height)) {
+
+
             treasureP1.active = 0;
+            leela.active = 0;
+            for (int i = 0; i < 3; i++) {
+                blocks[i].active = 0;
+            }
+            for (int j = 0; j < 10; j++) {
+                bullets[j].active = 0;
+            }
+
+
+
+            treasureNum = prevTreasureNum;
             treasureNum++;
 
+
+            if (curLocation == PLAN1) {
+                p1.active = 0;
+            }
+            if (curLocation == PLAN2) {
+                p2.active = 0;
+            }
+            if (curLocation == PLAN3) {
+                p3.active = 0;
+            }
+            if (curLocation == PLAN4) {
+                p4.active = 0;
+            }
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(fry.col, fry.row, fry.width, fry.height, treasureP1.col,
         treasureP1.row, treasureP1.width, treasureP1.height)) {
             treasureP1.active = 0;
+            fry.active = 0;
+            for (int i = 0; i < 3; i++) {
+                blocks[i].active = 0;
+            }
+            for (int j = 0; j < 10; j++) {
+                bullets[j].active = 0;
+            }
+            treasureNum = prevTreasureNum;
             treasureNum++;
+
+
+            if (curLocation == PLAN1) {
+                p1.active = 0;
+            }
+            if (curLocation == PLAN2) {
+                p2.active = 0;
+            }
+            if (curLocation == PLAN3) {
+                p3.active = 0;
+            }
+            if (curLocation == PLAN4) {
+                p4.active = 0;
+            }
 
         }
     }

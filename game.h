@@ -192,5 +192,9 @@ void updateBullets(BULLET *);
 
 extern int isLost;
 extern int treasureNum;
+extern int prevTreasureNum;
+
+//extern enum {PLAN1, PLAN2, PLAN3, PLAN4};
+extern int curLocation;
 
 

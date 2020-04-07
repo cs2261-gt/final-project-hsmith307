@@ -40,6 +40,10 @@ BULLET bullets[BULLETCOUNT];
 BULLET bullet;
 TREASURE treasureP1;
 
+// set up the state trackers so you know what planet you are on
+enum {PLAN1, PLAN2, PLAN3, PLAN4};
+int curLocation;
+
 
 // counters to count which life is being lost and thus which should be hidden
 int lifeCounter;
@@ -52,6 +56,7 @@ int life4Counter;
 int prevState;
 int isLost;
 int treasureNum;
+int prevTreasureNum;
 
 // picking a character
 //enum {FRYCHARACTER, LEELACHARACTER};
@@ -121,7 +126,7 @@ void initAlien() {
     alien.aniCounter = 0;
 }
 
-// initialize the blocks that fry will jump on
+// // initialize the blocks that fry will jump on
 void initBlocks() {
     for (int i = 0; i < BLOCKCOUNT; i++) {
         blocks[i].col = 80;
@@ -198,16 +203,6 @@ void initTreasure() {
     treasureP1.cdel = 1;
 }
 
-// initialize the blocks that fry can jump onto
-// void initBlocks() {
-//     for (int k = 0; k < BLOCKCOUNT; k++) {
-//         blocks[k].col = 130;
-//         blocks[k].row = 40;
-//         blocks[k].height = 32;
-//         blocks[k].width = 32;
-//     }
-// }
-
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -264,14 +259,15 @@ void initSpace() {
     initp3();
     initp4();
 
-    // initialize the lives when you are in space so they stay constant as you travel throughout the universe
-    //initLives();
-
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
     DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
 
+    // the game is not lost, so set that variable to 0 as it starts
     isLost = 0;
+
+    // set the treasure numbers
     treasureNum = 0;
+    prevTreasureNum = 0;
 }
 
 void updateSpace() {
@@ -313,6 +309,9 @@ void initPlanet1() {
     p4.active = 0;
     initAlien();
 
+    // keep track of what planet you are on
+    curLocation = PLAN1;
+
      // initialize fry or leela, depending on who the player chose
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
@@ -342,6 +341,10 @@ void initPlanet2() {
     // fry.col = 20;
     // fry.row = 90;
 
+
+    // keep track of what planet you are on
+    curLocation = PLAN2;
+
     // initialize fry or leela, depending on who the player chose
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
@@ -369,6 +372,9 @@ void initPlanet3() {
     // fry.col = 20;
     // fry.row = 90; 
 
+    // keep track of what planet you are on
+    curLocation = PLAN3;
+
      // initialize fry or leela, depending on who the player chose
     if (characterChoice == LEELACHARACTER) {
         leela.active = 1;
@@ -391,6 +397,9 @@ void initPlanet4() {
     //initFry(); 
     //initLives();
     initAlien();
+
+    // keep track of what planet you are on
+    curLocation = PLAN4;
 
      // initialize fry or leela, depending on who the player chose
     if (characterChoice == LEELACHARACTER) {
@@ -662,16 +671,64 @@ void updateTreasure() {
     if (characterChoice == LEELACHARACTER) {
         if (collision(leela.col, leela.row, leela.width, leela.height, treasureP1.col, 
         treasureP1.row, treasureP1.width, treasureP1.height)) {
+            
+            // make all the sprites that should not be in space inactive
             treasureP1.active = 0;
+            leela.active = 0;
+            for (int i = 0; i < BLOCKCOUNT; i++) {
+                blocks[i].active = 0;
+            }
+            for (int j = 0; j < BULLETCOUNT; j++) {
+                bullets[j].active = 0;
+            }
+
+            // update the treasure number so the state machine can know it has increased
+                // it will go to the win state if the treasure num is 4, meaning all treasures have been collected
+            treasureNum = prevTreasureNum;
             treasureNum++;
-            // we also want to add it to the character's inventory
+
+            //make the planet that the treasure is from disappear so that you don't go back
+            if (curLocation == PLAN1) {
+                p1.active = 0;
+            }
+            if (curLocation == PLAN2) {
+                p2.active = 0;
+            }
+            if (curLocation == PLAN3) {
+                p3.active = 0;
+            }
+            if (curLocation == PLAN4) {
+                p4.active = 0;
+            }
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(fry.col, fry.row, fry.width, fry.height, treasureP1.col, 
         treasureP1.row, treasureP1.width, treasureP1.height)) {
             treasureP1.active = 0;
+            fry.active = 0;
+            for (int i = 0; i < BLOCKCOUNT; i++) {
+                blocks[i].active = 0;
+            }
+            for (int j = 0; j < BULLETCOUNT; j++) {
+                bullets[j].active = 0;
+            }
+            treasureNum = prevTreasureNum;
             treasureNum++;
+
+            //make the planet that the treasure is from disappear so that you don't go back
+            if (curLocation == PLAN1) {
+                p1.active = 0;
+            }
+            if (curLocation == PLAN2) {
+                p2.active = 0;
+            }
+            if (curLocation == PLAN3) {
+                p3.active = 0;
+            }
+            if (curLocation == PLAN4) {
+                p4.active = 0;
+            }
             // we also want to add it to the character's inventory
         }
     }
