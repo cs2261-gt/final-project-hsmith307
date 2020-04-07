@@ -112,6 +112,7 @@ typedef struct {
 #define BLOCKCOUNT 3
 #define NUMLIVES 3
 #define BULLETCOUNT 10
+#define TREASURECOUNT 5
 
 extern PLANET p1;
 extern PLANET p2;
@@ -129,6 +130,7 @@ extern HEART life4;
 extern HEART life5;
 extern BULLET bullets[BULLETCOUNT];
 extern TREASURE treasureP1;
+extern TREASURE treasure[TREASURECOUNT];
 
 // counters to count which life is being lost and thus which should be hidden
 extern int lifeCounter;
@@ -181,7 +183,7 @@ void initLives();
 void updateLives();
 
 void initTreasure();
-void updateTreasure();
+void updateTreasure(TREASURE *);
 
 void initLeela();
 void updateLeela();

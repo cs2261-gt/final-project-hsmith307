@@ -215,6 +215,7 @@ typedef struct {
 
 
 
+
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
@@ -231,6 +232,7 @@ extern HEART life4;
 extern HEART life5;
 extern BULLET bullets[10];
 extern TREASURE treasureP1;
+extern TREASURE treasure[5];
 
 
 extern int lifeCounter;
@@ -283,7 +285,7 @@ void initLives();
 void updateLives();
 
 void initTreasure();
-void updateTreasure();
+void updateTreasure(TREASURE *);
 
 void initLeela();
 void updateLeela();
@@ -345,6 +347,7 @@ BLOCK blocks[3];
 BULLET bullets[10];
 BULLET bullet;
 TREASURE treasureP1;
+TREASURE treasure[5];
 
 
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -375,7 +378,7 @@ unsigned short vOff;
 
 void initGame() {
     initLives();
-
+    initTreasure();
 }
 
 void initSpaceship() {
@@ -389,7 +392,7 @@ void initSpaceship() {
 }
 
 void initFry() {
-    fry.col = 20;
+    fry.col = 3;
     fry.row = 90;
     fry.cdel = 1;
     fry.rdel = 1;
@@ -403,7 +406,7 @@ void initFry() {
 }
 
 void initLeela() {
-    leela.col = 20;
+    leela.col = 3;
     leela.row = 90;
     leela.cdel = 0;
     leela.rdel = 1;
@@ -495,13 +498,22 @@ void initBullets() {
 }
 
 void initTreasure() {
-    treasureP1.col = 220;
-    treasureP1.row = 100;
-    treasureP1.active = 0;
-    treasureP1.width = 32;
-    treasureP1.height = 32;
-    treasureP1.treasureCounter = 0;
-    treasureP1.cdel = 1;
+
+
+
+
+
+
+
+    for (int i = 1; i < 5; i++) {
+        treasure[i].col = 220;
+        treasure[i].row = 100;
+        treasure[i].active = 0;
+        treasure[i].width = 32;
+        treasure[i].height = 32;
+        treasure[i].treasureCounter = 0;
+        treasure[i].cdel = 1;
+    }
 }
 
 void initp1() {
@@ -597,12 +609,18 @@ void initPlanet1() {
 
     initBlocks();
     initBullets();
-    treasureP1.col = 203;
-    treasureP1.row = 120;
-    treasureP1.cdel = 1;
+
+
+    treasure[1].col = 203;
+    treasure[1].row = 120;
+    treasure[1].cdel = 1;
+
+
     for (int i = 0; i < 10; i++) {
         bullets[i].cdel = 1;
     }
+
+
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
@@ -714,11 +732,11 @@ void updatePlanet1() {
     }
 
 
-    if (treasureP1.treasureCounter > 2000) {
-        treasureP1.active = 1;
-        updateTreasure();
+    if (treasure[1].treasureCounter > 200) {
+        treasure[1].active = 1;
+        updateTreasure(&treasure[1]);
     }
-    treasureP1.treasureCounter++;
+    treasure[1].treasureCounter++;
 
 
     updateLives();
@@ -755,8 +773,15 @@ void updatePlanet2() {
     updateLives();
 
 
+    if (treasure[2].treasureCounter > 200) {
+        treasure[2].active = 1;
+        updateTreasure(&treasure[2]);
+    }
+    treasure[2].treasureCounter++;
+
+
     for (int i = 0; i < 10; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -787,8 +812,15 @@ void updatePlanet3() {
     updateLives();
 
 
+    if (treasure[3].treasureCounter > 200) {
+        treasure[3].active = 1;
+        updateTreasure(&treasure[3]);
+    }
+    treasure[3].treasureCounter++;
+
+
     for (int i = 0; i < 10; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -819,8 +851,15 @@ void updatePlanet4() {
     updateLives();
 
 
+    if (treasure[4].treasureCounter > 200) {
+        treasure[4].active = 1;
+        updateTreasure(&treasure[4]);
+    }
+    treasure[4].treasureCounter++;
+
+
     for (int i = 0; i < 10; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -931,15 +970,15 @@ void updateBullets(BULLET * b) {
     }
 }
 
-void updateTreasure() {
-    treasureP1.col -= treasureP1.cdel;
+void updateTreasure(TREASURE * treasure) {
+    treasure->col -= treasure->cdel;
     hideSprites();
     if (characterChoice == LEELACHARACTER) {
-        if (collision(leela.col, leela.row, leela.width, leela.height, treasureP1.col,
-        treasureP1.row, treasureP1.width, treasureP1.height)) {
+        if (collision(leela.col, leela.row, leela.width, leela.height, treasure->col,
+        treasure->row, treasure->width, treasure->height)) {
 
 
-            treasureP1.active = 0;
+            treasure->active = 0;
             leela.active = 0;
             for (int i = 0; i < 3; i++) {
                 blocks[i].active = 0;
@@ -952,26 +991,12 @@ void updateTreasure() {
 
             treasureNum = prevTreasureNum;
             treasureNum++;
-
-
-            if (curLocation == PLAN1) {
-                p1.active = 0;
-            }
-            if (curLocation == PLAN2) {
-                p2.active = 0;
-            }
-            if (curLocation == PLAN3) {
-                p3.active = 0;
-            }
-            if (curLocation == PLAN4) {
-                p4.active = 0;
-            }
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(fry.col, fry.row, fry.width, fry.height, treasureP1.col,
-        treasureP1.row, treasureP1.width, treasureP1.height)) {
-            treasureP1.active = 0;
+        if (collision(fry.col, fry.row, fry.width, fry.height, treasure->col,
+        treasure->row, treasure->width, treasure->height)) {
+            treasure->active = 0;
             fry.active = 0;
             for (int i = 0; i < 3; i++) {
                 blocks[i].active = 0;
@@ -1086,11 +1111,14 @@ void drawGame() {
     }
 
 
-    if (treasureP1.active) {
-        shadowOAM[13].attr0 = (0<<8) | (0<<13) | (0<<14) | treasureP1.row;
-        shadowOAM[13].attr1 = (2<<14) | treasureP1.col;
-        shadowOAM[13].attr2 = ((0)<<12) | ((1 * 4)*32+(7 * 4));
+    for (int i = 0; i < 5; i++) {
+        if (treasure[i].active) {
+            shadowOAM[18 + i].attr0 = (0<<8) | (0<<13) | (0<<14) | treasure[i].row;
+            shadowOAM[18 + i].attr1 = (2<<14) | treasure[i].col;
+            shadowOAM[18 + i].attr2 = ((0)<<12) | ((1 * 4)*32+(7 * 4));
+        }
     }
+
 
     if (p1.active) {
         shadowOAM[2].attr0 = (0<<8) | (0<<13) | (0<<14) | p1.row;

@@ -39,6 +39,7 @@ BLOCK blocks[BLOCKCOUNT];
 BULLET bullets[BULLETCOUNT];
 BULLET bullet;
 TREASURE treasureP1;
+TREASURE treasure[TREASURECOUNT];
 
 // set up the state trackers so you know what planet you are on
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -69,7 +70,7 @@ unsigned short vOff;
 // MAIN PART OF THE CODE:
 void initGame() {
     initLives();
-
+    initTreasure();
 }
 
 void initSpaceship() {
@@ -83,7 +84,7 @@ void initSpaceship() {
 }
 
 void initFry() {
-    fry.col = 20;
+    fry.col = 3;
     fry.row = 90;
     fry.cdel = 1;
     fry.rdel = 1;
@@ -97,7 +98,7 @@ void initFry() {
 }
 
 void initLeela() {
-    leela.col = 20;
+    leela.col = 3;
     leela.row = 90;
     leela.cdel = 0;
     leela.rdel = 1;
@@ -189,13 +190,22 @@ void initBullets() {
 }
 
 void initTreasure() {
-    treasureP1.col = 220;
-    treasureP1.row = 100;
-    treasureP1.active = 0;
-    treasureP1.width = 32;
-    treasureP1.height = 32;
-    treasureP1.treasureCounter = 0;
-    treasureP1.cdel = 1;
+    // treasureP1.col = 220;
+    // treasureP1.row = 100;
+    // treasureP1.active = 0;
+    // treasureP1.width = 32;
+    // treasureP1.height = 32;
+    // treasureP1.treasureCounter = 0;
+    // treasureP1.cdel = 1;
+    for (int i = 1; i < TREASURECOUNT; i++) {
+        treasure[i].col = 220;
+        treasure[i].row = 100;
+        treasure[i].active = 0;
+        treasure[i].width = 32;
+        treasure[i].height = 32;
+        treasure[i].treasureCounter = 0;
+        treasure[i].cdel = 1;
+    }
 }
 
 void initp1() {
@@ -291,12 +301,18 @@ void initPlanet1() {
     // initLives();
     initBlocks();
     initBullets();
-    treasureP1.col = 203;
-    treasureP1.row = 120;
-    treasureP1.cdel = 1;
+
+    // for some the treasure only moves like this??
+    treasure[1].col = 203;
+    treasure[1].row = 120;
+    treasure[1].cdel = 1;
+
+    // setting the cdel of the bullets here because this works and idk why but it does so yay
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].cdel = 1;
     }
+
+    // update what needs to be active and not active
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
@@ -407,12 +423,12 @@ void updatePlanet1() {
          updateBullets(&bullets[i]);
     } 
  
-
-    if (treasureP1.treasureCounter > 2000) {
-        treasureP1.active = 1;
-        updateTreasure();
+    // update the treasure for that planet
+    if (treasure[1].treasureCounter > 200) {
+        treasure[1].active = 1;
+        updateTreasure(&treasure[1]);
     }
-    treasureP1.treasureCounter++;
+    treasure[1].treasureCounter++;
 
     // update lives when there is a collision
     updateLives();
@@ -448,6 +464,13 @@ void updatePlanet2() {
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
+    // update the treasure for that planet
+    if (treasure[2].treasureCounter > 200) {
+        treasure[2].active = 1;
+        updateTreasure(&treasure[2]);
+    }
+    treasure[2].treasureCounter++;
+
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
@@ -480,6 +503,13 @@ void updatePlanet3() {
      // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
+    // update the treasure for that planet
+    if (treasure[3].treasureCounter > 200) {
+        treasure[3].active = 1;
+        updateTreasure(&treasure[3]);
+    }
+    treasure[3].treasureCounter++;
+
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
@@ -511,6 +541,13 @@ void updatePlanet4() {
 
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
+
+    // update the treasure for that planet
+    if (treasure[4].treasureCounter > 200) {
+        treasure[4].active = 1;
+        updateTreasure(&treasure[4]);
+    }
+    treasure[4].treasureCounter++;
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -625,15 +662,15 @@ void updateBullets(BULLET * b) {
     }
 }
 
-void updateTreasure() {
-    treasureP1.col -= treasureP1.cdel;
+void updateTreasure(TREASURE * treasure) {
+    treasure->col -= treasure->cdel;
     hideSprites();
     if (characterChoice == LEELACHARACTER) {
-        if (collision(leela.col, leela.row, leela.width, leela.height, treasureP1.col, 
-        treasureP1.row, treasureP1.width, treasureP1.height)) {
+        if (collision(leela.col, leela.row, leela.width, leela.height, treasure->col, 
+        treasure->row, treasure->width, treasure->height)) {
             
             // make all the sprites that should not be in space inactive
-            treasureP1.active = 0;
+            treasure->active = 0;
             leela.active = 0;
             for (int i = 0; i < BLOCKCOUNT; i++) {
                 blocks[i].active = 0;
@@ -646,26 +683,12 @@ void updateTreasure() {
                 // it will go to the win state if the treasure num is 4, meaning all treasures have been collected
             treasureNum = prevTreasureNum;
             treasureNum++;
-
-            //make the planet that the treasure is from disappear so that you don't go back
-            if (curLocation == PLAN1) {
-                p1.active = 0;
-            }
-            if (curLocation == PLAN2) {
-                p2.active = 0;
-            }
-            if (curLocation == PLAN3) {
-                p3.active = 0;
-            }
-            if (curLocation == PLAN4) {
-                p4.active = 0;
-            }
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(fry.col, fry.row, fry.width, fry.height, treasureP1.col, 
-        treasureP1.row, treasureP1.width, treasureP1.height)) {
-            treasureP1.active = 0;
+        if (collision(fry.col, fry.row, fry.width, fry.height, treasure->col, 
+        treasure->row, treasure->width, treasure->height)) {
+            treasure->active = 0;
             fry.active = 0;
             for (int i = 0; i < BLOCKCOUNT; i++) {
                 blocks[i].active = 0;
@@ -780,11 +803,14 @@ void drawGame() {
     }
 
     //draw treasure
-    if (treasureP1.active) {
-        shadowOAM[13].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | treasureP1.row;
-        shadowOAM[13].attr1 = ATTR1_MEDIUM | treasureP1.col;
-        shadowOAM[13].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 1 * 4);
+    for (int i = 0; i < TREASURECOUNT; i++) {
+        if (treasure[i].active) {
+            shadowOAM[18 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | treasure[i].row;
+            shadowOAM[18 + i].attr1 = ATTR1_MEDIUM | treasure[i].col;
+            shadowOAM[18 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 1 * 4);
+        }
     }
+
     // draw p1
     if (p1.active) {
         shadowOAM[2].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p1.row;
