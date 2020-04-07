@@ -1049,6 +1049,9 @@ void updateTreasure(TREASURE * treasure) {
     if (characterChoice == FRYCHARACTER) {
         if (collision(fry.col, fry.row, fry.width, fry.height, treasure->col,
         treasure->row, treasure->width, treasure->height)) {
+            treasure->treasureNum = 1;
+
+
             treasure->active = 0;
             fry.active = 0;
             for (int i = 0; i < 3; i++) {
@@ -1057,23 +1060,10 @@ void updateTreasure(TREASURE * treasure) {
             for (int j = 0; j < 10; j++) {
                 bullets[j].active = 0;
             }
-            prevTreasureNum = treasureNum;
-            treasureNum++;
 
-
-            if (curLocation == PLAN1) {
-                p1.active = 0;
-            }
-            if (curLocation == PLAN2) {
-                p2.active = 0;
-            }
-            if (curLocation == PLAN3) {
-                p3.active = 0;
-            }
-            if (curLocation == PLAN4) {
-                p4.active = 0;
-            }
-
+        }
+        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+            isWon = 1;
         }
     }
 }
