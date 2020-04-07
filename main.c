@@ -160,7 +160,7 @@ void start() {
 }
 
 void goToGame() {
-
+    initGame();
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, instructionsPal, PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsTiles, &CHARBLOCK[0], instructionsTilesLen / 2);
@@ -229,7 +229,19 @@ void planet1() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        goToSpace();
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < BULLETCOUNT; j++) {
+            bullets[j].active = 0;
+        }
+        goToSpace();        
     }
 
     if (isLost == 1) {
@@ -258,7 +270,19 @@ void planet2() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        goToSpace();
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < BULLETCOUNT; j++) {
+            bullets[j].active = 0;
+        }
+        goToSpace();  
     }
 
    if (isLost == 1) {
@@ -282,7 +306,19 @@ void planet3() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        goToSpace();
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < BULLETCOUNT; j++) {
+            bullets[j].active = 0;
+        }
+        goToSpace();  
     }
 
    if (isLost == 1) {
@@ -309,7 +345,19 @@ void planet4() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        goToSpace();
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < BULLETCOUNT; j++) {
+            bullets[j].active = 0;
+        }
+        p1.active = 1;
+        goToSpace();  
     }
     if (isLost == 1) {
         goToLose();

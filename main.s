@@ -109,37 +109,41 @@ goToGame:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
+	push	{r4, lr}
+	ldr	r3, .L11
+	mov	lr, pc
+	bx	r3
 	mov	r2, #67108864
 	mov	r1, #7680
-	push	{r4, lr}
-	mov	r3, #256
-	ldr	r4, .L11
+	ldr	r4, .L11+4
 	strh	r1, [r2, #8]	@ movhi
-	mov	r0, #3
+	mov	r3, #256
 	mov	r2, #83886080
-	ldr	r1, .L11+4
+	mov	r0, #3
+	ldr	r1, .L11+8
 	mov	lr, pc
 	bx	r4
 	mov	r3, #3696
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r1, .L11+8
+	ldr	r1, .L11+12
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L11+12
+	ldr	r2, .L11+16
 	mov	r0, #3
-	ldr	r1, .L11+16
+	ldr	r1, .L11+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #1
-	ldr	r3, .L11+20
+	ldr	r3, .L11+24
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L12:
 	.align	2
 .L11:
+	.word	initGame
 	.word	DMANow
 	.word	instructionsPal
 	.word	instructionsTiles
@@ -844,61 +848,95 @@ planet1:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L108
+	ldr	r3, .L110
 	mov	lr, pc
 	bx	r3
 	mov	r1, #3
-	ldr	r4, .L108+4
+	ldr	r4, .L110+4
 	ldrh	r3, [r4]
-	ldr	r2, .L108+8
+	ldr	r2, .L110+8
 	tst	r3, #8
 	str	r1, [r2]
 	beq	.L93
-	ldr	r2, .L108+12
+	ldr	r2, .L110+12
 	ldrh	r2, [r2]
 	tst	r2, #8
-	beq	.L104
+	beq	.L106
 .L93:
 	tst	r3, #32
 	beq	.L94
-	ldr	r3, .L108+12
-	ldrh	r3, [r3]
-	tst	r3, #32
-	beq	.L105
+	ldr	r3, .L110+12
+	ldrh	r4, [r3]
+	ands	r4, r4, #32
+	beq	.L107
 .L94:
-	ldr	r3, .L108+16
+	ldr	r3, .L110+16
 	ldr	r3, [r3]
 	cmp	r3, #1
-	beq	.L106
-.L95:
-	ldr	r3, .L108+20
+	beq	.L108
+.L96:
+	ldr	r3, .L110+20
 	ldr	r3, [r3]
 	cmp	r3, #0
-	bgt	.L107
+	bgt	.L109
 	pop	{r4, lr}
 	bx	lr
-.L107:
+.L109:
 	pop	{r4, lr}
 	b	goToSpace
-.L106:
+.L108:
 	bl	goToLose
-	b	.L95
-.L105:
+	b	.L96
+.L107:
+	ldr	r3, .L110+24
+	mov	lr, pc
+	bx	r3
+	mov	r3, #1
+	mov	r1, r4
+	ldr	r0, .L110+28
+	ldr	r2, .L110+32
+	str	r3, [r0, #16]
+	str	r3, [r2, #16]
+	ldr	lr, .L110+36
+	ldr	r2, .L110+40
+	ldr	ip, .L110+44
+	ldr	r0, .L110+48
+	ldr	r3, .L110+52
+	str	r4, [lr, #16]
+	str	r4, [ip, #16]
+	str	r4, [r0, #16]
+	str	r4, [r2, #16]
+	str	r4, [r2, #36]
+	str	r4, [r2, #56]
+	add	r2, r3, #280
+.L95:
+	str	r1, [r3, #24]
+	add	r3, r3, #28
+	cmp	r3, r2
+	bne	.L95
 	bl	goToSpace
 	b	.L94
-.L104:
+.L106:
 	bl	goToPause
 	ldrh	r3, [r4]
 	b	.L93
-.L109:
+.L111:
 	.align	2
-.L108:
+.L110:
 	.word	updatePlanet1
 	.word	oldButtons
 	.word	prevState
 	.word	buttons
 	.word	isLost
 	.word	treasureNum
+	.word	hideSprites
+	.word	spaceship
+	.word	p1
+	.word	fry
+	.word	blocks
+	.word	leela
+	.word	alien
+	.word	bullets
 	.size	planet1, .-planet1
 	.align	2
 	.global	planet2
@@ -911,52 +949,86 @@ planet2:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L124
+	ldr	r3, .L128
 	mov	lr, pc
 	bx	r3
 	mov	r1, #4
-	ldr	r4, .L124+4
+	ldr	r4, .L128+4
 	ldrh	r3, [r4]
-	ldr	r2, .L124+8
+	ldr	r2, .L128+8
 	tst	r3, #8
 	str	r1, [r2]
-	beq	.L111
-	ldr	r2, .L124+12
+	beq	.L113
+	ldr	r2, .L128+12
 	ldrh	r2, [r2]
 	tst	r2, #8
-	beq	.L121
-.L111:
+	beq	.L125
+.L113:
 	tst	r3, #32
-	beq	.L112
-	ldr	r3, .L124+12
-	ldrh	r3, [r3]
-	tst	r3, #32
-	beq	.L122
-.L112:
-	ldr	r3, .L124+16
+	beq	.L114
+	ldr	r3, .L128+12
+	ldrh	r4, [r3]
+	ands	r4, r4, #32
+	beq	.L126
+.L114:
+	ldr	r3, .L128+16
 	ldr	r3, [r3]
 	cmp	r3, #1
-	beq	.L123
+	beq	.L127
 	pop	{r4, lr}
 	bx	lr
-.L123:
+.L127:
 	pop	{r4, lr}
 	b	goToLose
-.L122:
+.L126:
+	ldr	r3, .L128+20
+	mov	lr, pc
+	bx	r3
+	mov	r3, #1
+	mov	r1, r4
+	ldr	r0, .L128+24
+	ldr	r2, .L128+28
+	str	r3, [r0, #16]
+	str	r3, [r2, #16]
+	ldr	lr, .L128+32
+	ldr	r2, .L128+36
+	ldr	ip, .L128+40
+	ldr	r0, .L128+44
+	ldr	r3, .L128+48
+	str	r4, [lr, #16]
+	str	r4, [ip, #16]
+	str	r4, [r0, #16]
+	str	r4, [r2, #16]
+	str	r4, [r2, #36]
+	str	r4, [r2, #56]
+	add	r2, r3, #280
+.L115:
+	str	r1, [r3, #24]
+	add	r3, r3, #28
+	cmp	r3, r2
+	bne	.L115
 	bl	goToSpace
-	b	.L112
-.L121:
+	b	.L114
+.L125:
 	bl	goToPause
 	ldrh	r3, [r4]
-	b	.L111
-.L125:
+	b	.L113
+.L129:
 	.align	2
-.L124:
+.L128:
 	.word	updatePlanet2
 	.word	oldButtons
 	.word	prevState
 	.word	buttons
 	.word	isLost
+	.word	hideSprites
+	.word	spaceship
+	.word	p1
+	.word	fry
+	.word	blocks
+	.word	leela
+	.word	alien
+	.word	bullets
 	.size	planet2, .-planet2
 	.align	2
 	.global	planet3
@@ -969,52 +1041,86 @@ planet3:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L140
+	ldr	r3, .L146
 	mov	lr, pc
 	bx	r3
 	mov	r1, #5
-	ldr	r4, .L140+4
+	ldr	r4, .L146+4
 	ldrh	r3, [r4]
-	ldr	r2, .L140+8
+	ldr	r2, .L146+8
 	tst	r3, #8
 	str	r1, [r2]
-	beq	.L127
-	ldr	r2, .L140+12
+	beq	.L131
+	ldr	r2, .L146+12
 	ldrh	r2, [r2]
 	tst	r2, #8
-	beq	.L137
-.L127:
+	beq	.L143
+.L131:
 	tst	r3, #32
-	beq	.L128
-	ldr	r3, .L140+12
-	ldrh	r3, [r3]
-	tst	r3, #32
-	beq	.L138
-.L128:
-	ldr	r3, .L140+16
+	beq	.L132
+	ldr	r3, .L146+12
+	ldrh	r4, [r3]
+	ands	r4, r4, #32
+	beq	.L144
+.L132:
+	ldr	r3, .L146+16
 	ldr	r3, [r3]
 	cmp	r3, #1
-	beq	.L139
+	beq	.L145
 	pop	{r4, lr}
 	bx	lr
-.L139:
+.L145:
 	pop	{r4, lr}
 	b	goToLose
-.L138:
+.L144:
+	ldr	r3, .L146+20
+	mov	lr, pc
+	bx	r3
+	mov	r3, #1
+	mov	r1, r4
+	ldr	r0, .L146+24
+	ldr	r2, .L146+28
+	str	r3, [r0, #16]
+	str	r3, [r2, #16]
+	ldr	lr, .L146+32
+	ldr	r2, .L146+36
+	ldr	ip, .L146+40
+	ldr	r0, .L146+44
+	ldr	r3, .L146+48
+	str	r4, [lr, #16]
+	str	r4, [ip, #16]
+	str	r4, [r0, #16]
+	str	r4, [r2, #16]
+	str	r4, [r2, #36]
+	str	r4, [r2, #56]
+	add	r2, r3, #280
+.L133:
+	str	r1, [r3, #24]
+	add	r3, r3, #28
+	cmp	r3, r2
+	bne	.L133
 	bl	goToSpace
-	b	.L128
-.L137:
+	b	.L132
+.L143:
 	bl	goToPause
 	ldrh	r3, [r4]
-	b	.L127
-.L141:
+	b	.L131
+.L147:
 	.align	2
-.L140:
+.L146:
 	.word	updatePlanet3
 	.word	oldButtons
 	.word	prevState
 	.word	buttons
 	.word	isLost
+	.word	hideSprites
+	.word	spaceship
+	.word	p1
+	.word	fry
+	.word	blocks
+	.word	leela
+	.word	alien
+	.word	bullets
 	.size	planet3, .-planet3
 	.align	2
 	.global	planet4
@@ -1027,52 +1133,87 @@ planet4:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L156
+	ldr	r3, .L164
 	mov	lr, pc
 	bx	r3
 	mov	r1, #6
-	ldr	r4, .L156+4
+	ldr	r4, .L164+4
 	ldrh	r3, [r4]
-	ldr	r2, .L156+8
+	ldr	r2, .L164+8
 	tst	r3, #8
 	str	r1, [r2]
-	beq	.L143
-	ldr	r2, .L156+12
+	beq	.L149
+	ldr	r2, .L164+12
 	ldrh	r2, [r2]
 	tst	r2, #8
-	beq	.L153
-.L143:
+	beq	.L161
+.L149:
 	tst	r3, #32
-	beq	.L144
-	ldr	r3, .L156+12
-	ldrh	r3, [r3]
-	tst	r3, #32
-	beq	.L154
-.L144:
-	ldr	r3, .L156+16
+	beq	.L150
+	ldr	r3, .L164+12
+	ldrh	r4, [r3]
+	ands	r4, r4, #32
+	beq	.L162
+.L150:
+	ldr	r3, .L164+16
 	ldr	r3, [r3]
 	cmp	r3, #1
-	beq	.L155
+	beq	.L163
 	pop	{r4, lr}
 	bx	lr
-.L155:
+.L163:
 	pop	{r4, lr}
 	b	goToLose
-.L154:
+.L162:
+	ldr	r3, .L164+20
+	mov	lr, pc
+	bx	r3
+	mov	r0, #1
+	mov	r1, r4
+	ldr	r2, .L164+24
+	ldr	r3, .L164+28
+	str	r0, [r2, #16]
+	str	r4, [r3, #16]
+	ldr	r2, .L164+32
+	ldr	ip, .L164+36
+	ldr	r0, .L164+40
+	ldr	r3, .L164+44
+	str	r4, [ip, #16]
+	str	r4, [r0, #16]
+	str	r4, [r2, #16]
+	str	r4, [r2, #36]
+	str	r4, [r2, #56]
+	add	r2, r3, #280
+.L151:
+	str	r1, [r3, #24]
+	add	r3, r3, #28
+	cmp	r3, r2
+	bne	.L151
+	mov	r2, #1
+	ldr	r3, .L164+48
+	str	r2, [r3, #16]
 	bl	goToSpace
-	b	.L144
-.L153:
+	b	.L150
+.L161:
 	bl	goToPause
 	ldrh	r3, [r4]
-	b	.L143
-.L157:
+	b	.L149
+.L165:
 	.align	2
-.L156:
+.L164:
 	.word	updatePlanet4
 	.word	oldButtons
 	.word	prevState
 	.word	buttons
 	.word	isLost
+	.word	hideSprites
+	.word	spaceship
+	.word	fry
+	.word	blocks
+	.word	leela
+	.word	alien
+	.word	bullets
+	.word	p1
 	.size	planet4, .-planet4
 	.section	.text.startup,"ax",%progbits
 	.align	2
@@ -1089,119 +1230,119 @@ main:
 	mov	r0, #67108864
 	mov	r3, #0
 	mov	ip, #4352
-	ldr	r2, .L179
-	ldr	r1, .L179+4
+	ldr	r2, .L187
+	ldr	r1, .L187+4
 	push	{r4, r7, fp, lr}
 	strh	ip, [r0]	@ movhi
-	ldr	r4, .L179+8
+	ldr	r4, .L187+8
 	strh	r3, [r2]	@ movhi
 	strh	r3, [r1]	@ movhi
-	ldr	r7, .L179+12
+	ldr	r7, .L187+12
 	ldrh	r3, [r4, #48]
-	ldr	r6, .L179+16
+	ldr	r6, .L187+16
 	strh	r3, [r7]	@ movhi
-	ldr	r3, .L179+20
+	ldr	r3, .L187+20
 	mov	lr, pc
 	bx	r3
-	ldr	r5, .L179+24
+	ldr	r5, .L187+24
 	ldrh	r0, [r7]
 	ldr	r2, [r6]
-	ldr	fp, .L179+28
-	ldr	r10, .L179+32
-	ldr	r9, .L179+36
-	ldr	r8, .L179+40
-.L160:
+	ldr	fp, .L187+28
+	ldr	r10, .L187+32
+	ldr	r9, .L187+36
+	ldr	r8, .L187+40
+.L168:
 	strh	r0, [r5]	@ movhi
 	ldrh	r3, [r4, #48]
 	strh	r3, [r7]	@ movhi
 	cmp	r2, #9
 	ldrls	pc, [pc, r2, asl #2]
-	b	.L172
-.L162:
-	.word	.L170
-	.word	.L169
-	.word	.L168
-	.word	.L167
-	.word	.L166
-	.word	.L165
-	.word	.L164
-	.word	.L163
+	b	.L180
+.L170:
+	.word	.L178
+	.word	.L177
+	.word	.L176
+	.word	.L175
+	.word	.L174
+	.word	.L173
 	.word	.L172
-	.word	.L161
-.L161:
+	.word	.L171
+	.word	.L180
+	.word	.L169
+.L169:
 	tst	r0, #8
-	beq	.L172
+	beq	.L180
 	tst	r3, #8
-	beq	.L178
-.L172:
+	beq	.L186
+.L180:
 	mov	r0, r3
-	b	.L160
-.L163:
-	ldr	r3, .L179+44
+	b	.L168
+.L171:
+	ldr	r3, .L187+44
 	mov	lr, pc
 	bx	r3
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L164:
-	ldr	r3, .L179+48
+	b	.L168
+.L172:
+	ldr	r3, .L187+48
 	mov	lr, pc
 	bx	r3
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L165:
-	ldr	r3, .L179+52
+	b	.L168
+.L173:
+	ldr	r3, .L187+52
 	mov	lr, pc
 	bx	r3
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L166:
+	b	.L168
+.L174:
 	mov	lr, pc
 	bx	r8
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L167:
+	b	.L168
+.L175:
 	mov	lr, pc
 	bx	r9
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L168:
+	b	.L168
+.L176:
 	mov	lr, pc
 	bx	r10
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L170:
+	b	.L168
+.L178:
 	tst	r0, #8
-	beq	.L172
+	beq	.L180
 	tst	r3, #8
-	bne	.L172
-	ldr	r3, .L179+56
+	bne	.L180
+	ldr	r3, .L187+56
 	mov	lr, pc
 	bx	r3
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L169:
+	b	.L168
+.L177:
 	mov	lr, pc
 	bx	fp
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L178:
-	ldr	r3, .L179+20
+	b	.L168
+.L186:
+	ldr	r3, .L187+20
 	mov	lr, pc
 	bx	r3
 	ldr	r2, [r6]
 	ldrh	r0, [r7]
-	b	.L160
-.L180:
+	b	.L168
+.L188:
 	.align	2
-.L179:
+.L187:
 	.word	vOff
 	.word	hOff
 	.word	67109120
@@ -1230,18 +1371,18 @@ lose:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	@ link register save eliminated.
-	ldr	r3, .L186
+	ldr	r3, .L194
 	ldrh	r3, [r3]
 	tst	r3, #8
 	bxeq	lr
-	ldr	r3, .L186+4
+	ldr	r3, .L194+4
 	ldrh	r3, [r3]
 	tst	r3, #8
 	bxne	lr
 	b	goToStart
-.L187:
+.L195:
 	.align	2
-.L186:
+.L194:
 	.word	oldButtons
 	.word	buttons
 	.size	lose, .-lose

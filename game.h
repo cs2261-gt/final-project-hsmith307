@@ -125,10 +125,13 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
+extern HEART life4;
+extern HEART life5;
 extern BULLET bullets[BULLETCOUNT];
 extern TREASURE treasureP1;
 
 // counters to count which life is being lost and thus which should be hidden
+extern int lifeCounter;
 extern int life1Counter;
 extern int life2Counter;
 extern int life3Counter;
@@ -174,6 +177,7 @@ void initSpaceship();
 void initBlocks();
 
 void initLives();
+void updateLives();
 
 void initTreasure();
 void updateTreasure();

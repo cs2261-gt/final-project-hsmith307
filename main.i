@@ -227,10 +227,13 @@ extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
+extern HEART life4;
+extern HEART life5;
 extern BULLET bullets[10];
 extern TREASURE treasureP1;
 
 
+extern int lifeCounter;
 extern int life1Counter;
 extern int life2Counter;
 extern int life3Counter;
@@ -276,6 +279,7 @@ void initSpaceship();
 void initBlocks();
 
 void initLives();
+void updateLives();
 
 void initTreasure();
 void updateTreasure();
@@ -547,7 +551,7 @@ void start() {
 }
 
 void goToGame() {
-
+    initGame();
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 7392 / 2);
@@ -616,6 +620,18 @@ void planet1() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < 3; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < 10; j++) {
+            bullets[j].active = 0;
+        }
         goToSpace();
     }
 
@@ -645,6 +661,18 @@ void planet2() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < 3; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < 10; j++) {
+            bullets[j].active = 0;
+        }
         goToSpace();
     }
 
@@ -669,6 +697,18 @@ void planet3() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        p1.active = 1;
+        for (int i = 0; i < 3; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < 10; j++) {
+            bullets[j].active = 0;
+        }
         goToSpace();
     }
 
@@ -696,6 +736,18 @@ void planet4() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
+        hideSprites();
+        fry.active = 0;
+        leela.active = 0;
+        alien.active = 0;
+        spaceship.active = 1;
+        for (int i = 0; i < 3; i++) {
+            blocks[i].active = 0;
+        }
+        for (int j = 0; j < 10; j++) {
+            bullets[j].active = 0;
+        }
+        p1.active = 1;
         goToSpace();
     }
     if (isLost == 1) {

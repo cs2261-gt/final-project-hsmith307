@@ -33,6 +33,8 @@ PLANET p4;
 HEART life1;
 HEART life2;
 HEART life3;
+HEART life4;
+HEART life5;
 BLOCK blocks[BLOCKCOUNT];
 BULLET bullets[BULLETCOUNT];
 BULLET bullet;
@@ -40,6 +42,7 @@ TREASURE treasureP1;
 
 
 // counters to count which life is being lost and thus which should be hidden
+int lifeCounter;
 int life1Counter;
 int life2Counter;
 int life3Counter;
@@ -60,21 +63,7 @@ unsigned short vOff;
 
 // MAIN PART OF THE CODE:
 void initGame() {
-    initSpaceship();
-    initFry();
-    initp1();
-    initp2();
-    initp3();
-    initp4();
-    initTreasure();
-
-    isLost = 0;
-    treasureNum = 0;
-
-    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-
-    DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
-    DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
+    initLives();
 
 }
 
@@ -84,8 +73,8 @@ void initSpaceship() {
     spaceship.active = 1;
     spaceship.width = 32;
     spaceship.height = 32;
-    spaceship.col = SCREENWIDTH / 2 - spaceship.height / 2 + hOff;
-    spaceship.row = SCREENHEIGHT / 2 - spaceship.width / 2 + vOff;
+    spaceship.col = SCREENWIDTH / 2 - spaceship.height / 2/*+ hOff*/;
+    spaceship.row = SCREENHEIGHT / 2 - spaceship.width / 2/*+ vOff*/;
 }
 
 void initFry() {
@@ -146,26 +135,41 @@ void initBlocks() {
 
 // initialize the hearts that will represent the lives of the player
 void initLives() {
-    // initiate life 1
+    lifeCounter = 0;
+    // initialize life 1
     life1.col = 5;
     life1.row = 5;
     life1.active = 1;
     life1.height = 16;
     life1.width = 16;
 
-    // initiate life 2
+    // initialize life 2
     life2.col = 26;
     life2.row = 5;
     life2.active = 1;
     life2.height = 16;
     life2.width = 16;
 
-    // initiate life 3
+    // initialize life 3
     life3.col = 47;
     life3.row = 5;
     life3.active = 1;
     life3.height = 16;
     life3.width = 16;
+
+    // initialize life 4
+    life4.col = 68;
+    life4.row = 5;
+    life4.active = 1;
+    life4.height = 16;
+    life4.width = 16;
+
+    // initialize life 5
+    life5.col = 89;
+    life5.row = 5;
+    life5.active = 1;
+    life5.height = 16;
+    life5.width = 16;
 }
 
 void initBullets() {
@@ -222,7 +226,7 @@ void initp2() {
 
 void initp3() {
     p3.col = 20;
-    p3.row = 10;
+    p3.row = 100;
     p3.width = 32;
     p3.height = 32;
     p3.active = 1;
@@ -241,6 +245,8 @@ void updateGame() {
 }
 
 void initSpace() {
+
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     // initialize the spaceship if its the first time the player is going into space
     initSpaceship();
 
@@ -258,9 +264,14 @@ void initSpace() {
     initp3();
     initp4();
 
+    // initialize the lives when you are in space so they stay constant as you travel throughout the universe
+    //initLives();
+
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
     DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
 
+    isLost = 0;
+    treasureNum = 0;
 }
 
 void updateSpace() {
@@ -286,7 +297,7 @@ void updateSpace() {
 
 void initPlanet1() {
     hideSprites();
-    initLives();
+    // initLives();
     initBlocks();
     initBullets();
     treasureP1.col = 203;
@@ -310,7 +321,7 @@ void initPlanet1() {
         fry.active = 1;
     }
 
-    life1Counter = 0;
+    //life1Counter = 0;
 
     // handle collisions with the alien and fry
     
@@ -326,7 +337,7 @@ void initPlanet2() {
     p4.active = 0;
     //initFry();
     initAlien();
-    initLives();
+    //initLives();
     // fry.active = 1;
     // fry.col = 20;
     // fry.row = 90;
@@ -339,7 +350,7 @@ void initPlanet2() {
         fry.active = 1;
     }
 
-    life1Counter = 0;
+    //life1Counter = 0;
     
 }
 
@@ -353,7 +364,7 @@ void initPlanet3() {
     //initFry();
 
     initAlien();
-    initLives();
+    //initLives();
     // fry.active = 1;  
     // fry.col = 20;
     // fry.row = 90; 
@@ -366,7 +377,7 @@ void initPlanet3() {
         fry.active = 1;
     }
 
-    life3Counter = 0;
+    //life3Counter = 0;
 
 }
 
@@ -378,7 +389,7 @@ void initPlanet4() {
     p3.active = 0;
     p4.active = 0;
     //initFry(); 
-    initLives();
+    //initLives();
     initAlien();
 
      // initialize fry or leela, depending on who the player chose
@@ -389,7 +400,7 @@ void initPlanet4() {
         fry.active = 1;
     }
 
-    life4Counter = 0;
+    //life4Counter = 0;
 
 }
 
@@ -431,6 +442,9 @@ void updatePlanet1() {
     }
     treasureP1.treasureCounter++;
 
+    // update lives when there is a collision
+    updateLives();
+
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -441,51 +455,7 @@ void updatePlanet1() {
     }
 
 
-    // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 0) && (alien.active) && (fry.active)) {
-       life3.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 1) && (alien.active) && (fry.active)) {
-       life2.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 2) && (alien.active) && (fry.active)) {
-       life1.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (life1Counter == 3) && (alien.active) && (fry.active)) {
-        isLost = 1;
-    }
-
-    // if there is a collision with leela and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 0) && (alien.active) && (leela.active)) {
-       life3.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 1) && (alien.active) && (leela.active)) {
-       life2.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 2) && (alien.active) && (leela.active)) {
-       life1.active = 0;
-       life1Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (life1Counter == 3) && (alien.active) && (leela.active)) {
-        isLost = 1;
-    }
 
     // make sure the alien is not active after it goes past fry for now, but soon this will be 
     // changed to a collision and fry will lose a life 
@@ -514,55 +484,8 @@ void updatePlanet2() {
 
     updateLeela();
 
-    // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 0) {
-       life3.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 1) {
-       life2.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 2) {
-       life1.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life2Counter == 3) {
-        isLost = 1;
-    }
-
-    if (alien.col + alien.width == 0) {
-        alien.active = 0;
-    }
-
-    // if there is a collision with leela and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life2Counter == 0) {
-       life3.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life2Counter == 1) {
-       life2.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life2Counter == 2) {
-       life1.active = 0;
-       life2Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life2Counter == 3) {
-        isLost = 1;
-    }
+    // if there is a collision with fry/leela and the alien then you lose a life
+    updateLives();
 
     // draw the game with the updates
     drawGame();
@@ -596,51 +519,9 @@ void updatePlanet3() {
 
     updateLeela();
 
-    // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 0) {
-       life3.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
+     // if there is a collision with fry/leela and the alien then you lose a life
+    updateLives();
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 1) {
-       life2.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 2) {
-       life1.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life3Counter == 3) {
-        isLost = 1;
-    }
-
-    // if there is a collision with leela and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life3Counter == 0) {
-       life3.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life3Counter == 1) {
-       life2.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life3Counter == 2) {
-       life1.active = 0;
-       life3Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life3Counter == 3) {
-        isLost = 1;
-    }
 
     if (alien.col + alien.width == 0) {
         alien.active = 0;
@@ -677,51 +558,9 @@ void updatePlanet4() {
 
     updateLeela();
 
-    // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 0) {
-       life3.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
+    // if there is a collision with fry/leela and the alien then you lose a life
+    updateLives();
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 1) {
-       life2.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 2) {
-       life1.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && life4Counter == 3) {
-        isLost = 1;
-    }
-
-    // if there is a collision with leela and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life4Counter == 0) {
-       life3.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life4Counter == 1) {
-       life2.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life4Counter == 2) {
-       life1.active = 0;
-       life4Counter++;
-       alien.col = 190;
-    }
-
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && life4Counter == 3) {
-        isLost = 1;
-    }
 
     if (alien.col + alien.width == 0) {
         alien.active = 0;
@@ -738,6 +577,12 @@ void initLose() {
     leela.active = 0;
     alien.active = 0;
     treasureP1.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+    }
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 0;
+    }
     for (int i = 0; i < BLOCKCOUNT; i++) {
         blocks[i].active = 0;
     }
@@ -880,6 +725,18 @@ void drawGame() {
         shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
 
+    if (life4.active) {
+        shadowOAM[16].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life4.row;
+        shadowOAM[16].attr1 = ATTR1_SMALL | life4.col;
+        shadowOAM[16].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+    }
+
+    if (life5.active) {
+        shadowOAM[17].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life5.row;
+        shadowOAM[17].attr1 = ATTR1_SMALL | life5.col;
+        shadowOAM[17].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+    }
+
     // draw the blocks
     for (int i = 0; i < BLOCKCOUNT; i++) {
         if (blocks[i].active) {
@@ -946,6 +803,78 @@ void drawGame() {
 
     REG_BG0HOFF = hOff / 4; 
     REG_BG0VOFF = vOff;
+}
+
+void updateLives() {
+    // if there is a collision with fry and the alien then you lose a life
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+       life5.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+       life4.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+       life3.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+       life2.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+       life1.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+        isLost = 1;
+    }
+
+    // if there is a collision with leela and the alien then you lose a life
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life5.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life4.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life3.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life2.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life1.active = 0;
+       lifeCounter++;
+       alien.col = 190;
+    }
+
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.row, leela.width, leela.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+        isLost = 1;
+    }
 }
 
 
