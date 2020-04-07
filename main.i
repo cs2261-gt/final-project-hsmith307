@@ -951,7 +951,7 @@ void win() {
 }
 
 void goToLose() {
-
+    hideSprites();
     initLose();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;

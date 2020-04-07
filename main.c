@@ -540,7 +540,7 @@ void win() {
 }
 
 void goToLose() {
-
+    hideSprites();
     initLose();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;

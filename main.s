@@ -966,41 +966,45 @@ goToLose:
 	ldr	r3, .L119
 	mov	lr, pc
 	bx	r3
+	ldr	r3, .L119+4
+	mov	lr, pc
+	bx	r3
 	mov	r1, #67108864
 	mov	r2, #0
 	mov	r3, #4352
-	ldr	r0, .L119+4
+	ldr	r0, .L119+8
 	strh	r2, [r1, #16]	@ movhi
-	ldr	r4, .L119+8
+	ldr	r4, .L119+12
 	strh	r2, [r1, #18]	@ movhi
 	strh	r3, [r1]	@ movhi
 	strh	r0, [r1, #8]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L119+12
+	ldr	r1, .L119+16
 	mov	lr, pc
 	bx	r4
 	mov	r0, #3
-	ldr	r3, .L119+16
-	ldr	r2, .L119+20
-	ldr	r1, .L119+24
+	ldr	r3, .L119+20
+	ldr	r2, .L119+24
+	ldr	r1, .L119+28
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L119+28
+	ldr	r2, .L119+32
 	mov	r0, #3
-	ldr	r1, .L119+32
+	ldr	r1, .L119+36
 	mov	lr, pc
 	bx	r4
 	mov	r2, #9
-	ldr	r3, .L119+36
+	ldr	r3, .L119+40
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L120:
 	.align	2
 .L119:
+	.word	hideSprites
 	.word	initLose
 	.word	7684
 	.word	DMANow
