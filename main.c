@@ -178,6 +178,8 @@ void start() {
 
 void goToGame() {
     initGame();
+
+
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, instructionsPal, PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsTiles, &CHARBLOCK[0], instructionsTilesLen / 2);
@@ -190,6 +192,12 @@ void goToGame() {
 }
 
 void game() {
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+
+    if (BUTTON_PRESSED(BUTTON_A)) {
+        goToStart();
+    }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
         characterChoice = FRYCHARACTER;
         goToSpace();
@@ -235,8 +243,8 @@ void space() {
         goToPause();
     }
 
-    if (BUTTON_PRESSED(BUTTON_A)) {
-        goToStart();
+    if (BUTTON_PRESSED(BUTTON_B)) {
+        goToGame();
     }
     if (treasureNum >= 4) {
         goToWin();

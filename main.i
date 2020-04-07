@@ -584,7 +584,16 @@ void start() {
 }
 
 void goToGame() {
+    hideSprites();
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+
     initGame();
+
+
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 7392 / 2);
@@ -597,6 +606,12 @@ void goToGame() {
 }
 
 void game() {
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+
+    if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0))))) {
+        goToStart();
+    }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
         characterChoice = FRYCHARACTER;
         goToSpace();
@@ -642,8 +657,8 @@ void space() {
         goToPause();
     }
 
-    if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0))))) {
-        goToStart();
+    if ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1))))) {
+        goToGame();
     }
     if (treasureNum >= 4) {
         goToWin();
