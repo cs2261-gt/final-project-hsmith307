@@ -726,7 +726,7 @@ void updatePlanet1() {
 
 
     for (int i = 0; i < 10; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }

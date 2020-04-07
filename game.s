@@ -2362,17 +2362,19 @@ updatePlanet1:
 	ldr	r5, .L336+20
 	ldr	r7, .L336+24
 .L328:
-	add	r0, r4, #16
-	ldm	r0, {r0, r1}
+	ldr	r1, [r4, #20]
 	ldr	r2, [r4, #4]
 	ldr	r3, [r4]
-	str	r0, [sp, #12]
+	ldr	ip, [r4, #16]
+	ldr	r0, [r5]
+	str	ip, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
+	add	r0, r0, #40
 	ldr	r3, [r5, #8]
 	ldr	r2, [r5, #12]
-	ldm	r5, {r0, r1}
+	ldr	r1, [r5, #4]
 	mov	lr, pc
 	bx	r7
 	cmp	r0, #1

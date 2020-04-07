@@ -420,7 +420,7 @@ void updatePlanet1() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -450,7 +450,7 @@ void updatePlanet2() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -482,7 +482,7 @@ void updatePlanet3() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
@@ -514,7 +514,7 @@ void updatePlanet4() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
             alien.active = 0;
             bullets[i].active = 0;
         }
