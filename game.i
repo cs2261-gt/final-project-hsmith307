@@ -207,7 +207,7 @@ typedef struct {
     int height;
     int width;
     int active;
-    int treasureCounter;
+    volatile int treasureCounter;
 }TREASURE;
 
 
@@ -727,12 +727,12 @@ void updatePlanet1() {
     updateAlien();
     updateLeela();
 
+    for (int i = 0; i < 10; i++) {
+         updateBullets(&bullets[i]);
+    }
 
 
-
-
-
-    if (treasureP1.treasureCounter > 1000) {
+    if (treasureP1.treasureCounter > 2000) {
         treasureP1.active = 1;
         updateTreasure();
     }
@@ -765,6 +765,11 @@ void updatePlanet2() {
     updateLeela();
 
 
+    for (int i = 0; i < 10; i++) {
+         updateBullets(&bullets[i]);
+    }
+
+
     updateLives();
 
 
@@ -784,6 +789,11 @@ void updatePlanet3() {
     updateLeela();
 
 
+    for (int i = 0; i < 10; i++) {
+         updateBullets(&bullets[i]);
+    }
+
+
     updateLives();
 
 
@@ -801,6 +811,11 @@ void updatePlanet4() {
     updateFry();
     updateAlien();
     updateLeela();
+
+
+    for (int i = 0; i < 10; i++) {
+         updateBullets(&bullets[i]);
+    }
 
 
     updateLives();

@@ -207,7 +207,7 @@ typedef struct {
     int height;
     int width;
     int active;
-    int treasureCounter;
+    volatile int treasureCounter;
 }TREASURE;
 
 

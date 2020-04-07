@@ -421,12 +421,12 @@ void updatePlanet1() {
     updateAlien();
     updateLeela();
 
-    // for (int i = 0; i < BULLETCOUNT; i++) {
-    //      updateBullets(&bullets[i]);
-    // } 
+    for (int i = 0; i < BULLETCOUNT; i++) {
+         updateBullets(&bullets[i]);
+    } 
  
 
-    if (treasureP1.treasureCounter > 1000) {
+    if (treasureP1.treasureCounter > 2000) {
         treasureP1.active = 1;
         updateTreasure();
     }
@@ -458,6 +458,11 @@ void updatePlanet2() {
     updateAlien();
     updateLeela();
 
+    // shoot bullets and update their position
+    for (int i = 0; i < BULLETCOUNT; i++) {
+         updateBullets(&bullets[i]);
+    } 
+
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
@@ -477,6 +482,11 @@ void updatePlanet3() {
     updateAlien();
     updateLeela();
 
+    // shoot bullets and update their position
+    for (int i = 0; i < BULLETCOUNT; i++) {
+         updateBullets(&bullets[i]);
+    } 
+
      // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
@@ -495,6 +505,11 @@ void updatePlanet4() {
     updateFry();
     updateAlien();
     updateLeela();
+
+    // shoot bullets and update their position
+    for (int i = 0; i < BULLETCOUNT; i++) {
+         updateBullets(&bullets[i]);
+    } 
 
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
