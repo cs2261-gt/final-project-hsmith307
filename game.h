@@ -106,6 +106,7 @@ typedef struct {
     int width;
     int active;
     volatile int treasureCounter;
+    int treasureNum;
 }TREASURE;
 
 // game macros
@@ -167,6 +168,8 @@ void updatePlanet4();
 
 void initLose();
 
+void initWin();
+
 void drawGame();
 
 void initAlien();
@@ -194,6 +197,7 @@ void shootBullets();
 void updateBullets(BULLET *);
 
 extern int isLost;
+extern int isWon;
 extern int treasureNum;
 extern int prevTreasureNum;
 

@@ -208,6 +208,7 @@ typedef struct {
     int width;
     int active;
     volatile int treasureCounter;
+    int treasureNum;
 }TREASURE;
 
 
@@ -269,6 +270,8 @@ void updatePlanet4();
 
 void initLose();
 
+void initWin();
+
 void drawGame();
 
 void initAlien();
@@ -296,6 +299,7 @@ void shootBullets();
 void updateBullets(BULLET *);
 
 extern int isLost;
+extern int isWon;
 extern int treasureNum;
 extern int prevTreasureNum;
 
@@ -584,13 +588,6 @@ void start() {
 }
 
 void goToGame() {
-    hideSprites();
-    spaceship.active = 0;
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-
     initGame();
 
 
@@ -660,7 +657,7 @@ void space() {
     if ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1))))) {
         goToGame();
     }
-    if (treasureNum >= 4) {
+    if (isWon == 1) {
         goToWin();
     }
 }
@@ -701,8 +698,20 @@ void planet1() {
         goToLose();
     }
 
-    if (treasureNum > prevTreasureNum && treasureNum < 4) {
-        goToSpace();
+    if (isWon == 1) {
+        goToWin();
+    }
+
+
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
 }
@@ -740,12 +749,23 @@ void planet2() {
     }
 
 
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
    if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 }
 
@@ -782,12 +802,23 @@ void planet3() {
     }
 
 
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
    if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 
 }
@@ -830,12 +861,23 @@ void planet4() {
     }
 
 
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
     if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 }
 
@@ -889,32 +931,20 @@ void pause() {
 }
 
 void goToWin() {
+    initWin();
+
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, winPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, winTiles, &((charblock *)0x6000000)[0], 96 / 2);
     DMANow(3, winMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
-    hideSprites();
-    fry.active = 0;
-    leela.active = 0;
-    alien.active = 0;
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-    spaceship.active = 0;
-    for (int i = 0; i < 3; i++) {
-        blocks[i].active = 0;
-    }
-    for (int i = 0; i < 10; i++) {
-        bullets[i].active = 0;
-    }
     state = WIN;
 }
 
 void win() {
-    (*(volatile unsigned short *)0x04000010) = 0;
-    (*(volatile unsigned short *)0x04000012) = 0;
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         goToStart();
     }

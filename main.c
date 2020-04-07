@@ -246,7 +246,7 @@ void space() {
     if (BUTTON_PRESSED(BUTTON_B)) {
         goToGame();
     }
-    if (treasureNum >= 4) {
+    if (isWon == 1) {
         goToWin();
     }
 }
@@ -287,8 +287,20 @@ void planet1() {
         goToLose();
     }
 
-    if (treasureNum > prevTreasureNum && treasureNum < 4) {
-        goToSpace();
+    if (isWon == 1) {
+        goToWin();
+    }
+
+    // go back to space if you pick up a treasure
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
 }
@@ -326,12 +338,23 @@ void planet2() {
     }
 
     // go back to space if you pick up a treasure
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
    if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 }
 
@@ -368,12 +391,23 @@ void planet3() {
     }
 
     // go back to space if you pick up a treasure
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
    if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 
 }
@@ -416,12 +450,23 @@ void planet4() {
     }
 
     // go back to space if you pick up a treasure
-    if (treasureNum > prevTreasureNum) {
-        goToSpace();
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.row, leela.width, leela.height)) {
+            goToSpace();
+        }
+    }
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.row, fry.width, fry.height)) {
+            goToSpace();
+        }
     }
 
     if (isLost == 1) {
         goToLose();
+    }
+
+    if (isWon == 1) {
+        goToWin();
     }
 }
 
@@ -475,32 +520,20 @@ void pause() {
 }
 
 void goToWin() {
+    initWin();
+
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, winPal, PALETTE, winPalLen / 2);
     DMANow(3, winTiles, &CHARBLOCK[0], winTilesLen / 2);
     DMANow(3, winMap, &SCREENBLOCK[30], winMapLen / 2);
 
-    hideSprites();
-    fry.active = 0;
-    leela.active = 0;
-    alien.active = 0;
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-    spaceship.active = 0;
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
-    }
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        bullets[i].active = 0;
-    }
     state = WIN;
 }
 
 void win() {
-    REG_BG0HOFF = 0; 
-    REG_BG0VOFF = 0;
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToStart();
     }

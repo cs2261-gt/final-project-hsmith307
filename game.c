@@ -56,6 +56,7 @@ int life4Counter;
 // keeps track of what state of the game the player was in before pause was pressed
 int prevState;
 int isLost;
+int isWon;
 int treasureNum;
 int prevTreasureNum;
 
@@ -71,6 +72,19 @@ unsigned short vOff;
 void initGame() {
     initLives();
     initTreasure();
+    hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    spaceship.active = 0;
+    treasureP1.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+    }
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 0;
+    }
+    drawGame();
 }
 
 void initSpaceship() {
@@ -205,6 +219,7 @@ void initTreasure() {
         treasure[i].height = 32;
         treasure[i].treasureCounter = 0;
         treasure[i].cdel = 1;
+        treasure[i].treasureNum = 0;
     }
 }
 
@@ -270,6 +285,9 @@ void initSpace() {
     // the game is not lost, so set that variable to 0 as it starts
     isLost = 0;
 
+    // the game is not won, so set that variable to 0 as it starts
+    isWon = 0;
+
     // set the treasure numbers
     treasureNum = 0;
     prevTreasureNum = 0;
@@ -293,6 +311,9 @@ void updateSpace() {
         spaceship.row += spaceship.rdel;
     }
 
+    if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+        isWon = 1;
+    }
 
 }
 
@@ -580,6 +601,25 @@ void initLose() {
     drawGame();
 }
 
+void initWin() {
+    hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    spaceship.active = 0;
+    treasureP1.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+            blocks[i].active = 0;
+    }
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 0;
+    }
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    drawGame();
+}
+
 void updateFry() {
     // animate fry
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -667,7 +707,8 @@ void updateTreasure(TREASURE * treasure) {
     hideSprites();
     if (characterChoice == LEELACHARACTER) {
         if (collision(leela.col, leela.row, leela.width, leela.height, treasure->col, 
-        treasure->row, treasure->width, treasure->height)) {
+        treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
+            treasure->treasureNum = 1;
             
             // make all the sprites that should not be in space inactive
             treasure->active = 0;
@@ -679,10 +720,9 @@ void updateTreasure(TREASURE * treasure) {
                 bullets[j].active = 0;
             }
 
-            // update the treasure number so the state machine can know it has increased
-                // it will go to the win state if the treasure num is 4, meaning all treasures have been collected
-            prevTreasureNum = treasureNum;
-            treasureNum++;
+        }
+        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+            isWon = 1;
         }
     }
     if (characterChoice == FRYCHARACTER) {
