@@ -830,7 +830,9 @@ void goToPause() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    treasureP1.active = 0;
+
+
+
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
@@ -881,7 +883,6 @@ void goToWin() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    treasureP1.active = 0;
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;

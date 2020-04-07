@@ -2740,22 +2740,22 @@ spritesheet5Tiles:
 	.short	819
 	.short	13107
 	.short	819
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
-	.short	-4370
+	.short	0
+	.short	0
+	.short	0
+	.short	0
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	-26215
+	.short	0
+	.short	0
+	.short	0
+	.short	0
 	.short	0
 	.short	0
 	.short	0

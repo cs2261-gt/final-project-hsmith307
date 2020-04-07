@@ -566,24 +566,22 @@ goToPause:
 	mov	lr, pc
 	bx	r3
 	mov	r2, #0
-	ldr	ip, .L62+4
-	ldr	r0, .L62+8
-	ldr	r3, .L62+12
+	ldr	r0, .L62+4
+	ldr	r3, .L62+8
+	str	r2, [r0, #16]
+	str	r2, [r3, #16]
+	ldr	lr, .L62+12
+	ldr	ip, .L62+16
+	ldr	r0, .L62+20
+	ldr	r3, .L62+24
+	str	r2, [lr, #16]
 	str	r2, [ip, #16]
 	str	r2, [r3, #16]
 	str	r2, [r0, #16]
-	ldr	lr, .L62+16
-	ldr	ip, .L62+20
-	ldr	r0, .L62+24
-	ldr	r3, .L62+28
-	str	r2, [ip, #16]
-	str	r2, [lr, #20]
-	str	r2, [r3, #16]
-	str	r2, [r0, #16]
-	ldr	lr, .L62+32
-	ldr	r0, .L62+36
-	ldr	ip, .L62+40
-	ldr	r3, .L62+44
+	ldr	lr, .L62+28
+	ldr	r0, .L62+32
+	ldr	ip, .L62+36
+	ldr	r3, .L62+40
 	str	r2, [lr, #16]
 	str	r2, [ip, #16]
 	mov	r1, r2
@@ -598,30 +596,30 @@ goToPause:
 	bne	.L59
 	mov	r3, #67108864
 	mov	r1, #4352
-	ldr	r2, .L62+48
-	ldr	r4, .L62+52
+	ldr	r2, .L62+44
+	ldr	r4, .L62+48
 	strh	r1, [r3]	@ movhi
 	strh	r2, [r3, #8]	@ movhi
 	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	ldr	r1, .L62+56
+	ldr	r1, .L62+52
 	mov	lr, pc
 	bx	r4
 	mov	r0, #3
-	ldr	r3, .L62+60
-	ldr	r2, .L62+64
-	ldr	r1, .L62+68
+	ldr	r3, .L62+56
+	ldr	r2, .L62+60
+	ldr	r1, .L62+64
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L62+72
+	ldr	r2, .L62+68
 	mov	r0, #3
-	ldr	r1, .L62+76
+	ldr	r1, .L62+72
 	mov	lr, pc
 	bx	r4
 	mov	r2, #7
-	ldr	r3, .L62+80
+	ldr	r3, .L62+76
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
@@ -632,7 +630,6 @@ goToPause:
 	.word	fry
 	.word	leela
 	.word	alien
-	.word	treasureP1
 	.word	p1
 	.word	p2
 	.word	p3
@@ -752,24 +749,22 @@ goToWin:
 	mov	lr, pc
 	bx	r3
 	mov	r2, #0
-	ldr	ip, .L84+24
-	ldr	r0, .L84+28
-	ldr	r3, .L84+32
+	ldr	r0, .L84+24
+	ldr	r3, .L84+28
+	str	r2, [r0, #16]
+	str	r2, [r3, #16]
+	ldr	lr, .L84+32
+	ldr	ip, .L84+36
+	ldr	r0, .L84+40
+	ldr	r3, .L84+44
+	str	r2, [lr, #16]
 	str	r2, [ip, #16]
 	str	r2, [r3, #16]
 	str	r2, [r0, #16]
-	ldr	lr, .L84+36
-	ldr	ip, .L84+40
-	ldr	r0, .L84+44
-	ldr	r3, .L84+48
-	str	r2, [ip, #16]
-	str	r2, [lr, #20]
-	str	r2, [r3, #16]
-	str	r2, [r0, #16]
-	ldr	lr, .L84+52
-	ldr	r0, .L84+56
-	ldr	ip, .L84+60
-	ldr	r3, .L84+64
+	ldr	lr, .L84+48
+	ldr	r0, .L84+52
+	ldr	ip, .L84+56
+	ldr	r3, .L84+60
 	str	r2, [lr, #16]
 	str	r2, [ip, #16]
 	mov	r1, r2
@@ -783,7 +778,7 @@ goToWin:
 	cmp	r2, r3
 	bne	.L81
 	mov	r2, #8
-	ldr	r3, .L84+68
+	ldr	r3, .L84+64
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
@@ -799,7 +794,6 @@ goToWin:
 	.word	fry
 	.word	leela
 	.word	alien
-	.word	treasureP1
 	.word	p1
 	.word	p2
 	.word	p3
