@@ -681,7 +681,7 @@ void updateTreasure(TREASURE * treasure) {
 
             // update the treasure number so the state machine can know it has increased
                 // it will go to the win state if the treasure num is 4, meaning all treasures have been collected
-            treasureNum = prevTreasureNum;
+            prevTreasureNum = treasureNum;
             treasureNum++;
         }
     }
@@ -696,7 +696,7 @@ void updateTreasure(TREASURE * treasure) {
             for (int j = 0; j < BULLETCOUNT; j++) {
                 bullets[j].active = 0;
             }
-            treasureNum = prevTreasureNum;
+            prevTreasureNum = treasureNum;
             treasureNum++;
 
             //make the planet that the treasure is from disappear so that you don't go back

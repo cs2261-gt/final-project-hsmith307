@@ -1360,17 +1360,18 @@ updateTreasure:
 	add	r3, r3, #28
 	cmp	r1, r3
 	bne	.L152
-	ldr	r3, .L169+24
-	ldr	r1, .L169+28
+	ldr	r0, .L169+24
+	ldr	r3, .L169+28
+	ldr	r1, [r0]
 	ldr	r3, [r3]
-	ldr	r1, [r1]
-	ldr	r0, .L169+32
-	add	r3, r3, #1
-	cmp	r1, #0
-	str	r3, [r0]
+	ldr	ip, .L169+32
+	add	lr, r1, #1
+	cmp	r3, #0
+	str	lr, [r0]
+	str	r1, [ip]
 	bne	.L153
-	ldr	r3, .L169+36
-	str	r1, [r3, #16]
+	ldr	r2, .L169+36
+	str	r3, [r2, #16]
 	b	.L145
 .L165:
 	add	r7, r4, #12
@@ -1404,27 +1405,28 @@ updateTreasure:
 	add	r3, r3, #28
 	cmp	r2, r3
 	bne	.L148
-	ldr	r3, .L169+24
-	ldr	r3, [r3]
-	ldr	r2, .L169+32
-	add	r3, r3, #1
+	ldr	r2, .L169+24
+	ldr	r3, [r2]
+	ldr	r1, .L169+32
+	add	r0, r3, #1
 	ldr	r5, [r6]
-	str	r3, [r2]
+	str	r0, [r2]
+	str	r3, [r1]
 	b	.L146
 .L167:
 	ldr	r5, [r6]
 	b	.L146
 .L153:
-	cmp	r1, #1
+	cmp	r3, #1
 	ldreq	r3, .L169+44
 	streq	r2, [r3, #16]
 	beq	.L145
 .L168:
-	cmp	r1, #2
+	cmp	r3, #2
 	ldreq	r3, .L169+48
 	streq	r2, [r3, #16]
 	beq	.L145
-	cmp	r1, #3
+	cmp	r3, #3
 	ldreq	r3, .L169+52
 	streq	r2, [r3, #16]
 	b	.L145
@@ -1437,9 +1439,9 @@ updateTreasure:
 	.word	collision
 	.word	blocks
 	.word	bullets
-	.word	prevTreasureNum
-	.word	curLocation
 	.word	treasureNum
+	.word	curLocation
+	.word	prevTreasureNum
 	.word	p1
 	.word	leela
 	.word	p2

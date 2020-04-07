@@ -11,7 +11,7 @@
 #include "planet4bg.h"
 #include "losebg.h"
 #include "instructions.h"
-
+#include "win.h"
 
 // Function prototypes
 void initialize();
@@ -238,6 +238,9 @@ void space() {
     if (BUTTON_PRESSED(BUTTON_A)) {
         goToStart();
     }
+    if (treasureNum >= 4) {
+        goToWin();
+    }
 }
 
 void goToPlanet1() {
@@ -262,6 +265,7 @@ void planet1() {
         alien.active = 0;
         spaceship.active = 1;
         p1.active = 1;
+        treasure[1].active = 0;
         for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
         }
@@ -277,9 +281,6 @@ void planet1() {
 
     if (treasureNum > prevTreasureNum && treasureNum < 4) {
         goToSpace();
-    }
-    if (treasureNum == 4) {
-        goToWin();
     }
 
 }
@@ -306,6 +307,7 @@ void planet2() {
         alien.active = 0;
         spaceship.active = 1;
         p1.active = 1;
+        treasure[2].active = 0;
         for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
         }
@@ -347,6 +349,7 @@ void planet3() {
         alien.active = 0;
         spaceship.active = 1;
         p1.active = 1;
+        treasure[3].active = 0;
         for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
         }
@@ -364,10 +367,13 @@ void planet3() {
    if (isLost == 1) {
         goToLose();
     }
+
 }
 
 void goToPlanet4() {
     initPlanet4();
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, planet4bgPal, PALETTE, planet4bgPalLen / 2);
     DMANow(3, planet4bgTiles, &CHARBLOCK[0], planet4bgTilesLen / 2);
@@ -390,6 +396,7 @@ void planet4() {
         leela.active = 0;
         alien.active = 0;
         spaceship.active = 1;
+        treasure[4].active = 0;
         for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
         }
@@ -416,7 +423,9 @@ void goToPause() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    treasureP1.active = 0;
+    // for (int i = 0; i < TREASURECOUNT; i++ {
+    //     treasure[i].active = 0;
+    // }
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
@@ -458,11 +467,35 @@ void pause() {
 }
 
 void goToWin() {
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    DMANow(3, winPal, PALETTE, winPalLen / 2);
+    DMANow(3, winTiles, &CHARBLOCK[0], winTilesLen / 2);
+    DMANow(3, winMap, &SCREENBLOCK[30], winMapLen / 2);
 
+    hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].active = 0;
+    }
+    state = WIN;
 }
 
 void win() {
-
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        goToStart();
+    }
 }
 
 void goToLose() {

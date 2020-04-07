@@ -989,7 +989,7 @@ void updateTreasure(TREASURE * treasure) {
 
 
 
-            treasureNum = prevTreasureNum;
+            prevTreasureNum = treasureNum;
             treasureNum++;
         }
     }
@@ -1004,7 +1004,7 @@ void updateTreasure(TREASURE * treasure) {
             for (int j = 0; j < 10; j++) {
                 bullets[j].active = 0;
             }
-            treasureNum = prevTreasureNum;
+            prevTreasureNum = treasureNum;
             treasureNum++;
 
 
