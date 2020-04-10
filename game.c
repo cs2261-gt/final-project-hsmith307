@@ -765,6 +765,9 @@ void drawGame() {
         shadowOAM[0].attr1 = ATTR1_LARGE | fry.col;
         shadowOAM[0].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(fry.aniState * 8, fry.curFrame * 8);          
     }
+    // if (fry.active = 0) {
+    //     shadowOAM[0].attr0 = ATTR0_HIDE;
+    // }
     // update the anistate counter so you can animate fry
     fry.aniCounter++;
 
@@ -774,6 +777,9 @@ void drawGame() {
         shadowOAM[11].attr1 = ATTR1_LARGE | leela.col;
         shadowOAM[11].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(leela.aniState * 8, leela.curFrame * 8);  
     }
+    // if (leela.active = 0) {
+    //     shadowOAM[11].attr0 = ATTR0_HIDE;
+    // }
     leela.aniCounter++;
 
     // draw the alien
@@ -782,6 +788,9 @@ void drawGame() {
         shadowOAM[6].attr1 = ATTR1_LARGE | alien.col;
         shadowOAM[6].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(alien.aniState * 8, alien.curFrame * 8);        
     }
+    // if (alien.active = 0) {
+    //     shadowOAM[6].attr0 = ATTR0_HIDE;
+    // }
     // update the anistate counter so you can animate the alien
     alien.aniCounter++;
 
@@ -791,30 +800,45 @@ void drawGame() {
         shadowOAM[7].attr1 = ATTR1_SMALL | life1.col;
         shadowOAM[7].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
+    // if (life1.active = 0) {
+    //     shadowOAM[7].attr0 = ATTR0_HIDE;
+    // }
 
     if (life2.active) {
         shadowOAM[8].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life2.row;
         shadowOAM[8].attr1 = ATTR1_SMALL | life2.col;
         shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
+    // if (life1.active = 0) {
+    //     shadowOAM[8].attr0 = ATTR0_HIDE;
+    // }
 
     if (life3.active) {
         shadowOAM[9].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life3.row;
         shadowOAM[9].attr1 = ATTR1_SMALL | life3.col;
         shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
+    // if (life3.active = 0) {
+    //     shadowOAM[9].attr0 = ATTR0_HIDE;
+    // }
 
     if (life4.active) {
         shadowOAM[16].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life4.row;
         shadowOAM[16].attr1 = ATTR1_SMALL | life4.col;
         shadowOAM[16].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
+    // if (life4.active = 0) {
+    //     shadowOAM[16].attr0 = ATTR0_HIDE;
+    // }
 
     if (life5.active) {
         shadowOAM[17].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life5.row;
         shadowOAM[17].attr1 = ATTR1_SMALL | life5.col;
         shadowOAM[17].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
+    // if (life5.active = 0) {
+    //     shadowOAM[17].attr0 = ATTR0_HIDE;
+    // }
 
     // draw the blocks
     for (int i = 0; i < BLOCKCOUNT; i++) {

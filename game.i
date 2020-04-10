@@ -1078,6 +1078,9 @@ void drawGame() {
         shadowOAM[0].attr2 = ((0)<<12) | ((fry.curFrame * 8)*32+(fry.aniState * 8));
     }
 
+
+
+
     fry.aniCounter++;
 
 
@@ -1086,6 +1089,9 @@ void drawGame() {
         shadowOAM[11].attr1 = (3<<14) | leela.col;
         shadowOAM[11].attr2 = ((0)<<12) | ((leela.curFrame * 8)*32+(leela.aniState * 8));
     }
+
+
+
     leela.aniCounter++;
 
 
@@ -1094,6 +1100,9 @@ void drawGame() {
         shadowOAM[6].attr1 = (3<<14) | alien.col;
         shadowOAM[6].attr2 = ((0)<<12) | ((alien.curFrame * 8)*32+(alien.aniState * 8));
     }
+
+
+
 
     alien.aniCounter++;
 
@@ -1104,11 +1113,17 @@ void drawGame() {
         shadowOAM[7].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
     }
 
+
+
+
     if (life2.active) {
         shadowOAM[8].attr0 = (0<<8) | (0<<13) | (0<<14) | life2.row;
         shadowOAM[8].attr1 = (1<<14) | life2.col;
         shadowOAM[8].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
     }
+
+
+
 
     if (life3.active) {
         shadowOAM[9].attr0 = (0<<8) | (0<<13) | (0<<14) | life3.row;
@@ -1116,17 +1131,26 @@ void drawGame() {
         shadowOAM[9].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
     }
 
+
+
+
     if (life4.active) {
         shadowOAM[16].attr0 = (0<<8) | (0<<13) | (0<<14) | life4.row;
         shadowOAM[16].attr1 = (1<<14) | life4.col;
         shadowOAM[16].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
     }
 
+
+
+
     if (life5.active) {
         shadowOAM[17].attr0 = (0<<8) | (0<<13) | (0<<14) | life5.row;
         shadowOAM[17].attr1 = (1<<14) | life5.col;
         shadowOAM[17].attr2 = ((0)<<12) | ((2 * 2)*32+(12 * 2));
     }
+
+
+
 
 
     for (int i = 0; i < 3; i++) {
