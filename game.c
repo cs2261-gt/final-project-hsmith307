@@ -64,9 +64,15 @@ int prevTreasureNum;
 //enum {FRYCHARACTER, LEELACHARACTER};
 int characterChoice;
 
+// vertical and horizontal offsets
 unsigned short hOff;
 unsigned short vOff;
 
+// gravity constants and helpers
+#define GRAVITY 100 // the larger it is, the smaller your max jump height
+#define JUMPPOWER 1500 
+#define SHIFTUP(num) ((num) << 8)
+#define SHIFTDOWN(num) ((num >> 8))
 
 // MAIN PART OF THE CODE:
 void initGame() {
