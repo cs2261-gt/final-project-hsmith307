@@ -376,11 +376,10 @@ int prevTreasureNum;
 
 int characterChoice;
 
+
 unsigned short hOff;
 unsigned short vOff;
-
-
-
+# 78 "game.c"
 void initGame() {
     initLives();
     initTreasure();
