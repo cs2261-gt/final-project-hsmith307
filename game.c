@@ -45,6 +45,9 @@ TREASURE treasure[TREASURECOUNT];
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
 int curLocation;
 
+// label where the ground is
+int ground = 154;
+
 
 // counters to count which life is being lost and thus which should be hidden
 int lifeCounter;
@@ -105,7 +108,7 @@ void initSpaceship() {
 
 void initFry() {
     fry.col = 3;
-    fry.row = 90;
+    fry.row = SHIFTUP(90);
     fry.cdel = 1;
     fry.rdel = 1;
     fry.active = 0;
@@ -115,11 +118,12 @@ void initFry() {
     fry.curFrame = 0;
     fry.numFrames = 4;
     fry.aniCounter = 0;
+    fry.amJumping = 0;
 }
 
 void initLeela() {
     leela.col = 3;
-    leela.row = 90;
+    leela.row = SHIFTUP(90);
     leela.cdel = 0;
     leela.rdel = 1;
     leela.active = 0;
@@ -130,6 +134,7 @@ void initLeela() {
     leela.numFrames = 4;
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
+    leela.amJumping = 0;
 }
 
 // initialize the alien
@@ -636,6 +641,24 @@ void initWin() {
 }
 
 void updateFry() {
+    // gravity stuff
+    if (SHIFTDOWN(fry.row + fry.rdel) > ground) {
+        fry.row += fry.rdel;
+    } else {
+        fry.rdel = 0;
+        fry.amJumping = 0;
+    }
+
+    // jump input
+    if (BUTTON_PRESSED(BUTTON_UP) && !fry.amJumping) {
+        fry.rdel -= JUMPPOWER;
+        fry.amJumping = 1;
+    }
+
+    fry.rdel += GRAVITY;
+
+    fry.row = SHIFTDOWN(fry.row) + 90;
+
     // animate fry
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
         if (fry.curFrame < fry.numFrames - 1) {
@@ -653,6 +676,31 @@ void updateFry() {
 }
 
 void updateLeela() {
+    // gravity stuff
+    if (SHIFTDOWN(leela.row + leela.rdel) < ground) {
+        leela.row += leela.rdel;
+    } else {
+        leela.rdel = 0;
+        leela.amJumping = 0;
+    }
+
+    if (BUTTON_PRESSED(BUTTON_UP) && !leela.amJumping) {
+        leela.rdel -= JUMPPOWER;
+        leela.amJumping = 1;
+    }
+
+    //if (leela.amJumping) {
+        leela.rdel += GRAVITY;
+    //}
+
+    // if (leela.row > ground + 20) {
+    //     leela.row = ground - leela.height;
+    //     leela.amJumping = 0;
+    // }
+
+
+    leela.row = SHIFTDOWN(leela.row);
+
     // animate leela
     leela.col += leela.cdel;
     if (leela.aniCounter % 18 == 0) {
@@ -988,11 +1036,6 @@ void updateLives() {
         isLost = 1;
     }
 }
-
-
-
-
-
 
 
 

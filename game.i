@@ -114,6 +114,7 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
 }FRY;
 
 
@@ -130,6 +131,7 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
 }LEELA;
 
 typedef struct {
@@ -358,6 +360,9 @@ enum {PLAN1, PLAN2, PLAN3, PLAN4};
 int curLocation;
 
 
+int ground = 154;
+
+
 
 int lifeCounter;
 int life1Counter;
@@ -379,7 +384,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 78 "game.c"
+# 81 "game.c"
 void initGame() {
     initLives();
     initTreasure();
@@ -410,7 +415,7 @@ void initSpaceship() {
 
 void initFry() {
     fry.col = 3;
-    fry.row = 90;
+    fry.row = ((90) << 8);
     fry.cdel = 1;
     fry.rdel = 1;
     fry.active = 0;
@@ -420,11 +425,12 @@ void initFry() {
     fry.curFrame = 0;
     fry.numFrames = 4;
     fry.aniCounter = 0;
+    fry.amJumping = 0;
 }
 
 void initLeela() {
     leela.col = 3;
-    leela.row = 90;
+    leela.row = ((90) << 8);
     leela.cdel = 0;
     leela.rdel = 1;
     leela.active = 0;
@@ -435,6 +441,7 @@ void initLeela() {
     leela.numFrames = 4;
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
+    leela.amJumping = 0;
 }
 
 
@@ -942,6 +949,24 @@ void initWin() {
 
 void updateFry() {
 
+    if (((fry.row + fry.rdel >> 8)) > ground) {
+        fry.row += fry.rdel;
+    } else {
+        fry.rdel = 0;
+        fry.amJumping = 0;
+    }
+
+
+    if ((!(~(oldButtons)&((1<<6))) && (~buttons & ((1<<6)))) && !fry.amJumping) {
+        fry.rdel -= 1500;
+        fry.amJumping = 1;
+    }
+
+    fry.rdel += 100;
+
+    fry.row = ((fry.row >> 8)) + 90;
+
+
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
         if (fry.curFrame < fry.numFrames - 1) {
             fry.curFrame++;
@@ -958,6 +983,24 @@ void updateFry() {
 }
 
 void updateLeela() {
+
+    if (((leela.row + leela.rdel >> 8)) < ground) {
+        leela.row += leela.rdel;
+    } else {
+        leela.rdel = 0;
+        leela.amJumping = 0;
+    }
+
+    if ((!(~(oldButtons)&((1<<6))) && (~buttons & ((1<<6)))) && !leela.amJumping) {
+        leela.rdel -= 1500;
+        leela.amJumping = 1;
+    }
+
+
+        leela.rdel += 100;
+# 702 "game.c"
+    leela.row = ((leela.row >> 8));
+
 
     leela.col += leela.cdel;
     if (leela.aniCounter % 18 == 0) {

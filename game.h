@@ -12,6 +12,7 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
 }FRY;
 
 // leela struct 
@@ -28,6 +29,7 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
 }LEELA;
 
 typedef struct {
