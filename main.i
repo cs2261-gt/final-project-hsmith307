@@ -114,6 +114,7 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
 }FRY;
 
 
@@ -130,6 +131,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
+    int screenRow;
 }LEELA;
 
 typedef struct {
@@ -405,7 +408,7 @@ extern const unsigned short losebgPal[256];
 # 13 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[3696];
+extern const unsigned short instructionsTiles[1872];
 
 
 extern const unsigned short instructionsMap[1024];
@@ -593,7 +596,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 7392 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 3744 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -704,7 +707,7 @@ void planet1() {
 
 
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }

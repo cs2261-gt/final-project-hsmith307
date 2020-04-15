@@ -293,7 +293,7 @@ void planet1() {
 
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }

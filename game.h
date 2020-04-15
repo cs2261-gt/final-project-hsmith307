@@ -30,6 +30,7 @@ typedef struct {
     int numFrames;
     int bulletTimer;
     int amJumping;
+    int screenRow;
 }LEELA;
 
 typedef struct {
@@ -86,6 +87,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int cdel;
 }BLOCK;
 
 // bullet struct
@@ -183,6 +185,7 @@ void updateFry();
 void initSpaceship();
 
 void initBlocks();
+void updateBlocks(BLOCK *);
 
 void initLives();
 void updateLives();

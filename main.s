@@ -178,7 +178,7 @@ goToGame:
 	ldr	r1, .L15+8
 	mov	lr, pc
 	bx	r4
-	mov	r3, #3696
+	mov	r3, #1872
 	mov	r2, #100663296
 	mov	r0, #3
 	ldr	r1, .L15+12
@@ -1099,7 +1099,7 @@ planet1:
 .L148:
 	ldr	r3, .L150+40
 	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #4]
+	ldr	r2, [r3, #52]
 	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
 	ldr	r0, .L150+32
