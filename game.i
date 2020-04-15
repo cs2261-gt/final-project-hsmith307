@@ -391,6 +391,25 @@ unsigned short hOff;
 unsigned short vOff;
 # 81 "game.c"
 void initGame() {
+
+    leela.active = 0;
+    fry.active = 0;
+    alien.active = 0;
+    for (int i = 0; i < 5; i++) {
+        treasure[i].active = 0;
+    }
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+
+
     initLives();
     life1.active = 1;
     life2.active = 1;
@@ -398,6 +417,7 @@ void initGame() {
     life4.active = 1;
     life5.active = 1;
     initTreasure();
+    initBullets();
     hideSprites();
     initAlien();
     drawGame();
@@ -652,7 +672,6 @@ void updateSpace() {
 void initPlanet1() {
     hideSprites();
     initBlocks();
-    initBullets();
 
 
     treasure[1].col = 203;
@@ -665,15 +684,6 @@ void initPlanet1() {
     }
 
 
-    spaceship.active = 0;
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-    alien.active = 1;
-    for (int j = 0; j < 10; j++) {
-        bullets[j].active = 1;
-    }
 
 
     curLocation = PLAN1;
@@ -684,6 +694,17 @@ void initPlanet1() {
     }
     if (characterChoice == FRYCHARACTER) {
         fry.active = 1;
+    }
+
+
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    alien.active = 1;
+    for (int j = 0; j < 10; j++) {
+        bullets[j].active = 1;
     }
 }
 
@@ -1092,7 +1113,7 @@ void updateAlien() {
             alien.curFrame = 1;
         }
     }
-    if (alien.col + alien.width == 0) {
+    if (alien.col == 0) {
         alien.active = 0;
     }
 }
@@ -1385,13 +1406,14 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+
         isLost = 1;
     }
+
+
+
+
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == LEELACHARACTER)) {
@@ -1420,11 +1442,12 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+
         isLost = 1;
     }
+
+
+
+
 }
