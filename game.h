@@ -13,6 +13,7 @@ typedef struct {
     int numFrames;
     int bulletTimer;
     int amJumping;
+    int screenRow;
 }FRY;
 
 // leela struct 
@@ -116,7 +117,7 @@ typedef struct {
 // game macros
 #define BLOCKCOUNT 3
 #define NUMLIVES 3
-#define BULLETCOUNT 10
+#define BULLETCOUNT 50
 #define TREASURECOUNT 5
 
 extern PLANET p1;

@@ -222,7 +222,7 @@ void initLives() {
 void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].col = leela.col + leela.width;
-        bullets[i].row = leela.row + 20;
+        bullets[i].row = leela.screenRow + 20;
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
@@ -360,6 +360,8 @@ void updateSpace() {
 void initPlanet1() {
     hideSprites();
     initBlocks();
+    initBullets();
+    initAlien();
 
     // for some the treasure only moves like this??
     treasure[1].col = 203;
@@ -435,6 +437,7 @@ void initPlanet3() {
     p3.active = 0;
     p4.active = 0;
     initBullets();
+    initAlien();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -467,6 +470,8 @@ void initPlanet4() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
+    initBullets();
+    initAlien();
     initBullets();
 
     // set what needs to be active or inactive
@@ -519,9 +524,9 @@ void updatePlanet1() {
     updateLives();
 
     // update the blocks 
-    for (int k = 0; k < BLOCKCOUNT; k++) {
-        updateBlocks(&blocks[k]);
-    }
+    // for (int k = 0; k < BLOCKCOUNT; k++) {
+    //     updateBlocks(&blocks[k]);
+    // }
 
 
     // check alien/bullet collisions
@@ -546,7 +551,7 @@ void updatePlanet2() {
     updateAlien();
     updateLeela();
 
-    // shoot bullets and update their position
+    //shoot bullets and update their position
     for (int i = 0; i < BULLETCOUNT; i++) {
          updateBullets(&bullets[i]);
     } 
@@ -829,7 +834,7 @@ void updateBullets(BULLET * b) {
             && b->col + b->cdel > 0
             && b->col + b->cdel < SCREENWIDTH-1) {
 
-			b->row += b->rdel;
+			//b->row += b->rdel;
             b->col += b->cdel;
 		} else {
 			b->active = 0;
