@@ -80,26 +80,21 @@ unsigned short vOff;
 // MAIN PART OF THE CODE:
 void initGame() {
     initLives();
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
     initTreasure();
     hideSprites();
-    fry.active = 0;
-    leela.active = 0;
-    alien.active = 0;
-    spaceship.active = 0;
-    treasureP1.active = 0;
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
-    }
-    for (int j = 0; j < BULLETCOUNT; j++) {
-        bullets[j].active = 0;
-    }
+    initAlien();
     drawGame();
 }
 
 void initSpaceship() {
     spaceship.cdel = 1;
     spaceship.rdel = 1;
-    spaceship.active = 1;
+    spaceship.active = 0;
     spaceship.width = 32;
     spaceship.height = 32;
     spaceship.col = SCREENWIDTH / 2 - spaceship.height / 2/*+ hOff*/;
@@ -143,7 +138,7 @@ void initAlien() {
     alien.row = 90;
     alien.cdel = 1;
     alien.rdel = 1;
-    alien.active = 1;
+    alien.active = 0;
     alien.width = 64;
     alien.height = 64;
     alien.aniState = 2;
@@ -171,35 +166,35 @@ void initLives() {
     // initialize life 1
     life1.col = 5;
     life1.row = 5;
-    life1.active = 1;
+    life1.active = 0;
     life1.height = 16;
     life1.width = 16;
 
     // initialize life 2
     life2.col = 26;
     life2.row = 5;
-    life2.active = 1;
+    life2.active = 0;
     life2.height = 16;
     life2.width = 16;
 
     // initialize life 3
     life3.col = 47;
     life3.row = 5;
-    life3.active = 1;
+    life3.active = 0;
     life3.height = 16;
     life3.width = 16;
 
     // initialize life 4
     life4.col = 68;
     life4.row = 5;
-    life4.active = 1;
+    life4.active = 0;
     life4.height = 16;
     life4.width = 16;
 
     // initialize life 5
     life5.col = 89;
     life5.row = 5;
-    life5.active = 1;
+    life5.active = 0;
     life5.height = 16;
     life5.width = 16;
 }
@@ -216,13 +211,6 @@ void initBullets() {
 }
 
 void initTreasure() {
-    // treasureP1.col = 220;
-    // treasureP1.row = 100;
-    // treasureP1.active = 0;
-    // treasureP1.width = 32;
-    // treasureP1.height = 32;
-    // treasureP1.treasureCounter = 0;
-    // treasureP1.cdel = 1;
     for (int i = 1; i < TREASURECOUNT; i++) {
         treasure[i].col = 220;
         treasure[i].row = 100;
@@ -240,7 +228,7 @@ void initp1() {
     p1.row = 20;
     p1.width = 32;
     p1.height = 32;
-    p1.active = 1;
+    p1.active = 0;
 }
 
 void initp2() {
@@ -248,7 +236,7 @@ void initp2() {
     p2.row = 90;
     p2.width = 32;
     p2.height = 32;
-    p2.active = 1;
+    p2.active = 0;
 }
 
 void initp3() {
@@ -256,7 +244,7 @@ void initp3() {
     p3.row = 100;
     p3.width = 32;
     p3.height = 32;
-    p3.active = 1;
+    p3.active = 0;
 }
 
 void initp4() {
@@ -264,7 +252,7 @@ void initp4() {
     p4.row = 120;
     p4.width = 32;
     p4.height = 32;
-    p4.active = 1;
+    p4.active = 0;
 }
 
 void updateGame() {
@@ -290,6 +278,26 @@ void initSpace() {
     initp2();
     initp3();
     initp4();
+
+    // make active what needs to be active, make inactive what should not be active
+    spaceship.active = 1;
+    p1.active = 1;
+    p2.active = 1;
+    p3.active = 1;
+    p4.active = 1;
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    for (int k = 0; k < TREASURECOUNT; k++) {
+        treasure[k].active = 0;
+    }
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 0;
+    }
+
 
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
     DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
@@ -331,7 +339,6 @@ void updateSpace() {
 
 void initPlanet1() {
     hideSprites();
-    // initLives();
     initBlocks();
     initBullets();
 
@@ -345,13 +352,16 @@ void initPlanet1() {
         bullets[i].cdel = 1;
     }
 
-    // update what needs to be active and not active
+    // set what needs to be active or inactive
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initAlien();
+    alien.active = 1;
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 1;
+    }
 
     // keep track of what planet you are on
     curLocation = PLAN1;
@@ -367,15 +377,19 @@ void initPlanet1() {
 
 void initPlanet2() {
     hideSprites();
+    initBullets();
+    initAlien();
+
+    // set what needs to be active or inactive
     spaceship.active = 0;
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initBullets();
-    initAlien();
-
-
+    alien.active = 1;
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 1;
+    }
 
     // keep track of what planet you are on
     curLocation = PLAN2;
@@ -401,7 +415,16 @@ void initPlanet3() {
     p4.active = 0;
     initBullets();
 
-    initAlien();
+    // set what needs to be active or inactive
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    alien.active = 1;
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 1;
+    }
 
     // keep track of what planet you are on
     curLocation = PLAN3;
@@ -423,10 +446,18 @@ void initPlanet4() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    //initFry(); 
-    //initLives();
-    initAlien();
     initBullets();
+
+    // set what needs to be active or inactive
+    spaceship.active = 0;
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    alien.active = 1;
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 1;
+    }
 
     // keep track of what planet you are on
     curLocation = PLAN4;
@@ -599,13 +630,36 @@ void updatePlanet4() {
     drawGame();
 }
 
+void initPause() {
+     hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    // for (int i = 0; i < TREASURECOUNT; i++ {
+    //     treasure[i].active = 0;
+    // }
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].active = 0;
+    }
+}
+
 
 void initLose() {
     hideSprites();
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    treasureP1.active = 0;
+    for (int k = 0; k < TREASURECOUNT; k++) {
+        treasure[k].active = 0;
+    }
     for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
     }
@@ -624,7 +678,6 @@ void initWin() {
     leela.active = 0;
     alien.active = 0;
     spaceship.active = 0;
-    treasureP1.active = 0;
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
@@ -634,14 +687,14 @@ void initWin() {
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    for (int k = 0; k < TREASURECOUNT; k++) {
+        treasure[k].active = 0;
+    }
     for (int i = 0; i < BLOCKCOUNT; i++) {
             blocks[i].active = 0;
     }
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 0;
-    }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
     }
     drawGame();
 }
@@ -695,17 +748,6 @@ void updateLeela() {
         leela.rdel = 0;
         leela.amJumping = 0;
     }
-
-    
-
-    //if (leela.amJumping) {
-    // leela.rdel += GRAVITY;
-    //}
-
-    // if (leela.row > ground + 20) {
-    //     leela.row = ground - leela.height;
-    //     leela.amJumping = 0;
-    // }
 
 
     leela.screenRow = SHIFTDOWN(leela.row);
@@ -785,7 +827,7 @@ void updateTreasure(TREASURE * treasure) {
     treasure->col -= treasure->cdel;
     hideSprites();
     if (characterChoice == LEELACHARACTER) {
-        if (collision(leela.col, leela.row, leela.width, leela.height, treasure->col, 
+        if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col, 
         treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
             treasure->treasureNum = 1;
             
@@ -835,9 +877,9 @@ void drawGame() {
         shadowOAM[0].attr1 = ATTR1_LARGE | fry.col;
         shadowOAM[0].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(fry.aniState * 8, fry.curFrame * 8);          
     }
-    // if (fry.active = 0) {
-    //     shadowOAM[0].attr0 = ATTR0_HIDE;
-    // }
+    if (fry.active == 0) {
+        shadowOAM[0].attr0 = ATTR0_HIDE;
+    }
     // update the anistate counter so you can animate fry
     fry.aniCounter++;
 
@@ -847,9 +889,9 @@ void drawGame() {
         shadowOAM[11].attr1 = ATTR1_LARGE | leela.col;
         shadowOAM[11].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(leela.aniState * 8, leela.curFrame * 8);  
     }
-    // if (leela.active = 0) {
-    //     shadowOAM[11].attr0 = ATTR0_HIDE;
-    // }
+    if (leela.active == 0) {
+        shadowOAM[11].attr0 = ATTR0_HIDE;
+    }
     leela.aniCounter++;
 
     // draw the alien
@@ -858,9 +900,9 @@ void drawGame() {
         shadowOAM[6].attr1 = ATTR1_LARGE | alien.col;
         shadowOAM[6].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(alien.aniState * 8, alien.curFrame * 8);        
     }
-    // if (alien.active = 0) {
-    //     shadowOAM[6].attr0 = ATTR0_HIDE;
-    // }
+    if (alien.active == 0) {
+        shadowOAM[6].attr0 = ATTR0_HIDE;
+    }
     // update the anistate counter so you can animate the alien
     alien.aniCounter++;
 
@@ -870,45 +912,45 @@ void drawGame() {
         shadowOAM[7].attr1 = ATTR1_SMALL | life1.col;
         shadowOAM[7].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
-    // if (life1.active = 0) {
-    //     shadowOAM[7].attr0 = ATTR0_HIDE;
-    // }
+    if (life1.active == 0) {
+        shadowOAM[7].attr0 = ATTR0_HIDE;
+    }
 
     if (life2.active) {
         shadowOAM[8].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life2.row;
         shadowOAM[8].attr1 = ATTR1_SMALL | life2.col;
         shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
-    // if (life1.active = 0) {
-    //     shadowOAM[8].attr0 = ATTR0_HIDE;
-    // }
+    if (life1.active == 0) {
+        shadowOAM[8].attr0 = ATTR0_HIDE;
+    }
 
     if (life3.active) {
         shadowOAM[9].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life3.row;
         shadowOAM[9].attr1 = ATTR1_SMALL | life3.col;
         shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
-    // if (life3.active = 0) {
-    //     shadowOAM[9].attr0 = ATTR0_HIDE;
-    // }
+    if (life3.active == 0) {
+        shadowOAM[9].attr0 = ATTR0_HIDE;
+    }
 
     if (life4.active) {
         shadowOAM[16].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life4.row;
         shadowOAM[16].attr1 = ATTR1_SMALL | life4.col;
         shadowOAM[16].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
-    // if (life4.active = 0) {
-    //     shadowOAM[16].attr0 = ATTR0_HIDE;
-    // }
+    if (life4.active == 0) {
+        shadowOAM[16].attr0 = ATTR0_HIDE;
+    }
 
     if (life5.active) {
         shadowOAM[17].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life5.row;
         shadowOAM[17].attr1 = ATTR1_SMALL | life5.col;
         shadowOAM[17].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
     }
-    // if (life5.active = 0) {
-    //     shadowOAM[17].attr0 = ATTR0_HIDE;
-    // }
+    if (life5.active == 0) {
+        shadowOAM[17].attr0 = ATTR0_HIDE;
+    }
 
     // draw the blocks
     for (int i = 0; i < BLOCKCOUNT; i++) {
@@ -916,15 +958,19 @@ void drawGame() {
             shadowOAM[10].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | blocks[i].row;
             shadowOAM[10].attr1 = ATTR1_MEDIUM | blocks[i].col;
             shadowOAM[10].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
+        } else {
+            shadowOAM[10].attr0 = ATTR0_HIDE;
         }
     } 
 
     // draw the bullets
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (bullets[i].active) {
-            shadowOAM[14].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullets[i].row;
-            shadowOAM[14].attr1 = ATTR1_TINY | bullets[i].col;
-            shadowOAM[14].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(26 * 1, 4 * 1);  
+            shadowOAM[54 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullets[i].row;
+            shadowOAM[54 + i].attr1 = ATTR1_TINY | bullets[i].col;
+            shadowOAM[54 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(26 * 1, 4 * 1);  
+        } else {
+            shadowOAM[54 + i].attr0 = ATTR0_HIDE;
         }
     }
 
@@ -934,6 +980,9 @@ void drawGame() {
         shadowOAM[1].attr1 = ATTR1_MEDIUM | spaceship.col;
         shadowOAM[1].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(4 * 4, 1 * 4);
     }
+    if (spaceship.active == 0) {
+        shadowOAM[1].attr0 = ATTR0_HIDE;
+    }
 
     //draw treasure
     for (int i = 0; i < TREASURECOUNT; i++) {
@@ -941,6 +990,8 @@ void drawGame() {
             shadowOAM[18 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | treasure[i].row;
             shadowOAM[18 + i].attr1 = ATTR1_MEDIUM | treasure[i].col;
             shadowOAM[18 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 1 * 4);
+        } else {
+            shadowOAM[18 + i].attr0 = ATTR0_HIDE;
         }
     }
 
@@ -950,11 +1001,18 @@ void drawGame() {
         shadowOAM[2].attr1 = ATTR1_MEDIUM | p1.col;
         shadowOAM[2].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(4 * 4, 0 * 4);
     }
+    if (p1.active == 0) {
+        shadowOAM[2].attr0 = ATTR0_HIDE;
+    }
+
     // draw p2
     if (p2.active) {
         shadowOAM[3].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p2.row;
         shadowOAM[3].attr1 = ATTR1_MEDIUM | p2.col;
         shadowOAM[3].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(5 * 4, 0 * 4);
+    }
+    if (p2.active == 0) {
+        shadowOAM[3].attr0 = ATTR0_HIDE;
     }
 
     // draw p3
@@ -963,6 +1021,9 @@ void drawGame() {
         shadowOAM[4].attr1 = ATTR1_MEDIUM | p3.col;
         shadowOAM[4].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(6 * 4, 0 * 4);
     }
+    if (p3.active == 0) {
+        shadowOAM[4].attr0 = ATTR0_HIDE;
+    }
 
 
     // draw p4
@@ -970,6 +1031,9 @@ void drawGame() {
         shadowOAM[5].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | p4.row;
         shadowOAM[5].attr1 = ATTR1_MEDIUM | p4.col;
         shadowOAM[5].attr2 = ATTR2_PALROW(0) | ATTR2_TILEID(7 * 4, 0 * 4);
+    }
+    if (p4.active == 0) {
+        shadowOAM[5].attr0 = ATTR0_HIDE;
     }
     
 

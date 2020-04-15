@@ -151,11 +151,22 @@ void goToStart() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
+    leela.active = 1;
+    fry.active = 1;
     life1.active = 0;
     life2.active = 0;
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    for (int k = 0; k < TREASURECOUNT; k++) {
+        treasure[k].active = 0;
+    }
+    for (int i = 0; i < BLOCKCOUNT; i++) {
+        blocks[i].active = 0;
+    }
+    for (int j = 0; j < BULLETCOUNT; j++) {
+        bullets[j].active = 0;
+    }
 
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, futuramapagePal, PALETTE, futuramapagePalLen / 2);
@@ -267,19 +278,6 @@ void planet1() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[1].active = 0;
-        for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < BULLETCOUNT; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();        
     }
 
@@ -321,25 +319,12 @@ void planet2() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[2].active = 0;
-        for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < BULLETCOUNT; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();  
     }
 
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
@@ -374,25 +359,12 @@ void planet3() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[3].active = 0;
-        for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < BULLETCOUNT; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();  
     }
 
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
@@ -433,25 +405,13 @@ void planet4() {
         goToPause();
     }
     if (BUTTON_PRESSED(BUTTON_LEFT)) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        treasure[4].active = 0;
-        for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < BULLETCOUNT; j++) {
-            bullets[j].active = 0;
-        }
         p1.active = 1;
         goToSpace();  
     }
 
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
@@ -472,24 +432,7 @@ void planet4() {
 
 void goToPause() {
 
-    hideSprites();
-    fry.active = 0;
-    leela.active = 0;
-    alien.active = 0;
-    // for (int i = 0; i < TREASURECOUNT; i++ {
-    //     treasure[i].active = 0;
-    // }
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-    spaceship.active = 0;
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
-    }
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        bullets[i].active = 0;
-    }
+    initPause();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, pausePal, PALETTE, pausePalLen / 2);

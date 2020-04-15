@@ -170,6 +170,8 @@ void updatePlanet3();
 void initp4();
 void updatePlanet4();
 
+void initPause();
+
 void initLose();
 
 void initWin();
