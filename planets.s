@@ -46,10 +46,10 @@ planetsPal:
 	.short	25335
 	.short	20050
 	.short	15822
-	.short	21107
 	.short	10537
-	.short	2114
 	.short	24278
+	.short	21107
+	.short	2114
 	.short	0
 	.short	0
 	.short	0

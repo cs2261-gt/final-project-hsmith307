@@ -281,17 +281,17 @@ goToSpace:
 	bx	r3
 	mov	r5, #67108864
 	mov	r2, #4864
-	ldr	r3, .L28+4
-	ldr	r4, .L28+8
+	ldr	r4, .L28+4
 	strh	r2, [r5]	@ movhi
-	strh	r3, [r5, #10]	@ movhi
-	mov	r2, #83886080
 	mov	r3, #256
+	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L28+12
+	ldr	r1, .L28+8
 	mov	lr, pc
 	bx	r4
+	ldr	r2, .L28+12
 	mov	r0, #3
+	strh	r2, [r5, #10]	@ movhi
 	ldr	r3, .L28+16
 	ldr	r2, .L28+20
 	ldr	r1, .L28+24
@@ -304,16 +304,10 @@ goToSpace:
 	mov	lr, pc
 	bx	r4
 	mov	r2, #24064
-	mov	r3, #256
+	mov	r0, #3
 	strh	r2, [r5, #8]	@ movhi
-	mov	r0, #3
-	mov	r2, #83886080
-	ldr	r1, .L28+36
-	mov	lr, pc
-	bx	r4
-	mov	r3, #7936
+	ldr	r3, .L28+36
 	mov	r2, #100663296
-	mov	r0, #3
 	ldr	r1, .L28+40
 	mov	lr, pc
 	bx	r4
@@ -332,15 +326,15 @@ goToSpace:
 	.align	2
 .L28:
 	.word	initSpace
-	.word	23556
 	.word	DMANow
 	.word	planetsPal
+	.word	23556
 	.word	21456
 	.word	100679680
 	.word	planetsTiles
 	.word	100720640
 	.word	planetsMap
-	.word	starsPal
+	.word	7584
 	.word	starsTiles
 	.word	100724736
 	.word	starsMap
@@ -762,19 +756,21 @@ goToWin:
 	ldr	r3, .L87
 	mov	lr, pc
 	bx	r3
-	mov	r1, #67108864
-	mov	r2, #0
+	mov	r0, #67108864
+	mov	r1, #0
+	mov	ip, #7168
 	mov	r3, #4352
-	mov	r0, #7168
-	strh	r2, [r1, #16]	@ movhi
+	strh	r1, [r0, #16]	@ movhi
 	ldr	r4, .L87+4
-	strh	r2, [r1, #18]	@ movhi
-	strh	r3, [r1]	@ movhi
-	strh	r0, [r1, #8]	@ movhi
+	strh	r1, [r0, #18]	@ movhi
+	strh	r3, [r0]	@ movhi
+	strh	r1, [r0, #20]	@ movhi
 	mov	r3, #256
+	strh	r1, [r0, #22]	@ movhi
 	mov	r2, #83886080
-	mov	r0, #3
+	strh	ip, [r0, #8]	@ movhi
 	ldr	r1, .L87+8
+	mov	r0, #3
 	mov	lr, pc
 	bx	r4
 	mov	r3, #48
@@ -909,6 +905,15 @@ space:
 	ldr	r3, [r3]
 	cmp	r3, #1
 	beq	.L110
+.L96:
+	mov	r2, #67108864
+	ldr	r1, .L111+44
+	ldrh	r3, [r1]
+	lsr	r3, r3, #1
+	strh	r3, [r2, #16]	@ movhi
+	ldrh	r3, [r1]
+	lsr	r3, r3, #2
+	strh	r3, [r2, #20]	@ movhi
 	add	sp, sp, #20
 	@ sp needed
 	pop	{r4, r5, r6, r7, lr}
@@ -926,10 +931,8 @@ space:
 	bl	goToPlanet1
 	b	.L90
 .L110:
-	add	sp, sp, #20
-	@ sp needed
-	pop	{r4, r5, r6, r7, lr}
-	b	goToWin
+	bl	goToWin
+	b	.L96
 .L109:
 	bl	goToGame
 	b	.L95
@@ -951,6 +954,7 @@ space:
 	.word	oldButtons
 	.word	buttons
 	.word	isWon
+	.word	hOff
 	.size	space, .-space
 	.align	2
 	.global	win

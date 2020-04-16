@@ -233,17 +233,18 @@ void goToSpace() {
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
 
-    REG_BG1CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
     DMANow(3, planetsPal, PALETTE, planetsPalLen / 2);
+
+    REG_BG1CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
+ 
     DMANow(3, planetsTiles, &CHARBLOCK[1], planetsTilesLen / 2);
     DMANow(3, planetsMap, &SCREENBLOCK[28], planetsMapLen / 2);
 
     // set up the stars bg 
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_WIDE;
-    DMANow(3, starsPal, PALETTE, starsPalLen / 2);
+    //DMANow(3, starsPal, PALETTE, starsPalLen / 2);
     DMANow(3, starsTiles, &CHARBLOCK[0], starsTilesLen / 2);
     DMANow(3, starsMap, &SCREENBLOCK[30], starsMapLen / 2);
-
 
     state = SPACE;
 }
@@ -277,6 +278,9 @@ void space() {
     if (isWon == 1) {
         goToWin();
     }
+
+    REG_BG0HOFF = hOff / 2;
+    REG_BG1HOFF = hOff / 4;
 }
 
 void goToPlanet1() {
@@ -485,6 +489,9 @@ void goToWin() {
 
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
+
+    REG_BG1HOFF = 0; 
+    REG_BG1VOFF = 0;
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, winPal, PALETTE, winPalLen / 2);

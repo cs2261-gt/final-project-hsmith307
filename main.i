@@ -377,7 +377,7 @@ extern const unsigned short planetsPal[256];
 # 13 "main.c" 2
 # 1 "stars.h" 1
 # 22 "stars.h"
-extern const unsigned short starsTiles[7936];
+extern const unsigned short starsTiles[7584];
 
 
 extern const unsigned short starsMap[2048];
@@ -661,17 +661,18 @@ void goToSpace() {
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
 
-    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (1<<14);
     DMANow(3, planetsPal, ((unsigned short *)0x5000000), 512 / 2);
+
+    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (1<<14);
+
     DMANow(3, planetsTiles, &((charblock *)0x6000000)[1], 42912 / 2);
     DMANow(3, planetsMap, &((screenblock *)0x6000000)[28], 4096 / 2);
 
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
-    DMANow(3, starsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, starsTiles, &((charblock *)0x6000000)[0], 15872 / 2);
-    DMANow(3, starsMap, &((screenblock *)0x6000000)[30], 4096 / 2);
 
+    DMANow(3, starsTiles, &((charblock *)0x6000000)[0], 15168 / 2);
+    DMANow(3, starsMap, &((screenblock *)0x6000000)[30], 4096 / 2);
 
     state = SPACE;
 }
@@ -705,6 +706,9 @@ void space() {
     if (isWon == 1) {
         goToWin();
     }
+
+    (*(volatile unsigned short *)0x04000010) = hOff / 2;
+    (*(volatile unsigned short *)0x04000014) = hOff / 4;
 }
 
 void goToPlanet1() {
@@ -913,6 +917,9 @@ void goToWin() {
 
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
+
+    (*(volatile unsigned short *)0x04000014) = 0;
+    (*(volatile unsigned short *)0x04000016) = 0;
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, winPal, ((unsigned short *)0x5000000), 512 / 2);
