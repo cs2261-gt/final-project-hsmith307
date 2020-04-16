@@ -22,83 +22,84 @@ goToStart:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, r5, r6, lr}
-	mov	r4, #0
+	mov	r5, #0
 	ldr	r0, .L6
 	ldr	r1, .L6+4
 	ldr	r2, .L6+8
 	ldr	r3, .L6+12
-	strh	r4, [r0]	@ movhi
-	strh	r4, [r1]	@ movhi
-	str	r4, [r2]
+	strh	r5, [r0]	@ movhi
+	strh	r5, [r1]	@ movhi
+	str	r5, [r2]
 	mov	lr, pc
 	bx	r3
-	mov	r1, #1
-	mov	r5, r4
-	ldr	r0, .L6+16
-	ldr	r3, .L6+20
-	str	r4, [r0, #16]
-	ldr	r2, .L6+24
-	ldr	r0, .L6+28
-	str	r4, [r3, #16]
-	ldr	r3, .L6+32
-	str	r4, [r0, #16]
-	str	r4, [r2, #16]
-	ldr	r0, .L6+36
-	ldr	r2, .L6+40
-	str	r4, [r3, #16]
-	ldr	r3, .L6+44
-	str	r4, [r0, #16]
-	str	r4, [r2, #16]
-	ldr	r0, .L6+48
-	ldr	r2, .L6+52
-	str	r4, [r3, #16]
-	ldr	r3, .L6+56
-	str	r4, [r0, #16]
-	str	r4, [r2, #16]
-	ldr	ip, .L6+60
-	ldr	r2, .L6+64
-	ldr	r0, .L6+68
-	str	r4, [r3, #20]
-	str	r4, [r3, #52]
-	str	r4, [r3, #84]
-	str	r4, [r3, #116]
-	str	r4, [r3, #148]
-	ldr	r3, .L6+72
-	str	r4, [r2, #16]
-	str	r4, [r2, #40]
-	str	r4, [r2, #64]
-	str	r1, [ip, #16]
-	str	r1, [r0, #16]
-	add	r2, r3, #280
+	mov	ip, #1
+	mov	r4, r5
+	ldr	r1, .L6+16
+	ldr	r2, .L6+20
+	str	r5, [r1, #16]
+	ldr	r3, .L6+24
+	ldr	r1, .L6+28
+	str	r5, [r2, #16]
+	str	r5, [r3, #16]
+	str	r5, [r1, #16]
+	ldr	r2, .L6+32
+	ldr	r3, .L6+36
+	ldr	r1, .L6+40
+	str	r5, [r2, #16]
+	str	r5, [r3, #16]
+	str	r5, [r1, #16]
+	ldr	r2, .L6+44
+	ldr	r1, .L6+48
+	ldr	r3, .L6+52
+	str	r5, [r2, #16]
+	str	r5, [r3, #16]
+	str	r5, [r1, #20]
+	str	r5, [r1, #52]
+	str	r5, [r1, #84]
+	str	r5, [r1, #116]
+	str	r5, [r1, #148]
+	ldr	r0, .L6+56
+	ldr	r2, .L6+60
+	ldr	r3, .L6+64
+	ldr	lr, .L6+68
+	ldr	r1, .L6+72
+	str	r5, [r2, #16]
+	str	r5, [r0, #16]
+	str	r5, [r0, #40]
+	str	r5, [r0, #64]
+	add	r2, r3, #1392
+	str	ip, [lr, #16]
+	str	ip, [r1, #16]
+	add	r2, r2, #8
 .L2:
-	str	r5, [r3, #24]
+	str	r4, [r3, #24]
 	add	r3, r3, #28
 	cmp	r2, r3
 	bne	.L2
 	mov	r2, #67108864
 	mov	r1, #7680
-	ldr	r4, .L6+76
+	ldr	r5, .L6+76
 	strh	r1, [r2, #8]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
 	ldr	r1, .L6+80
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	mov	r3, #1936
 	mov	r2, #100663296
 	mov	r0, #3
 	ldr	r1, .L6+84
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	mov	r3, #1024
 	mov	r0, #3
 	ldr	r2, .L6+88
 	ldr	r1, .L6+92
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	ldr	r3, .L6+96
-	str	r5, [r3]
+	str	r4, [r3]
 	pop	{r4, r5, r6, lr}
 	bx	lr
 .L7:
@@ -108,21 +109,21 @@ goToStart:
 	.word	vOff
 	.word	isLost
 	.word	hideSprites
+	.word	p2
 	.word	spaceship
 	.word	p1
-	.word	p2
+	.word	life1
 	.word	p3
 	.word	p4
-	.word	life2
-	.word	life1
-	.word	life3
-	.word	life5
 	.word	life4
+	.word	life2
 	.word	treasure
-	.word	leela
+	.word	life3
 	.word	blocks
-	.word	fry
+	.word	life5
 	.word	bullets
+	.word	leela
+	.word	fry
 	.word	DMANow
 	.word	futuramapagePal
 	.word	futuramapageTiles
@@ -1064,7 +1065,7 @@ planet1:
 .L147:
 	ldr	r3, .L148+28
 	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #4]
+	ldr	r2, [r3, #52]
 	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
 	ldr	r0, .L148+32
@@ -1198,7 +1199,7 @@ planet2:
 .L174:
 	ldr	r3, .L177+28
 	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #4]
+	ldr	r2, [r3, #52]
 	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
 	ldr	r0, .L177+32
@@ -1338,7 +1339,7 @@ planet3:
 .L203:
 	ldr	r3, .L206+28
 	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #4]
+	ldr	r2, [r3, #52]
 	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
 	ldr	r0, .L206+32
@@ -1478,7 +1479,7 @@ planet4:
 .L232:
 	ldr	r3, .L235+28
 	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #4]
+	ldr	r2, [r3, #52]
 	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
 	ldr	r0, .L235+32

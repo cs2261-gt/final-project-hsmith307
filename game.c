@@ -414,6 +414,9 @@ void initPlanet2() {
         bullets[j].active = 1;
     }
 
+    // make the treasure look like it is on the ground 
+    treasure[2].row += 25;
+
     // keep track of what planet you are on
     curLocation = PLAN2;
 
@@ -450,6 +453,9 @@ void initPlanet3() {
         bullets[j].active = 1;
     }
 
+    // make the treasure look like it is on the ground 
+    treasure[3].row += 25;
+
     // keep track of what planet you are on
     curLocation = PLAN3;
 
@@ -484,6 +490,9 @@ void initPlanet4() {
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 1;
     }
+
+    // make the treasure look like it is on the ground 
+    treasure[4].row += 25;
 
     // keep track of what planet you are on
     curLocation = PLAN4;
@@ -726,23 +735,23 @@ void initWin() {
 }
 
 void updateFry() {
-    // gravity stuff
-    if (SHIFTDOWN(fry.row + fry.rdel) > ground) {
+      // gravity stuff
+    if (BUTTON_PRESSED(BUTTON_UP) && !fry.amJumping) {
+        fry.rdel -= JUMPPOWER;
+        fry.amJumping = 1;
+    }
+    fry.rdel += GRAVITY;
+
+    if (SHIFTDOWN(fry.row + fry.height - 1 + fry.rdel) < SCREENHEIGHT- fry.height - 1) {
         fry.row += fry.rdel;
     } else {
         fry.rdel = 0;
         fry.amJumping = 0;
     }
 
-    // jump input
-    if (BUTTON_PRESSED(BUTTON_UP) && !fry.amJumping) {
-        fry.rdel -= JUMPPOWER;
-        fry.amJumping = 1;
-    }
 
-    fry.rdel += GRAVITY;
+    fry.screenRow = SHIFTDOWN(fry.row);
 
-    fry.row = SHIFTDOWN(fry.row) + 90;
 
     // animate fry
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -821,7 +830,7 @@ void shootBullets() {
         }
         if (!bullets[i].active && characterChoice == FRYCHARACTER) {
             bullets[i].col = fry.col + fry.width;
-            bullets[i].row = fry.row + 20;
+            bullets[i].row = fry.screenRow + 20;
             bullets[i].active = 1;
         }
     }
@@ -873,7 +882,7 @@ void updateTreasure(TREASURE * treasure) {
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(fry.col, fry.row, fry.width, fry.height, treasure->col, 
+        if (collision(fry.col, fry.screenRow, fry.width, fry.height, treasure->col, 
         treasure->row, treasure->width, treasure->height)) {
             treasure->treasureNum = 1;
             
@@ -899,7 +908,7 @@ void drawGame() {
 
     //draw fry
     if (fry.active == 1) {
-        shadowOAM[0].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | fry.row;
+        shadowOAM[0].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | fry.screenRow;
         shadowOAM[0].attr1 = ATTR1_LARGE | fry.col;
         shadowOAM[0].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(fry.aniState * 8, fry.curFrame * 8);          
     }
@@ -1073,31 +1082,31 @@ void drawGame() {
 
 void updateLives() {
     // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life5.active = 0;
        lifeCounter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life4.active = 0;
        lifeCounter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life3.active = 0;
        lifeCounter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life2.active = 0;
        lifeCounter++;
        alien.col = 190;
     }
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
     //    lifeCounter++;
     //    alien.col = 190;

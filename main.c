@@ -296,7 +296,7 @@ void planet1() {
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -329,7 +329,7 @@ void planet2() {
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -369,7 +369,7 @@ void planet3() {
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -416,7 +416,7 @@ void planet4() {
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
