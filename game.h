@@ -1,118 +1,215 @@
-// Fry Struct
+// fry struct 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
-    int curFrame;
     int aniCounter;
+    int curFrame;
     int numFrames;
-    int isFry;
+    int bulletTimer;
+    int amJumping;
+    int screenRow;
 }FRY;
 
-// Bender Struct
+// leela struct 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
+    int aniCounter;
     int curFrame;
-}BENDER;
+    int numFrames;
+    int bulletTimer;
+    int amJumping;
+    int screenRow;
+}LEELA;
 
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
     int aniState;
-    int prevAniState;
+    int aniCounter;
     int curFrame;
-    int isSpaceship;
+    int numFrames;
+}ALIEN;
+
+
+//spaceship struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
 }SPACESHIP;
 
-// planet struct 
+// planet struct
 typedef struct {
-    int row;
     int col;
-    int oldRow;
-    int oldCol;
+    int row;
     int height;
     int width;
+    int active;
     int cdel;
     int rdel;
-    int active;
-    int aniState;
-    int curFrame;
-    int isPlanet;
 }PLANET;
 
 
-// function prototypes
-void initGame();
-void updateGame();
-void initFry();
+// heart struct for displaying lives
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}HEART;
 
-void initSpaceship();
-void updateSpaceShip();
+// block to jump on struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+}BLOCK;
 
-void initBender();
-void updateSpaceShip();
+// bullet struct
+typedef struct {
+    int col;
+    int row;
+    int rdel;
+    int cdel;
+    int height;
+    int width;
+    int active;
+}BULLET;
 
-void initPlanets();
-int stateDeterminator(PLANET *);
-void updatePlanets(PLANET *);
+// treasure struct for displaying lives
+typedef struct {
+    int col;
+    int row;
+    int cdel;
+    int height;
+    int width;
+    int active;
+    volatile int treasureCounter;
+    int treasureNum;
+}TREASURE;
 
-// planet state function prototypes
-void space();
-void initSpace();
-void updateSpace();
-void planet1();
-void planet2();
-void planet3();
-void planet4();
-void planet5();
-
-void goToSpace();
-void goToPlanet1();
-void updatePlanet1();
-
-void goToPlanet2();
-void goToPlanet3();
-void goToPlanet4();
-
-
-
-
-#define PLANETCOUNT 4
-
-// declaring the structs
-extern FRY fry;
-extern BENDER bender;
-extern SPACESHIP spaceship;
-extern PLANET planets[PLANETCOUNT];
+// game macros
+#define BLOCKCOUNT 3
+#define NUMLIVES 3
+#define BULLETCOUNT 50
+#define TREASURECOUNT 5
 
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
 extern PLANET p4;
+extern FRY fry;
+extern LEELA leela;
+extern SPACESHIP spaceship;
+extern ALIEN alien;
+extern BLOCK blocks[];
+extern HEART life1;
+extern HEART life2;
+extern HEART life3;
+extern HEART life4;
+extern HEART life5;
+extern BULLET bullets[BULLETCOUNT];
+extern TREASURE treasureP1;
+extern TREASURE treasure[TREASURECOUNT];
+
+// counters to count which life is being lost and thus which should be hidden
+extern int lifeCounter;
+extern int life1Counter;
+extern int life2Counter;
+extern int life3Counter;
+extern int life4Counter;
+
+extern enum {FRYCHARACTER, LEELACHARACTER};
+extern int characterChoice;
+
+
+
+
+// game function prototypes
+
+void initGame();
+void updateGame();
+
+void initSpace();
+void updateSpace();
+
+void initp1();
+void updatePlanet1();
+
+void initp2();
+void updatePlanet2();
+
+void initp3();
+void updatePlanet3();
+
+void initp4();
+void updatePlanet4();
+
+void initPause();
+
+void initLose();
+
+void initWin();
+
+void drawGame();
+
+void initAlien();
+void updateAlien();
+
+void initFry();
+void updateFry();
+
+void initSpaceship();
+
+void initBlocks();
+void updateBlocks(BLOCK *);
+
+void initLives();
+void updateLives();
+
+void initTreasure();
+void updateTreasure(TREASURE *);
+
+void initLeela();
+void updateLeela();
+
+void initBullets();
+
+void shootBullets();
+void updateBullets(BULLET *);
+
+extern int isLost;
+extern int isWon;
+extern int treasureNum;
+extern int prevTreasureNum;
+
+//extern enum {PLAN1, PLAN2, PLAN3, PLAN4};
+extern int curLocation;
 
 
