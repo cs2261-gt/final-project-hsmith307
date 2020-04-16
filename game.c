@@ -170,11 +170,11 @@ void initAlien() {
 // // initialize the blocks that fry will jump on
 void initBlocks() {
     for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].col = 80;
-        blocks[i].row = 80;
+        blocks[i].col = 130 + (100 * i);
         blocks[i].active = 1;
         blocks[i].width = 32;
         blocks[i].height = 32;
+        blocks[i].row = ground - blocks[i].height / 2;
         blocks[i].cdel = 1;
     }
 }
@@ -402,6 +402,7 @@ void initPlanet2() {
     hideSprites();
     initBullets();
     initAlien();
+    initBlocks();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -441,6 +442,7 @@ void initPlanet3() {
     p4.active = 0;
     initBullets();
     initAlien();
+    initBlocks();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -478,7 +480,7 @@ void initPlanet4() {
     p4.active = 0;
     initBullets();
     initAlien();
-    initBullets();
+    initBlocks();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -523,7 +525,7 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    if (treasure[1].treasureCounter > 200) {
+    if (treasure[1].treasureCounter > 500) {
         treasure[1].active = 1;
         updateTreasure(&treasure[1]);
     }
@@ -532,10 +534,10 @@ void updatePlanet1() {
     // update lives when there is a collision
     updateLives();
 
-    // update the blocks 
-    // for (int k = 0; k < BLOCKCOUNT; k++) {
-    //     updateBlocks(&blocks[k]);
-    // }
+    //update the blocks 
+    for (int k = 0; k < BLOCKCOUNT; k++) {
+        updateBlocks(&blocks[k]);
+    }
 
 
     // check alien/bullet collisions
@@ -569,11 +571,16 @@ void updatePlanet2() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[2].treasureCounter > 200) {
+    if (treasure[2].treasureCounter > 500) {
         treasure[2].active = 1;
         updateTreasure(&treasure[2]);
     }
     treasure[2].treasureCounter++;
+
+    //update the blocks 
+    for (int k = 0; k < BLOCKCOUNT; k++) {
+        updateBlocks(&blocks[k]);
+    }
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -608,11 +615,16 @@ void updatePlanet3() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[3].treasureCounter > 200) {
+    if (treasure[3].treasureCounter > 500) {
         treasure[3].active = 1;
         updateTreasure(&treasure[3]);
     }
     treasure[3].treasureCounter++;
+
+    //update the blocks 
+    for (int k = 0; k < BLOCKCOUNT; k++) {
+        updateBlocks(&blocks[k]);
+    }
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -647,11 +659,16 @@ void updatePlanet4() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[4].treasureCounter > 200) {
+    if (treasure[4].treasureCounter > 500) {
         treasure[4].active = 1;
         updateTreasure(&treasure[4]);
     }
     treasure[4].treasureCounter++;
+
+    //update the blocks 
+    for (int k = 0; k < BLOCKCOUNT; k++) {
+        updateBlocks(&blocks[k]);
+    }
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -853,8 +870,11 @@ void updateBullets(BULLET * b) {
 
 void updateBlocks(BLOCK * b) {
     b->col -= b->cdel;
-    if (leela.screenRow + leela.height == b->row && leela.col > b->col && leela.col < b->col + b->width) {
-        leela.screenRow = b->row - leela.height;
+    if (collision(leela.col, leela.screenRow, leela.width, leela.height, b->col, b->row, b->width, b->height) == 1) {
+        // what should happen if you hit a block?? idk
+    }
+    if (b->col <= 0) {
+        b->active = 0;
     }
 }
 
@@ -990,11 +1010,11 @@ void drawGame() {
     // draw the blocks
     for (int i = 0; i < BLOCKCOUNT; i++) {
         if (blocks[i].active) {
-            shadowOAM[10].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | blocks[i].row;
-            shadowOAM[10].attr1 = ATTR1_MEDIUM | blocks[i].col;
-            shadowOAM[10].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
+            shadowOAM[30 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | blocks[i].row;
+            shadowOAM[30 + i].attr1 = ATTR1_SMALL | blocks[i].col;
+            shadowOAM[30 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
         } else {
-            shadowOAM[10].attr0 = ATTR0_HIDE;
+            shadowOAM[30 + i].attr0 = ATTR0_HIDE;
         }
     } 
 
@@ -1108,14 +1128,8 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
-    //    lifeCounter++;
-    //    alien.col = 190;
         isLost = 1;
     }
-
-    // if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.row, fry.width, fry.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == FRYCHARACTER)) {
-    //     isLost = 1;
-    // }
 
     // if there is a collision with leela and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == LEELACHARACTER)) {
@@ -1144,14 +1158,8 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
-    //    lifeCounter++;
-    //    alien.col = 190;
         isLost = 1;
     }
-
-    // if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 5) && (alien.active) && (characterChoice == LEELACHARACTER)) {
-    //     isLost = 1;
-    // }
 }
 
 
