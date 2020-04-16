@@ -876,7 +876,11 @@ void updateBullets(BULLET * b) {
 void updateBlocks(BLOCK * b) {
     b->col -= b->cdel;
     if (collision(leela.col, leela.screenRow, leela.width, leela.height, b->col, b->row, b->width, b->height) == 1) {
-        // what should happen if you hit a block?? idk
+        if (characterChoice == LEELACHARACTER) {
+            //play a bad sound?? idk
+        } else {
+
+        }
     }
     if (b->col <= 0) {
         b->active = 0;

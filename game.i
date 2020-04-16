@@ -1189,7 +1189,7 @@ void updateBullets(BULLET * b) {
 void updateBlocks(BLOCK * b) {
     b->col -= b->cdel;
     if (collision(leela.col, leela.screenRow, leela.width, leela.height, b->col, b->row, b->width, b->height) == 1) {
-
+        b->height *= 2;
     }
     if (b->col <= 0) {
         b->active = 0;
