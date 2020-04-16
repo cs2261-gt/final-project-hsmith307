@@ -1,3 +1,6 @@
+// COMMENT BLOCK ABOUT WHAT IS NEW IN MILESTONE 4
+
+
 #include "myLib.h"
 #include "game.h"
 #include "spritesheet5.h"
@@ -5,7 +8,9 @@
 #include "futuramapage.h"
 #include "pause.h"
 #include "planet1PS.h"
-#include "bg.h"
+// #include "bg.h"
+#include "planets.h"
+#include "stars.h"
 #include "planet2bg.h"
 #include "planet3bg.h"
 #include "planet4bg.h"
@@ -224,10 +229,22 @@ void game() {
 
 void goToSpace() {
     initSpace();
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
-    DMANow(3, bgPal, PALETTE, bgPalLen / 2);
-    DMANow(3, bgTiles, &CHARBLOCK[0], bgTilesLen / 2);
-    DMANow(3, bgMap, &SCREENBLOCK[30], bgMapLen / 2);
+
+    // set up the planet bg
+    REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
+
+    REG_BG1CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
+    DMANow(3, planetsPal, PALETTE, planetsPalLen / 2);
+    DMANow(3, planetsTiles, &CHARBLOCK[1], planetsTilesLen / 2);
+    DMANow(3, planetsMap, &SCREENBLOCK[28], planetsMapLen / 2);
+
+    // set up the stars bg 
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_WIDE;
+    DMANow(3, starsPal, PALETTE, starsPalLen / 2);
+    DMANow(3, starsTiles, &CHARBLOCK[0], starsTilesLen / 2);
+    DMANow(3, starsMap, &SCREENBLOCK[30], starsMapLen / 2);
+
+
     state = SPACE;
 }
 
@@ -264,10 +281,11 @@ void space() {
 
 void goToPlanet1() {
     initPlanet1();
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_WIDE;
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
     DMANow(3, planet1PSPal, PALETTE, planet1PSPalLen / 2);
     DMANow(3, planet1PSTiles, &CHARBLOCK[0], planet1PSTilesLen / 2);
-    DMANow(3, planet1PSMap, &SCREENBLOCK[30], planet1PSMapLen / 2); 
+    DMANow(3, planet1PSMap, &SCREENBLOCK[28], planet1PSMapLen / 2); 
     state = PLANET1;
 }
 
@@ -305,10 +323,10 @@ void planet1() {
 
 void goToPlanet2() {
     initPlanet2();
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, planet2bgPal, PALETTE, planet2bgPalLen / 2);
     DMANow(3, planet2bgTiles, &CHARBLOCK[0], planet2bgTilesLen / 2);
-    DMANow(3, planet2bgMap, &SCREENBLOCK[30], planet2bgMapLen / 2); 
+    DMANow(3, planet2bgMap, &SCREENBLOCK[28], planet2bgMapLen / 2); 
     state = PLANET2;
 }
 
@@ -345,10 +363,10 @@ void planet2() {
 
 void goToPlanet3() {
     initPlanet3();
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_WIDE;
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
     DMANow(3, planet3bgPal, PALETTE, planet3bgPalLen / 2);
     DMANow(3, planet3bgTiles, &CHARBLOCK[0], planet3bgTilesLen / 2);
-    DMANow(3, planet3bgMap, &SCREENBLOCK[30], planet3bgMapLen / 2); 
+    DMANow(3, planet3bgMap, &SCREENBLOCK[28], planet3bgMapLen / 2); 
     state = PLANET3;
 }
 
@@ -388,10 +406,10 @@ void goToPlanet4() {
     initPlanet4();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, planet4bgPal, PALETTE, planet4bgPalLen / 2);
     DMANow(3, planet4bgTiles, &CHARBLOCK[0], planet4bgTilesLen / 2);
-    DMANow(3, planet4bgMap, &SCREENBLOCK[30], planet4bgMapLen / 2); 
+    DMANow(3, planet4bgMap, &SCREENBLOCK[28], planet4bgMapLen / 2); 
     state = PLANET4;
 
 }
@@ -434,10 +452,10 @@ void goToPause() {
 
     initPause();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-    REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, pausePal, PALETTE, pausePalLen / 2);
     DMANow(3, pauseTiles, &CHARBLOCK[1], pauseTilesLen / 2);
-    DMANow(3, pauseMap, &SCREENBLOCK[30], pauseMapLen / 2); 
+    DMANow(3, pauseMap, &SCREENBLOCK[28], pauseMapLen / 2); 
 
     state = PAUSE;
 }
@@ -468,10 +486,10 @@ void goToWin() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, winPal, PALETTE, winPalLen / 2);
     DMANow(3, winTiles, &CHARBLOCK[0], winTilesLen / 2);
-    DMANow(3, winMap, &SCREENBLOCK[30], winMapLen / 2);
+    DMANow(3, winMap, &SCREENBLOCK[28], winMapLen / 2);
 
     state = WIN;
 }
@@ -488,10 +506,10 @@ void goToLose() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-    REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, losebgPal, PALETTE, losebgPalLen / 2);
     DMANow(3, losebgTiles, &CHARBLOCK[1], losebgTilesLen / 2);
-    DMANow(3, losebgMap, &SCREENBLOCK[30], losebgMapLen / 2); 
+    DMANow(3, losebgMap, &SCREENBLOCK[28], losebgMapLen / 2); 
 
     state = LOSE;
 }
