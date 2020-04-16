@@ -12,6 +12,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
+    int screenRow;
 }FRY;
 
 // leela struct 
@@ -28,6 +30,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
+    int screenRow;
 }LEELA;
 
 typedef struct {
@@ -84,6 +88,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int cdel;
 }BLOCK;
 
 // bullet struct
@@ -112,7 +117,7 @@ typedef struct {
 // game macros
 #define BLOCKCOUNT 3
 #define NUMLIVES 3
-#define BULLETCOUNT 10
+#define BULLETCOUNT 50
 #define TREASURECOUNT 5
 
 extern PLANET p1;
@@ -166,6 +171,8 @@ void updatePlanet3();
 void initp4();
 void updatePlanet4();
 
+void initPause();
+
 void initLose();
 
 void initWin();
@@ -181,6 +188,7 @@ void updateFry();
 void initSpaceship();
 
 void initBlocks();
+void updateBlocks(BLOCK *);
 
 void initLives();
 void updateLives();

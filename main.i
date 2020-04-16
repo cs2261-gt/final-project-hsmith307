@@ -114,6 +114,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
+    int screenRow;
 }FRY;
 
 
@@ -130,6 +132,8 @@ typedef struct {
     int curFrame;
     int numFrames;
     int bulletTimer;
+    int amJumping;
+    int screenRow;
 }LEELA;
 
 typedef struct {
@@ -186,6 +190,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int cdel;
 }BLOCK;
 
 
@@ -231,7 +236,7 @@ extern HEART life2;
 extern HEART life3;
 extern HEART life4;
 extern HEART life5;
-extern BULLET bullets[10];
+extern BULLET bullets[50];
 extern TREASURE treasureP1;
 extern TREASURE treasure[5];
 
@@ -268,6 +273,8 @@ void updatePlanet3();
 void initp4();
 void updatePlanet4();
 
+void initPause();
+
 void initLose();
 
 void initWin();
@@ -283,6 +290,7 @@ void updateFry();
 void initSpaceship();
 
 void initBlocks();
+void updateBlocks(BLOCK *);
 
 void initLives();
 void updateLives();
@@ -405,7 +413,7 @@ extern const unsigned short losebgPal[256];
 # 13 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[3696];
+extern const unsigned short instructionsTiles[1872];
 
 
 extern const unsigned short instructionsMap[1024];
@@ -562,11 +570,22 @@ void goToStart() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
+    leela.active = 1;
+    fry.active = 1;
     life1.active = 0;
     life2.active = 0;
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    for (int k = 0; k < 5; k++) {
+        treasure[k].active = 0;
+    }
+    for (int i = 0; i < 3; i++) {
+        blocks[i].active = 0;
+    }
+    for (int j = 0; j < 50; j++) {
+        bullets[j].active = 0;
+    }
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, futuramapagePal, ((unsigned short *)0x5000000), 512 / 2);
@@ -593,7 +612,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 7392 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 3744 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -678,19 +697,6 @@ void planet1() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[1].active = 0;
-        for (int i = 0; i < 3; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < 10; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();
     }
 
@@ -704,12 +710,12 @@ void planet1() {
 
 
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -732,30 +738,17 @@ void planet2() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[2].active = 0;
-        for (int i = 0; i < 3; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < 10; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();
     }
 
 
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -785,30 +778,17 @@ void planet3() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        p1.active = 1;
-        treasure[3].active = 0;
-        for (int i = 0; i < 3; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < 10; j++) {
-            bullets[j].active = 0;
-        }
         goToSpace();
     }
 
 
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -844,30 +824,18 @@ void planet4() {
         goToPause();
     }
     if ((!(~(oldButtons)&((1<<5))) && (~buttons & ((1<<5))))) {
-        hideSprites();
-        fry.active = 0;
-        leela.active = 0;
-        alien.active = 0;
-        spaceship.active = 1;
-        treasure[4].active = 0;
-        for (int i = 0; i < 3; i++) {
-            blocks[i].active = 0;
-        }
-        for (int j = 0; j < 10; j++) {
-            bullets[j].active = 0;
-        }
         p1.active = 1;
         goToSpace();
     }
 
 
     if (characterChoice == LEELACHARACTER) {
-        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.row, leela.width, leela.height)) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.screenRow, leela.width, leela.height)) {
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.row, fry.width, fry.height)) {
+        if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.screenRow, fry.width, fry.height)) {
             goToSpace();
         }
     }
@@ -883,24 +851,7 @@ void planet4() {
 
 void goToPause() {
 
-    hideSprites();
-    fry.active = 0;
-    leela.active = 0;
-    alien.active = 0;
-
-
-
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
-    spaceship.active = 0;
-    for (int i = 0; i < 3; i++) {
-        blocks[i].active = 0;
-    }
-    for (int i = 0; i < 10; i++) {
-        bullets[i].active = 0;
-    }
+    initPause();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, pausePal, ((unsigned short *)0x5000000), 512 / 2);
