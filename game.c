@@ -415,6 +415,11 @@ void initPlanet2() {
         bullets[j].active = 1;
     }
 
+     // setting the cdel of the bullets here because this works and idk why but it does so yay
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].cdel = 1;
+    }
+
     // make the treasure look like it is on the ground 
     treasure[2].row += 25;
 
