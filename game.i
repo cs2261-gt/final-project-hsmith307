@@ -729,6 +729,11 @@ void initPlanet2() {
     }
 
 
+    for (int i = 0; i < 50; i++) {
+        bullets[i].cdel = 1;
+    }
+
+
     treasure[2].row += 25;
 
 
