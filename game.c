@@ -530,7 +530,7 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    if (treasure[1].treasureCounter > 500) {
+    if (treasure[1].treasureCounter > 50000) {
         treasure[1].active = 1;
         updateTreasure(&treasure[1]);
     }
@@ -548,7 +548,7 @@ void updatePlanet1() {
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = SCREENWIDTH + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -590,7 +590,7 @@ void updatePlanet2() {
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = SCREENWIDTH + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -634,7 +634,7 @@ void updatePlanet3() {
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = SCREENWIDTH + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -675,13 +675,13 @@ void updatePlanet4() {
         updateBlocks(&blocks[k]);
     }
 
-    // check alien/bullet collisions
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
-            bullets[i].active = 0;
-        }
-    }
+    // // check alien/bullet collisions
+    // for (int i = 0; i < BULLETCOUNT; i++) {
+    //     if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+    //         alien.col = SCREENWIDTH + alien.width;
+    //         bullets[i].active = 0;
+    //     }
+    // }
 
     // draw the game with the updates
     drawGame();
@@ -830,6 +830,7 @@ void updateLeela() {
 void updateAlien() {
     // move the alien towards fry and animate the alien
     alien.col -= alien.cdel;
+
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
             alien.curFrame++;

@@ -843,7 +843,7 @@ void updatePlanet1() {
     }
 
 
-    if (treasure[1].treasureCounter > 500) {
+    if (treasure[1].treasureCounter > 50000) {
         treasure[1].active = 1;
         updateTreasure(&treasure[1]);
     }
@@ -861,7 +861,7 @@ void updatePlanet1() {
 
     for (int i = 0; i < 50; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = 240 + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -903,7 +903,7 @@ void updatePlanet2() {
 
     for (int i = 0; i < 50; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = 240 + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -947,7 +947,7 @@ void updatePlanet3() {
 
     for (int i = 0; i < 50; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = 240 + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -991,7 +991,7 @@ void updatePlanet4() {
 
     for (int i = 0; i < 50; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.active = 0;
+            alien.col = 240 + alien.width;
             bullets[i].active = 0;
         }
     }
@@ -1142,7 +1142,10 @@ void updateLeela() {
 
 void updateAlien() {
 
-    alien.col -= alien.cdel;
+    if (alien.col > 20) {
+        alien.col -= alien.cdel;
+    }
+
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
             alien.curFrame++;
