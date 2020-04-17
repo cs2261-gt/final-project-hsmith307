@@ -346,6 +346,8 @@ void updateSpace() {
 
     hOff+= 3;
 
+
+    // move the spaceship
     if (BUTTON_HELD(BUTTON_RIGHT)) {
         spaceship.col += spaceship.cdel;
     }
@@ -357,6 +359,20 @@ void updateSpace() {
     }
     if (BUTTON_HELD(BUTTON_DOWN)) {
         spaceship.row += spaceship.rdel;
+    }
+
+    // make sure the spaceship cant go out of bounds
+    if (spaceship.col == 0) {
+        spaceship.col += spaceship.cdel;
+    }
+    if (spaceship.col == SCREENWIDTH - 1) {
+        spaceship.col -= spaceship.cdel;
+    }
+    if (spaceship.row - spaceship.width + hOff == 0) {
+        spaceship.row += spaceship.rdel;
+    }
+    if (spaceship.row - vOff + spaceship.height == SCREENHEIGHT - 1) {
+        spaceship.row -= spaceship.rdel;
     }
 
     if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
@@ -515,7 +531,7 @@ void initPlanet4() {
     }
 
     // make the treasure look like it is on the ground 
-    treasure[4].row += 25;
+    treasure[4].row += 5;
 
     // keep track of what planet you are on
     curLocation = PLAN4;

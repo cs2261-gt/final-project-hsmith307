@@ -653,6 +653,8 @@ void updateSpace() {
 
     hOff+= 3;
 
+
+
     if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<4)))) {
         spaceship.col += spaceship.cdel;
     }
@@ -664,6 +666,20 @@ void updateSpace() {
     }
     if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
         spaceship.row += spaceship.rdel;
+    }
+
+
+    if (spaceship.col == 0) {
+        spaceship.col += spaceship.cdel;
+    }
+    if (spaceship.col == 240 - 1) {
+        spaceship.col -= spaceship.cdel;
+    }
+    if (spaceship.row - spaceship.width + hOff == 0) {
+        spaceship.row += spaceship.rdel;
+    }
+    if (spaceship.row - vOff + spaceship.height == 160 - 1) {
+        spaceship.row -= spaceship.rdel;
     }
 
     if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
@@ -822,7 +838,7 @@ void initPlanet4() {
     }
 
 
-    treasure[4].row += 25;
+    treasure[4].row += 5;
 
 
     curLocation = PLAN4;
