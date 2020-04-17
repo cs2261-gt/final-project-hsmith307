@@ -911,7 +911,9 @@ space:
 	ldrh	r3, [r1]
 	lsr	r3, r3, #1
 	strh	r3, [r2, #16]	@ movhi
+	ldr	r0, .L111+48
 	ldrh	r3, [r1]
+	umull	r1, r3, r0, r3
 	lsr	r3, r3, #2
 	strh	r3, [r2, #20]	@ movhi
 	add	sp, sp, #20
@@ -955,6 +957,7 @@ space:
 	.word	buttons
 	.word	isWon
 	.word	hOff
+	.word	-858993459
 	.size	space, .-space
 	.align	2
 	.global	win
