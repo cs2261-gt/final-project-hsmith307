@@ -280,7 +280,7 @@ void space() {
     }
 
     REG_BG0HOFF = hOff / 2;
-    REG_BG1HOFF = hOff / 4;
+    REG_BG1HOFF = hOff / 5;
 }
 
 void goToPlanet1() {

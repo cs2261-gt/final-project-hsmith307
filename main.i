@@ -218,13 +218,7 @@ typedef struct {
     volatile int treasureCounter;
     int treasureNum;
 }TREASURE;
-
-
-
-
-
-
-
+# 124 "game.h"
 extern PLANET p1;
 extern PLANET p2;
 extern PLANET p3;
@@ -232,7 +226,7 @@ extern PLANET p4;
 extern FRY fry;
 extern LEELA leela;
 extern SPACESHIP spaceship;
-extern ALIEN alien;
+extern ALIEN aliens[2];
 extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
@@ -284,8 +278,8 @@ void initWin();
 
 void drawGame();
 
-void initAlien();
-void updateAlien();
+void initAliens();
+void updateAliens(ALIEN *);
 
 void initFry();
 void updateFry();
@@ -708,7 +702,7 @@ void space() {
     }
 
     (*(volatile unsigned short *)0x04000010) = hOff / 2;
-    (*(volatile unsigned short *)0x04000014) = hOff / 4;
+    (*(volatile unsigned short *)0x04000014) = hOff / 5;
 }
 
 void goToPlanet1() {

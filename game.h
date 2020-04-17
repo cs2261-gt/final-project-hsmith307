@@ -119,6 +119,7 @@ typedef struct {
 #define NUMLIVES 3
 #define BULLETCOUNT 50
 #define TREASURECOUNT 5
+#define ALIENCOUNT 2
 
 extern PLANET p1;
 extern PLANET p2;
@@ -127,7 +128,7 @@ extern PLANET p4;
 extern FRY fry;
 extern LEELA leela;
 extern SPACESHIP spaceship;
-extern ALIEN alien;
+extern ALIEN aliens[ALIENCOUNT];
 extern BLOCK blocks[];
 extern HEART life1;
 extern HEART life2;
@@ -179,8 +180,8 @@ void initWin();
 
 void drawGame();
 
-void initAlien();
-void updateAlien();
+void initAliens();
+void updateAliens(ALIEN *);
 
 void initFry();
 void updateFry();
