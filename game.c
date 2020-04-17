@@ -170,7 +170,7 @@ void initAlien() {
 // // initialize the blocks that fry will jump on
 void initBlocks() {
     for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].col = 130 + (100 * i);
+        blocks[i].col = 130 + (150 * i);
         blocks[i].active = 1;
         blocks[i].width = 32;
         blocks[i].height = 32;
@@ -879,7 +879,7 @@ void updateBlocks(BLOCK * b) {
         // what should happen if you hit a block?? idk
     }
     if (b->col <= 0) {
-        b->active = 0;
+        b->col = SCREENWIDTH - b->col;
     }
 }
 

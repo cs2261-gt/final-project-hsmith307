@@ -195,7 +195,7 @@ initBlocks:
 	mov	r1, #1
 	mov	r2, #32
 	mov	lr, #130
-	mov	ip, #230
+	mov	ip, #280
 	ldr	r3, .L24
 	ldr	r0, [r3]
 	ldr	r3, .L24+4
@@ -226,7 +226,7 @@ initBlocks:
 .L24:
 	.word	.LANCHOR0
 	.word	blocks
-	.word	330
+	.word	430
 	.size	initBlocks, .-initBlocks
 	.align	2
 	.global	initLives
@@ -679,7 +679,7 @@ initPlanet1:
 	mov	r7, #1
 	mov	r8, #32
 	mov	r4, #130
-	mov	r9, #230
+	mov	r9, #280
 	ldr	r3, .L77
 	mov	lr, pc
 	bx	r3
@@ -798,7 +798,7 @@ initPlanet1:
 	.word	.LANCHOR0
 	.word	blocks
 	.word	leela
-	.word	330
+	.word	430
 	.word	alien
 	.word	treasure
 	.word	characterChoice
@@ -851,7 +851,7 @@ initPlanet2:
 	ldr	lr, .L89+12
 	mov	fp, #130
 	ldr	r5, [lr]
-	mov	r10, #230
+	mov	r10, #280
 	ldr	lr, .L89+16
 	str	r4, [lr, #12]
 	str	r4, [lr, #8]
@@ -938,7 +938,7 @@ initPlanet2:
 	.word	leela
 	.word	.LANCHOR0
 	.word	blocks
-	.word	330
+	.word	430
 	.word	alien
 	.word	spaceship
 	.word	p1
@@ -1000,7 +1000,7 @@ initPlanet3:
 	bne	.L92
 	mov	r4, #32
 	mov	fp, #130
-	mov	r10, #230
+	mov	r10, #280
 	ldr	lr, .L99+32
 	ldr	r5, [lr]
 	ldr	lr, .L99+36
@@ -1078,7 +1078,7 @@ initPlanet3:
 	.word	p4
 	.word	.LANCHOR0
 	.word	blocks
-	.word	330
+	.word	430
 	.word	alien
 	.word	treasure
 	.word	characterChoice
@@ -1135,7 +1135,7 @@ initPlanet4:
 	bne	.L102
 	mov	r4, #32
 	mov	fp, #130
-	mov	r10, #230
+	mov	r10, #280
 	ldr	lr, .L109+32
 	ldr	r5, [lr]
 	ldr	lr, .L109+36
@@ -1213,7 +1213,7 @@ initPlanet4:
 	.word	p4
 	.word	.LANCHOR0
 	.word	blocks
-	.word	330
+	.word	430
 	.word	alien
 	.word	treasure
 	.word	characterChoice
@@ -1620,8 +1620,8 @@ updateBlocks:
 	bx	r5
 	ldr	r3, [r4]
 	cmp	r3, #0
-	movle	r3, #0
-	strle	r3, [r4, #16]
+	rsble	r3, r3, #240
+	strle	r3, [r4]
 	add	sp, sp, #20
 	@ sp needed
 	pop	{r4, r5, lr}

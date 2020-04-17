@@ -483,7 +483,7 @@ void initAlien() {
 
 void initBlocks() {
     for (int i = 0; i < 3; i++) {
-        blocks[i].col = 130 + (100 * i);
+        blocks[i].col = 130 + (150 * i);
         blocks[i].active = 1;
         blocks[i].width = 32;
         blocks[i].height = 32;
@@ -1192,7 +1192,7 @@ void updateBlocks(BLOCK * b) {
 
     }
     if (b->col <= 0) {
-        b->active = 0;
+        b->col = 240 - b->col;
     }
 }
 

@@ -2,6 +2,9 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "main.c"
+
+
+
 # 1 "myLib.h" 1
 
 
@@ -98,7 +101,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 
 
 int collision(int colA, int rowA, int widthA, int heightA, int colB, int rowB, int widthB, int heightB);
-# 2 "main.c" 2
+# 5 "main.c" 2
 # 1 "game.h" 1
 
 typedef struct {
@@ -313,24 +316,15 @@ extern int prevTreasureNum;
 
 
 extern int curLocation;
-# 3 "main.c" 2
+# 6 "main.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
 extern const unsigned short spritesheet5Tiles[16384];
 
 
 extern const unsigned short spritesheet5Pal[256];
-# 4 "main.c" 2
-# 1 "spacebg.h" 1
-# 22 "spacebg.h"
-extern const unsigned short spacebgTiles[11440];
+# 7 "main.c" 2
 
-
-extern const unsigned short spacebgMap[1024];
-
-
-extern const unsigned short spacebgPal[256];
-# 5 "main.c" 2
 # 1 "futuramapage.h" 1
 # 22 "futuramapage.h"
 extern const unsigned short futuramapageTiles[1936];
@@ -340,7 +334,7 @@ extern const unsigned short futuramapageMap[1024];
 
 
 extern const unsigned short futuramapagePal[256];
-# 6 "main.c" 2
+# 9 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
 extern const unsigned short pauseTiles[6640];
@@ -350,7 +344,7 @@ extern const unsigned short pauseMap[1024];
 
 
 extern const unsigned short pausePal[256];
-# 7 "main.c" 2
+# 10 "main.c" 2
 # 1 "planet1PS.h" 1
 # 22 "planet1PS.h"
 extern const unsigned short planet1PSTiles[18080];
@@ -360,17 +354,28 @@ extern const unsigned short planet1PSMap[2048];
 
 
 extern const unsigned short planet1PSPal[256];
-# 8 "main.c" 2
-# 1 "bg.h" 1
-# 22 "bg.h"
-extern const unsigned short bgTiles[1632];
+# 11 "main.c" 2
+
+# 1 "planets.h" 1
+# 22 "planets.h"
+extern const unsigned short planetsTiles[24144];
 
 
-extern const unsigned short bgMap[1024];
+extern const unsigned short planetsMap[2048];
 
 
-extern const unsigned short bgPal[256];
-# 9 "main.c" 2
+extern const unsigned short planetsPal[256];
+# 13 "main.c" 2
+# 1 "stars.h" 1
+# 22 "stars.h"
+extern const unsigned short starsTiles[7312];
+
+
+extern const unsigned short starsMap[2048];
+
+
+extern const unsigned short starsPal[256];
+# 14 "main.c" 2
 # 1 "planet2bg.h" 1
 # 22 "planet2bg.h"
 extern const unsigned short planet2bgTiles[9840];
@@ -380,7 +385,7 @@ extern const unsigned short planet2bgMap[1024];
 
 
 extern const unsigned short planet2bgPal[256];
-# 10 "main.c" 2
+# 15 "main.c" 2
 # 1 "planet3bg.h" 1
 # 22 "planet3bg.h"
 extern const unsigned short planet3bgTiles[15696];
@@ -390,7 +395,7 @@ extern const unsigned short planet3bgMap[2048];
 
 
 extern const unsigned short planet3bgPal[256];
-# 11 "main.c" 2
+# 16 "main.c" 2
 # 1 "planet4bg.h" 1
 # 22 "planet4bg.h"
 extern const unsigned short planet4bgTiles[13296];
@@ -400,7 +405,7 @@ extern const unsigned short planet4bgMap[1024];
 
 
 extern const unsigned short planet4bgPal[256];
-# 12 "main.c" 2
+# 17 "main.c" 2
 # 1 "losebg.h" 1
 # 22 "losebg.h"
 extern const unsigned short losebgTiles[6064];
@@ -410,7 +415,7 @@ extern const unsigned short losebgMap[1024];
 
 
 extern const unsigned short losebgPal[256];
-# 13 "main.c" 2
+# 18 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
 extern const unsigned short instructionsTiles[1872];
@@ -420,7 +425,7 @@ extern const unsigned short instructionsMap[1024];
 
 
 extern const unsigned short instructionsPal[256];
-# 14 "main.c" 2
+# 19 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[48];
@@ -430,7 +435,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 15 "main.c" 2
+# 20 "main.c" 2
 
 
 void initialize();
@@ -643,10 +648,23 @@ void game() {
 
 void goToSpace() {
     initSpace();
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
-    DMANow(3, bgPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, bgTiles, &((charblock *)0x6000000)[0], 3264 / 2);
-    DMANow(3, bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+
+
+    (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
+
+    DMANow(3, planetsPal, ((unsigned short *)0x5000000), 512 / 2);
+
+    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (1<<14);
+
+    DMANow(3, planetsTiles, &((charblock *)0x6000000)[1], 48288 / 2);
+    DMANow(3, planetsMap, &((screenblock *)0x6000000)[28], 4096 / 2);
+
+
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
+
+    DMANow(3, starsTiles, &((charblock *)0x6000000)[0], 14624 / 2);
+    DMANow(3, starsMap, &((screenblock *)0x6000000)[30], 4096 / 2);
+
     state = SPACE;
 }
 
@@ -679,14 +697,18 @@ void space() {
     if (isWon == 1) {
         goToWin();
     }
+
+    (*(volatile unsigned short *)0x04000010) = hOff / 2;
+    (*(volatile unsigned short *)0x04000014) = hOff / 5;
 }
 
 void goToPlanet1() {
     initPlanet1();
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
     DMANow(3, planet1PSPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet1PSTiles, &((charblock *)0x6000000)[0], 36160 / 2);
-    DMANow(3, planet1PSMap, &((screenblock *)0x6000000)[30], 4096 / 2);
+    DMANow(3, planet1PSMap, &((screenblock *)0x6000000)[28], 4096 / 2);
     state = PLANET1;
 }
 
@@ -724,10 +746,10 @@ void planet1() {
 
 void goToPlanet2() {
     initPlanet2();
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, planet2bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet2bgTiles, &((charblock *)0x6000000)[0], 19680 / 2);
-    DMANow(3, planet2bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    DMANow(3, planet2bgMap, &((screenblock *)0x6000000)[28], 2048 / 2);
     state = PLANET2;
 }
 
@@ -764,10 +786,10 @@ void planet2() {
 
 void goToPlanet3() {
     initPlanet3();
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
     DMANow(3, planet3bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet3bgTiles, &((charblock *)0x6000000)[0], 31392 / 2);
-    DMANow(3, planet3bgMap, &((screenblock *)0x6000000)[30], 4096 / 2);
+    DMANow(3, planet3bgMap, &((screenblock *)0x6000000)[28], 4096 / 2);
     state = PLANET3;
 }
 
@@ -807,10 +829,10 @@ void goToPlanet4() {
     initPlanet4();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, planet4bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet4bgTiles, &((charblock *)0x6000000)[0], 26592 / 2);
-    DMANow(3, planet4bgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    DMANow(3, planet4bgMap, &((screenblock *)0x6000000)[28], 2048 / 2);
     state = PLANET4;
 
 }
@@ -853,10 +875,10 @@ void goToPause() {
 
     initPause();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
-    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
+    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, pausePal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, pauseTiles, &((charblock *)0x6000000)[1], 13280 / 2);
-    DMANow(3, pauseMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    DMANow(3, pauseMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = PAUSE;
 }
@@ -886,11 +908,14 @@ void goToWin() {
 
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
+
+    (*(volatile unsigned short *)0x04000014) = 0;
+    (*(volatile unsigned short *)0x04000016) = 0;
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, winPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, winTiles, &((charblock *)0x6000000)[0], 96 / 2);
-    DMANow(3, winMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    DMANow(3, winMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = WIN;
 }
@@ -907,10 +932,10 @@ void goToLose() {
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
-    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((30)<<8) | (0<<14);
+    (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, losebgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, losebgTiles, &((charblock *)0x6000000)[1], 12128 / 2);
-    DMANow(3, losebgMap, &((screenblock *)0x6000000)[30], 2048 / 2);
+    DMANow(3, losebgMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = LOSE;
 }
