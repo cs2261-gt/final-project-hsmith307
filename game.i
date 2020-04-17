@@ -857,15 +857,8 @@ void updatePlanet1() {
         updateBlocks(&blocks[k]);
     }
 
-
-
-    for (int i = 0; i < 50; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = 240 + alien.width;
-            bullets[i].active = 0;
-        }
-    }
-
+    alien.col -= alien.cdel;
+# 558 "game.c"
     drawGame();
 }
 
@@ -899,16 +892,7 @@ void updatePlanet2() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-
-
-    for (int i = 0; i < 50; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = 240 + alien.width;
-            bullets[i].active = 0;
-        }
-    }
-
-
+# 601 "game.c"
     drawGame();
 }
 
@@ -943,16 +927,7 @@ void updatePlanet3() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-
-
-    for (int i = 0; i < 50; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = 240 + alien.width;
-            bullets[i].active = 0;
-        }
-    }
-
-
+# 645 "game.c"
     drawGame();
 }
 
@@ -987,16 +962,7 @@ void updatePlanet4() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-
-
-    for (int i = 0; i < 50; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = 240 + alien.width;
-            bullets[i].active = 0;
-        }
-    }
-
-
+# 689 "game.c"
     drawGame();
 }
 
@@ -1142,9 +1108,7 @@ void updateLeela() {
 
 void updateAlien() {
 
-    if (alien.col > 20) {
-        alien.col -= alien.cdel;
-    }
+    alien.col -= alien.cdel;
 
     if (alien.aniCounter % 18 == 0) {
         if (alien.curFrame < alien.numFrames - 1) {
@@ -1155,6 +1119,14 @@ void updateAlien() {
     }
     if (alien.col == 0) {
         alien.active = 0;
+    }
+
+
+    for (int i = 0; i < 50; i++) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+            alien.col = 240 + alien.width;
+            bullets[i].active = 0;
+        }
     }
 }
 

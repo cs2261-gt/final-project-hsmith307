@@ -544,14 +544,13 @@ void updatePlanet1() {
         updateBlocks(&blocks[k]);
     }
 
-
     // check alien/bullet collisions
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = SCREENWIDTH + alien.width;
-            bullets[i].active = 0;
-        }
-    }
+    // for (int i = 0; i < BULLETCOUNT; i++) {
+    //     if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+    //         alien.col = SCREENWIDTH + alien.width;
+    //         bullets[i].active = 0;
+    //     }
+    // }
 
     drawGame();
 }
@@ -588,12 +587,12 @@ void updatePlanet2() {
     }
 
     // check alien/bullet collisions
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = SCREENWIDTH + alien.width;
-            bullets[i].active = 0;
-        }
-    }
+    // for (int i = 0; i < BULLETCOUNT; i++) {
+    //     if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+    //         alien.col = SCREENWIDTH + alien.width;
+    //         bullets[i].active = 0;
+    //     }
+    // }
 
     // draw the game with the updates
     drawGame();
@@ -631,13 +630,13 @@ void updatePlanet3() {
         updateBlocks(&blocks[k]);
     }
 
-    // check alien/bullet collisions
-    for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = SCREENWIDTH + alien.width;
-            bullets[i].active = 0;
-        }
-    }
+    // // check alien/bullet collisions
+    // for (int i = 0; i < BULLETCOUNT; i++) {
+    //     if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+    //         alien.col = SCREENWIDTH + alien.width;
+    //         bullets[i].active = 0;
+    //     }
+    // }
 
     // draw the game with the updates
     drawGame();
@@ -840,6 +839,14 @@ void updateAlien() {
     }
     if (alien.col == 0) {
         alien.active = 0;
+    }
+
+    // check alien/bullet collisions
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+            alien.col = SCREENWIDTH + alien.width;
+            bullets[i].active = 0;
+        }
     }
 }
 
