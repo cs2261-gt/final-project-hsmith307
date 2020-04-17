@@ -1173,27 +1173,27 @@ void updateLives() {
     for (int k = 0; k < ALIENCOUNT; k++) {
         // if there is a collision with fry and the alien then you lose a life
         if (collision(aliens[k].col, aliens[k].row, aliens[k].width, aliens[k].height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 0) && (aliens[k].active) && (characterChoice == FRYCHARACTER)) {
-        life5.active = 0;
-        lifeCounter++;
-        aliens[k].col = 190;
+            life5.active = 0;
+            lifeCounter++;
+            aliens[k].col = 190;
         }
 
         if (collision(aliens[k].col, aliens[k].row, aliens[k].width, aliens[k].height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (aliens[k].active) && (characterChoice == FRYCHARACTER)) {
-        life4.active = 0;
-        lifeCounter++;
-        aliens[k].col = 190;
+            life4.active = 0;
+            lifeCounter++;
+            aliens[k].col = 190;
         }
 
         if (collision(aliens[k].col, aliens[k].row, aliens[k].width, aliens[k].height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (aliens[k].active) && (characterChoice == FRYCHARACTER)) {
-        life3.active = 0;
-        lifeCounter++;
-        aliens[k].col = 190;
+            life3.active = 0;
+            lifeCounter++;
+            aliens[k].col = 190;
         }
 
         if (collision(aliens[k].col, aliens[k].row, aliens[k].width, aliens[k].height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 3) && (aliens[k].active) && (characterChoice == FRYCHARACTER)) {
-        life2.active = 0;
-        lifeCounter++;
-        aliens[k].col = 190;
+            life2.active = 0;
+            lifeCounter++;
+            aliens[k].col = 190;
         }
 
         if (collision(aliens[k].col, aliens[k].row, aliens[k].width, aliens[k].height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (aliens[k].active) && (characterChoice == FRYCHARACTER)) {
