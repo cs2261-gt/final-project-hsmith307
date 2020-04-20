@@ -17,6 +17,14 @@
 #include "losebg.h"
 #include "instructions.h"
 #include "win.h"
+#include "sound.h"
+#include "calmMusic.h"
+#include "forest.h"
+#include "startSong.h"
+#include "urban.h"
+#include <stdlib.h>
+#include <string.h>
+#include <stdio.h>
 
 // Function prototypes
 void initialize();
@@ -63,6 +71,10 @@ void updatePlanet3();
 
 void initPlanet4();
 void updatePlanet4();
+
+// sound stuff
+SOUND soundA;
+SOUND soundB;
 
 // Game states enum
 enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE};
@@ -137,13 +149,20 @@ void initialize() {
 
       hOff = 0;
       vOff = 0;
+
+    setupSounds();
+    setupInterrupts();
+
       buttons = BUTTONS;
+      oldButtons = 0;
       goToStart();
 
 }
 
 // load the start state
 void goToStart() {
+    stopSound();
+    
     hOff = 0;
     vOff = 0;
     isLost = 0;
@@ -186,7 +205,13 @@ void start() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
 
+    //stopSound();
+    playSoundA(urban, URBANLEN, 0);
+
+
     if (BUTTON_PRESSED(BUTTON_START)) {
+        stopSound();
+        playSoundA(urban, URBANLEN, 0);
         goToGame();
     }
 
@@ -211,6 +236,8 @@ void game() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
 
+    playSoundA(urban, URBANLEN, 0);
+
     if (BUTTON_PRESSED(BUTTON_A)) {
         goToStart();
     }
@@ -222,7 +249,7 @@ void game() {
         characterChoice = LEELACHARACTER;
         goToSpace();
     }
-
+    
     // check for a collision here, if there is one move onto planet 1
 
 }

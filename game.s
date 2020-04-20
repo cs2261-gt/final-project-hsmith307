@@ -1501,6 +1501,15 @@ updateFry:
 	b	.L143
 .L154:
 	bl	shootBullets
+	ldr	r3, .L155+16
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L155+20
+	mov	r2, #1
+	ldr	r1, .L155+24
+	ldr	r0, .L155+28
+	mov	lr, pc
+	bx	r3
 	mov	r3, #1
 	str	r3, [r4, #44]
 	pop	{r4, lr}
@@ -1512,6 +1521,10 @@ updateFry:
 	.word	fry
 	.word	buttons
 	.word	238609294
+	.word	stopSound
+	.word	playSoundB
+	.word	2093
+	.word	laserSound
 	.size	updateFry, .-updateFry
 	.align	2
 	.global	updateLeela
@@ -1595,6 +1608,15 @@ updateLeela:
 	b	.L158
 .L171:
 	bl	shootBullets
+	ldr	r3, .L172+16
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L172+20
+	mov	r2, #1
+	ldr	r1, .L172+24
+	ldr	r0, .L172+28
+	mov	lr, pc
+	bx	r3
 	mov	r3, #1
 	str	r3, [r4, #44]
 	pop	{r4, lr}
@@ -1606,6 +1628,10 @@ updateLeela:
 	.word	leela
 	.word	buttons
 	.word	238609294
+	.word	stopSound
+	.word	playSoundB
+	.word	2093
+	.word	laserSound
 	.size	updateLeela, .-updateLeela
 	.align	2
 	.global	updateBullets
@@ -2966,12 +2992,7 @@ updatePlanet1:
 	bl	updateBlocks
 	ldr	r0, .L354+32
 	bl	updateBlocks
-	ldr	r3, .L354+36
-	ldr	r2, [r3]
-	ldr	r1, [r3, #20]
 	pop	{r4, lr}
-	sub	r2, r2, r1
-	str	r2, [r3]
 	b	drawGame
 .L353:
 	mov	r3, #1
@@ -2991,7 +3012,6 @@ updatePlanet1:
 	.word	blocks
 	.word	blocks+24
 	.word	blocks+48
-	.word	alien
 	.size	updatePlanet1, .-updatePlanet1
 	.align	2
 	.global	updatePlanet2
@@ -3236,6 +3256,8 @@ updatePlanet4:
 	.comm	spaceship,28,4
 	.comm	leela,56,4
 	.comm	fry,56,4
+	.comm	soundB,32,4
+	.comm	soundA,32,4
 	.data
 	.align	2
 	.set	.LANCHOR0,. + 0
