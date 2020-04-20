@@ -466,34 +466,20 @@ void pauseSound();
 void unpauseSound();
 void stopSound();
 # 21 "main.c" 2
-# 1 "calmMusic.h" 1
-
-
-
-
-extern const signed char calmMusic[128066];
-# 22 "main.c" 2
 # 1 "forest.h" 1
 
 
 
 
 extern const signed char forestSound[1116347];
+# 22 "main.c" 2
+# 1 "introSong.h" 1
+
+
+
+
+extern const signed char intoSong[3945888];
 # 23 "main.c" 2
-# 1 "startSong.h" 1
-
-
-
-
-extern const signed char startSong[543744];
-# 24 "main.c" 2
-# 1 "urban.h" 1
-
-
-
-
-extern const signed char urban[1257644];
-# 25 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1302,7 +1288,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 26 "main.c" 2
+# 24 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1349,7 +1335,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 27 "main.c" 2
+# 25 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1760,11 +1746,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 28 "main.c" 2
+# 26 "main.c" 2
 
 
 
-# 30 "main.c"
+# 28 "main.c"
 void initialize();
 void game();
 
@@ -1944,12 +1930,10 @@ void start() {
     (*(volatile unsigned short *)0x04000012) = 0;
 
 
-    playSoundA(urban, 1257644, 0);
+    playSoundA(intoSong, 3945888, 1);
 
 
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
-        stopSound();
-        playSoundA(urban, 1257644, 0);
         goToGame();
     }
 
@@ -1974,7 +1958,6 @@ void game() {
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
 
-    playSoundA(urban, 1257644, 0);
 
     if ((!(~(oldButtons)&((1<<0))) && (~buttons & ((1<<0))))) {
         goToStart();

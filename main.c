@@ -18,10 +18,8 @@
 #include "instructions.h"
 #include "win.h"
 #include "sound.h"
-#include "calmMusic.h"
 #include "forest.h"
-#include "startSong.h"
-#include "urban.h"
+#include "introSong.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -206,12 +204,10 @@ void start() {
     REG_BG0VOFF = 0;
 
     //stopSound();
-    playSoundA(urban, URBANLEN, 0);
+    playSoundA(intoSong, INTOSONGLEN, 1);
 
 
     if (BUTTON_PRESSED(BUTTON_START)) {
-        stopSound();
-        playSoundA(urban, URBANLEN, 0);
         goToGame();
     }
 
@@ -236,7 +232,6 @@ void game() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
 
-    playSoundA(urban, URBANLEN, 0);
 
     if (BUTTON_PRESSED(BUTTON_A)) {
         goToStart();

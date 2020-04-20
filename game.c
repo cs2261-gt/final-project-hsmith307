@@ -1,10 +1,8 @@
 #include "myLib.h"
 #include "game.h"
 #include "spritesheet5.h"
-#include "laser.h"
+#include "shot.h"
 #include "sound.h"
-#include "calmMusic.h"
-#include "forest.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -791,8 +789,7 @@ void updateFry() {
     }
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        stopSound();
-        playSoundB(laserSound, LASERSOUNDLEN, 1);
+        playSoundB(shot, SHOTLEN, 0);
         fry.bulletTimer = 0;
     }
 
@@ -829,8 +826,7 @@ void updateLeela() {
 
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        stopSound();
-        playSoundB(laserSound, LASERSOUNDLEN, 1);
+        playSoundB(shot, SHOTLEN, 0);
         leela.bulletTimer = 0;
     }
 

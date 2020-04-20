@@ -263,46 +263,38 @@ start:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	r3, #67108864
-	mov	r2, #0
-	push	{r4, r5, r6, lr}
+	mov	r0, #0
+	push	{r4, lr}
+	mov	r2, #1
+	strh	r0, [r3, #16]	@ movhi
 	ldr	r1, .L27
-	strh	r2, [r3, #16]	@ movhi
-	ldr	r0, .L27+4
-	strh	r2, [r3, #18]	@ movhi
-	ldr	r4, .L27+8
+	strh	r0, [r3, #18]	@ movhi
+	ldr	r3, .L27+4
+	ldr	r0, .L27+8
 	mov	lr, pc
-	bx	r4
+	bx	r3
 	ldr	r3, .L27+12
 	ldrh	r3, [r3]
 	tst	r3, #8
 	beq	.L20
 	ldr	r3, .L27+16
-	ldrh	r2, [r3]
-	ands	r5, r2, #8
+	ldrh	r3, [r3]
+	tst	r3, #8
 	beq	.L26
 .L20:
-	pop	{r4, r5, r6, lr}
+	pop	{r4, lr}
 	bx	lr
 .L26:
-	ldr	r3, .L27+20
-	mov	lr, pc
-	bx	r3
-	mov	r2, r5
-	ldr	r1, .L27
-	ldr	r0, .L27+4
-	mov	lr, pc
-	bx	r4
-	pop	{r4, r5, r6, lr}
+	pop	{r4, lr}
 	b	goToGame
 .L28:
 	.align	2
 .L27:
-	.word	1257644
-	.word	urban
+	.word	3945888
 	.word	playSoundA
+	.word	intoSong
 	.word	oldButtons
 	.word	buttons
-	.word	stopSound
 	.size	start, .-start
 	.align	2
 	.global	goToSpace
@@ -392,32 +384,27 @@ game:
 	mov	r3, #67108864
 	mov	r2, #0
 	push	{r4, lr}
-	ldr	r4, .L50
 	strh	r2, [r3, #16]	@ movhi
-	ldr	r1, .L50+4
+	ldr	r4, .L50
 	strh	r2, [r3, #18]	@ movhi
-	ldr	r0, .L50+8
-	ldr	r3, .L50+12
-	mov	lr, pc
-	bx	r3
 	ldrh	r3, [r4]
 	tst	r3, #1
 	beq	.L34
-	ldr	r2, .L50+16
+	ldr	r2, .L50+4
 	ldrh	r2, [r2]
 	tst	r2, #1
 	beq	.L47
 .L34:
 	tst	r3, #32
 	beq	.L35
-	ldr	r2, .L50+16
+	ldr	r2, .L50+4
 	ldrh	r2, [r2]
 	ands	r2, r2, #32
 	beq	.L48
 .L35:
 	tst	r3, #16
 	beq	.L33
-	ldr	r3, .L50+16
+	ldr	r3, .L50+4
 	ldrh	r3, [r3]
 	tst	r3, #16
 	beq	.L49
@@ -426,7 +413,7 @@ game:
 	bx	lr
 .L49:
 	mov	r2, #1
-	ldr	r3, .L50+20
+	ldr	r3, .L50+8
 	pop	{r4, lr}
 	str	r2, [r3]
 	b	goToSpace
@@ -435,7 +422,7 @@ game:
 	ldrh	r3, [r4]
 	b	.L34
 .L48:
-	ldr	r3, .L50+20
+	ldr	r3, .L50+8
 	str	r2, [r3]
 	bl	goToSpace
 	ldrh	r3, [r4]
@@ -444,9 +431,6 @@ game:
 	.align	2
 .L50:
 	.word	oldButtons
-	.word	1257644
-	.word	urban
-	.word	playSoundA
 	.word	buttons
 	.word	characterChoice
 	.size	game, .-game

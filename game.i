@@ -10,7 +10,9 @@
 typedef unsigned char u8;
 typedef unsigned short u16;
 typedef unsigned int u32;
-# 50 "myLib.h"
+# 22 "myLib.h"
+typedef void (*ihp)(void);
+# 105 "myLib.h"
 typedef struct{
     const signed char* data;
     int length;
@@ -21,9 +23,9 @@ typedef struct{
     int priority;
     int vBlankCount;
 } SOUND;
-# 113 "myLib.h"
+# 168 "myLib.h"
 extern unsigned short *videoBuffer;
-# 134 "myLib.h"
+# 189 "myLib.h"
 typedef struct {
  u16 tileimg[8192];
 } charblock;
@@ -66,7 +68,7 @@ typedef struct {
 
 
 extern OBJ_ATTR shadowOAM[];
-# 206 "myLib.h"
+# 261 "myLib.h"
 void hideSprites();
 
 
@@ -90,10 +92,10 @@ typedef struct {
     int numFrames;
     int hide;
 } ANISPRITE;
-# 249 "myLib.h"
+# 304 "myLib.h"
 extern unsigned short oldButtons;
 extern unsigned short buttons;
-# 260 "myLib.h"
+# 315 "myLib.h"
 typedef volatile struct {
     volatile const void *src;
     volatile void *dst;
@@ -102,7 +104,7 @@ typedef volatile struct {
 
 
 extern DMA *dma;
-# 300 "myLib.h"
+# 355 "myLib.h"
 void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned int cnt);
 
 
@@ -332,12 +334,12 @@ extern const unsigned short spritesheet5Tiles[16384];
 
 extern const unsigned short spritesheet5Pal[256];
 # 4 "game.c" 2
-# 1 "laser.h" 1
+# 1 "shot.h" 1
 
 
 
 
-extern const signed char laserSound[2093];
+extern const signed char shot[16416];
 # 5 "game.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
@@ -356,20 +358,6 @@ void pauseSound();
 void unpauseSound();
 void stopSound();
 # 6 "game.c" 2
-# 1 "calmMusic.h" 1
-
-
-
-
-extern const signed char calmMusic[128066];
-# 7 "game.c" 2
-# 1 "forest.h" 1
-
-
-
-
-extern const signed char forestSound[1116347];
-# 8 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1178,7 +1166,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 9 "game.c" 2
+# 7 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1225,7 +1213,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 10 "game.c" 2
+# 8 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1636,11 +1624,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 11 "game.c" 2
+# 9 "game.c" 2
 
 
 
-# 13 "game.c"
+# 11 "game.c"
 void initGame();
 void updateGame();
 
@@ -1708,7 +1696,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 88 "game.c"
+# 86 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -2174,7 +2162,7 @@ void updatePlanet1() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-# 562 "game.c"
+# 560 "game.c"
     drawGame();
 }
 
@@ -2208,7 +2196,7 @@ void updatePlanet2() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-# 605 "game.c"
+# 603 "game.c"
     drawGame();
 }
 
@@ -2243,7 +2231,7 @@ void updatePlanet3() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-# 649 "game.c"
+# 647 "game.c"
     drawGame();
 }
 
@@ -2278,7 +2266,7 @@ void updatePlanet4() {
     for (int k = 0; k < 3; k++) {
         updateBlocks(&blocks[k]);
     }
-# 693 "game.c"
+# 691 "game.c"
     drawGame();
 }
 
@@ -2380,8 +2368,7 @@ void updateFry() {
     }
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
-        stopSound();
-        playSoundB(laserSound, 2093, 1);
+        playSoundB(shot, 16416, 0);
         fry.bulletTimer = 0;
     }
 
@@ -2418,8 +2405,7 @@ void updateLeela() {
 
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
-        stopSound();
-        playSoundB(laserSound, 2093, 1);
+        playSoundB(shot, 16416, 0);
         leela.bulletTimer = 0;
     }
 

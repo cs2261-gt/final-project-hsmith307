@@ -1430,7 +1430,7 @@ updateFry:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	ldr	r3, .L155
 	ldrh	r0, [r3]
-	push	{r4, lr}
+	push	{r4, r5, r6, lr}
 	ldr	r4, .L155+4
 	tst	r0, #64
 	ldr	r3, [r4, #24]
@@ -1472,14 +1472,14 @@ updateFry:
 	tst	r0, #16
 	beq	.L147
 	ldr	r3, .L155+8
-	ldrh	r3, [r3]
-	tst	r3, #16
+	ldrh	r2, [r3]
+	ands	r5, r2, #16
 	beq	.L154
 .L147:
 	ldr	r3, [r4, #44]
 	add	r3, r3, #1
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L152:
 	ldr	r2, [r4, #48]
@@ -1501,18 +1501,15 @@ updateFry:
 	b	.L143
 .L154:
 	bl	shootBullets
+	mov	r2, r5
 	ldr	r3, .L155+16
-	mov	lr, pc
-	bx	r3
-	ldr	r3, .L155+20
-	mov	r2, #1
-	ldr	r1, .L155+24
-	ldr	r0, .L155+28
+	ldr	r1, .L155+20
+	ldr	r0, .L155+24
 	mov	lr, pc
 	bx	r3
 	mov	r3, #1
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L156:
 	.align	2
@@ -1521,10 +1518,9 @@ updateFry:
 	.word	fry
 	.word	buttons
 	.word	238609294
-	.word	stopSound
 	.word	playSoundB
-	.word	2093
-	.word	laserSound
+	.word	16416
+	.word	shot
 	.size	updateFry, .-updateFry
 	.align	2
 	.global	updateLeela
@@ -1538,7 +1534,7 @@ updateLeela:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	ldr	r3, .L172
 	ldrh	r0, [r3]
-	push	{r4, lr}
+	push	{r4, r5, r6, lr}
 	ldr	r4, .L172+4
 	tst	r0, #64
 	ldr	r3, [r4, #24]
@@ -1589,14 +1585,14 @@ updateLeela:
 	tst	r0, #16
 	beq	.L165
 	ldr	r3, .L172+8
-	ldrh	r3, [r3]
-	tst	r3, #16
+	ldrh	r2, [r3]
+	ands	r5, r2, #16
 	beq	.L171
 .L165:
 	ldr	r3, [r4, #44]
 	add	r3, r3, #1
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L170:
 	ldr	r2, [r4, #48]
@@ -1608,18 +1604,15 @@ updateLeela:
 	b	.L158
 .L171:
 	bl	shootBullets
+	mov	r2, r5
 	ldr	r3, .L172+16
-	mov	lr, pc
-	bx	r3
-	ldr	r3, .L172+20
-	mov	r2, #1
-	ldr	r1, .L172+24
-	ldr	r0, .L172+28
+	ldr	r1, .L172+20
+	ldr	r0, .L172+24
 	mov	lr, pc
 	bx	r3
 	mov	r3, #1
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L173:
 	.align	2
@@ -1628,10 +1621,9 @@ updateLeela:
 	.word	leela
 	.word	buttons
 	.word	238609294
-	.word	stopSound
 	.word	playSoundB
-	.word	2093
-	.word	laserSound
+	.word	16416
+	.word	shot
 	.size	updateLeela, .-updateLeela
 	.align	2
 	.global	updateBullets
