@@ -207,7 +207,9 @@ typedef struct {
     int width;
     int active;
     int cdel;
-}BLOCK;
+    int aniState;
+    int curFrame;
+}COIN;
 
 
 typedef struct {
@@ -247,7 +249,7 @@ extern FRY fry;
 extern LEELA leela;
 extern SPACESHIP spaceship;
 extern ALIEN alien;
-extern BLOCK blocks[];
+extern COIN coins[2];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
@@ -306,8 +308,8 @@ void updateFry();
 
 void initSpaceship();
 
-void initBlocks();
-void updateBlocks(BLOCK *);
+void initCoins();
+void updateCoins(COIN *);
 
 void initLives();
 void updateLives();
@@ -439,7 +441,7 @@ extern const unsigned short losebgPal[256];
 # 19 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[1872];
+extern const unsigned short instructionsTiles[6144];
 
 
 extern const unsigned short instructionsMap[1024];
@@ -449,7 +451,7 @@ extern const unsigned short instructionsPal[256];
 # 20 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
-extern const unsigned short winTiles[48];
+extern const unsigned short winTiles[8352];
 
 
 extern const unsigned short winMap[1024];
@@ -1919,7 +1921,7 @@ void goToStart() {
         treasure[k].active = 0;
     }
     for (int i = 0; i < 2; i++) {
-        blocks[i].active = 0;
+        coins[i].active = 0;
     }
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 0;
@@ -1955,7 +1957,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 3744 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 12288 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -2257,7 +2259,7 @@ void goToWin() {
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
 
     DMANow(3, winPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, winTiles, &((charblock *)0x6000000)[0], 96 / 2);
+    DMANow(3, winTiles, &((charblock *)0x6000000)[0], 16704 / 2);
     DMANow(3, winMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = WIN;

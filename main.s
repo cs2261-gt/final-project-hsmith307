@@ -47,26 +47,26 @@ goToStart:
 	ldr	r1, .L6+40
 	str	r5, [r2, #16]
 	str	r5, [r3, #16]
-	str	r5, [r1, #16]
 	ldr	r2, .L6+44
-	ldr	r1, .L6+48
-	ldr	r3, .L6+52
+	ldr	r3, .L6+48
+	str	r5, [r1, #16]
+	ldr	r1, .L6+52
 	str	r5, [r2, #16]
+	ldr	ip, .L6+56
+	ldr	r2, .L6+60
 	str	r5, [r3, #16]
 	str	r5, [r1, #20]
+	ldr	r3, .L6+64
 	str	r5, [r1, #56]
 	str	r5, [r1, #92]
 	str	r5, [r1, #128]
 	str	r5, [r1, #164]
-	ldr	r2, .L6+56
-	ldr	ip, .L6+60
-	ldr	r3, .L6+64
 	ldr	lr, .L6+68
 	ldr	r1, .L6+72
 	str	r5, [r2, #16]
 	str	r5, [ip, #16]
-	str	r5, [ip, #40]
 	add	r2, r3, #1392
+	str	r5, [ip, #48]
 	str	r0, [lr, #16]
 	str	r0, [r1, #16]
 	add	r2, r2, #8
@@ -116,10 +116,10 @@ goToStart:
 	.word	p4
 	.word	life4
 	.word	life2
-	.word	treasure
 	.word	life3
+	.word	treasure
+	.word	coins
 	.word	life5
-	.word	blocks
 	.word	bullets
 	.word	leela
 	.word	fry
@@ -219,7 +219,7 @@ goToGame:
 	ldr	r1, .L18+8
 	mov	lr, pc
 	bx	r4
-	mov	r3, #1872
+	mov	r3, #6144
 	mov	r2, #100663296
 	mov	r0, #3
 	ldr	r1, .L18+12
@@ -795,20 +795,20 @@ goToWin:
 	ldr	r1, .L89+16
 	mov	lr, pc
 	bx	r4
-	mov	r3, #48
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r1, .L89+20
+	ldr	r3, .L89+20
+	ldr	r1, .L89+24
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L89+24
+	ldr	r2, .L89+28
 	mov	r0, #3
-	ldr	r1, .L89+28
+	ldr	r1, .L89+32
 	mov	lr, pc
 	bx	r4
 	mov	r2, #8
-	ldr	r3, .L89+32
+	ldr	r3, .L89+36
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
@@ -820,6 +820,7 @@ goToWin:
 	.word	hOff
 	.word	DMANow
 	.word	winPal
+	.word	8352
 	.word	winTiles
 	.word	100720640
 	.word	winMap

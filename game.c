@@ -41,7 +41,7 @@ HEART life2;
 HEART life3;
 HEART life4;
 HEART life5;
-BLOCK blocks[BLOCKCOUNT];
+COIN coins[COINCOUNT];
 BULLET bullets[BULLETCOUNT];
 BULLET bullet;
 TREASURE treasureP1;
@@ -173,15 +173,19 @@ void initAlien() {
     alien.aniCounter = 0;
 }
 
-// // initialize the blocks that fry will jump on
-void initBlocks() {
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].col = 130 + (150 * i);
-        blocks[i].row = 50 - i;
-        blocks[i].active = 1;
-        blocks[i].width = 32;
-        blocks[i].height = 32;
-        blocks[i].cdel = 1;
+// // initialize the coins that fry will jump on
+void initCoins() {
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].col = 130 + (150 * i);
+        coins[i].row = 50 - i;
+        coins[i].active = 1;
+        coins[i].width = 32;
+        coins[i].height = 32;
+        coins[i].cdel = 1;
+        coins[i].aniState = 12;
+        coins[i].curFrame = 4;
+        coins[i].aniCounter = 0;
+        coins[i].numFrames = 7;
     }
 }
 
@@ -318,8 +322,8 @@ void initSpace() {
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
     }
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 0;
@@ -366,7 +370,7 @@ void updateSpace() {
 
 void initPlanet1() {
     hideSprites();
-    initBlocks();
+    initCoins();
     initBullets();
     initAlien();
 
@@ -409,7 +413,7 @@ void initPlanet2() {
     hideSprites();
     initBullets();
     initAlien();
-    initBlocks();
+    initCoins();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -454,7 +458,7 @@ void initPlanet3() {
     p4.active = 0;
     initBullets();
     initAlien();
-    initBlocks();
+    initCoins();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -492,7 +496,7 @@ void initPlanet4() {
     p4.active = 0;
     initBullets();
     initAlien();
-    initBlocks();
+    initCoins();
 
     // set what needs to be active or inactive
     spaceship.active = 0;
@@ -546,9 +550,9 @@ void updatePlanet1() {
     // update lives when there is a collision
     updateLives();
 
-    //update the blocks 
-    for (int k = 0; k < BLOCKCOUNT; k++) {
-        updateBlocks(&blocks[k]);
+    //update the coins 
+    for (int k = 0; k < COINCOUNT; k++) {
+        updateCoins(&coins[k]);
     }
 
     // check alien/bullet collisions
@@ -588,9 +592,10 @@ void updatePlanet2() {
     }
     treasure[2].treasureCounter++;
 
-    //update the blocks 
-    for (int k = 0; k < BLOCKCOUNT; k++) {
-        updateBlocks(&blocks[k]);
+    //update the coins 
+    for (int k = 0; k < COINCOUNT
+; k++) {
+        updateCoins(&coins[k]);
     }
 
     // check alien/bullet collisions
@@ -632,9 +637,10 @@ void updatePlanet3() {
     }
     treasure[3].treasureCounter++;
 
-    //update the blocks 
-    for (int k = 0; k < BLOCKCOUNT; k++) {
-        updateBlocks(&blocks[k]);
+    //update the coins 
+    for (int k = 0; k < COINCOUNT
+; k++) {
+        updateCoins(&coins[k]);
     }
 
     // // check alien/bullet collisions
@@ -676,9 +682,9 @@ void updatePlanet4() {
     }
     treasure[4].treasureCounter++;
 
-    //update the blocks 
-    for (int k = 0; k < BLOCKCOUNT; k++) {
-        updateBlocks(&blocks[k]);
+    //update the coins 
+    for (int k = 0; k < COINCOUNT; k++) {
+        updateCoins(&coins[k]);
     }
 
     // // check alien/bullet collisions
@@ -706,8 +712,8 @@ void initPause() {
     p3.active = 0;
     p4.active = 0;
     spaceship.active = 0;
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
     }
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].active = 0;
@@ -723,14 +729,14 @@ void initLose() {
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+            coins[i].active = 0;
     }
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 0;
     }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
     }
     drawGame();
 }
@@ -754,8 +760,8 @@ void initWin() {
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-            blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+            coins[i].active = 0;
     }
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 0;
@@ -891,8 +897,20 @@ void updateBullets(BULLET * b) {
     }
 }
 
-void updateBlocks(BLOCK * b) {
+void updateCoins(COIN * b) {
     b->col -= b->cdel;
+    if (b->aniCounter % 18 == 0) {
+        if (b->curFrame < b->numFrames - 1) {
+            b->curFrame++;
+        } else {
+            b->curFrame = 4;
+        }
+    }
+    b->aniCounter++;
+
+    if (b->col == 0) {
+        b->col = SCREENWIDTH - b->width;
+    }
     // if (characterChoice == LEELACHARACTER) {
     //     if (collision(leela.col + (leela.width / 2), leela.screenRow + (leela.height / 2), leela.width / 4, leela.height / 4, b->col, b->row, b->width, b->height) == 1) {
     //         // the treasure becomes further away and you have to get through more alien
@@ -920,9 +938,7 @@ void updateBlocks(BLOCK * b) {
     //         }
     //     }
     // }
-    if (b->active ==1 && (b->col - (b->width + 20)) == 0) {
-        b->col = SCREENWIDTH;
-    }
+
 }
 
 void updateTreasure(TREASURE * treasure) {
@@ -936,8 +952,8 @@ void updateTreasure(TREASURE * treasure) {
             // make all the sprites that should not be in space inactive
             treasure->active = 0;
             leela.active = 0;
-            for (int i = 0; i < BLOCKCOUNT; i++) {
-                blocks[i].active = 0;
+            for (int i = 0; i < COINCOUNT; i++) {
+                coins[i].active = 0;
             }
             for (int j = 0; j < BULLETCOUNT; j++) {
                 bullets[j].active = 0;
@@ -956,8 +972,8 @@ void updateTreasure(TREASURE * treasure) {
             // make all the sprites that should not be in space inactive
             treasure->active = 0;
             fry.active = 0;
-            for (int i = 0; i < BLOCKCOUNT; i++) {
-                blocks[i].active = 0;
+            for (int i = 0; i < COINCOUNT; i++) {
+                coins[i].active = 0;
             }
             for (int j = 0; j < BULLETCOUNT; j++) {
                 bullets[j].active = 0;
@@ -1012,7 +1028,7 @@ void drawGame() {
     if (life1.active) {
         shadowOAM[7].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life1.row;
         shadowOAM[7].attr1 = ATTR1_SMALL | life1.col;
-        shadowOAM[7].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+        shadowOAM[7].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
     }
     if (life1.active == 0) {
         shadowOAM[7].attr0 = ATTR0_HIDE;
@@ -1021,7 +1037,7 @@ void drawGame() {
     if (life2.active) {
         shadowOAM[8].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life2.row;
         shadowOAM[8].attr1 = ATTR1_SMALL | life2.col;
-        shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+        shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
     }
     if (life1.active == 0) {
         shadowOAM[8].attr0 = ATTR0_HIDE;
@@ -1030,7 +1046,7 @@ void drawGame() {
     if (life3.active) {
         shadowOAM[9].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life3.row;
         shadowOAM[9].attr1 = ATTR1_SMALL | life3.col;
-        shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+        shadowOAM[9].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
     }
     if (life3.active == 0) {
         shadowOAM[9].attr0 = ATTR0_HIDE;
@@ -1039,7 +1055,7 @@ void drawGame() {
     if (life4.active) {
         shadowOAM[16].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life4.row;
         shadowOAM[16].attr1 = ATTR1_SMALL | life4.col;
-        shadowOAM[16].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+        shadowOAM[16].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
     }
     if (life4.active == 0) {
         shadowOAM[16].attr0 = ATTR0_HIDE;
@@ -1048,18 +1064,18 @@ void drawGame() {
     if (life5.active) {
         shadowOAM[17].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life5.row;
         shadowOAM[17].attr1 = ATTR1_SMALL | life5.col;
-        shadowOAM[17].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(12 * 2, 2 * 2);              
+        shadowOAM[17].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
     }
     if (life5.active == 0) {
         shadowOAM[17].attr0 = ATTR0_HIDE;
     }
 
-    // draw the blocks
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        if (blocks[i].active) {
-            shadowOAM[30 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | blocks[i].row;
-            shadowOAM[30 + i].attr1 = ATTR1_SMALL | blocks[i].col;
-            shadowOAM[30 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
+    // draw the coins
+    for (int i = 0; i < COINCOUNT; i++) {
+        if (coins[i].active) {
+            shadowOAM[30 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | coins[i].row;
+            shadowOAM[30 + i].attr1 = ATTR1_SMALL | coins[i].col;
+            shadowOAM[30 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(coins[i].aniState * 2, coins[i].curFrame * 2);              
         } else {
             shadowOAM[30 + i].attr0 = ATTR0_HIDE;
         }
@@ -1070,7 +1086,7 @@ void drawGame() {
         if (bullets[i].active) {
             shadowOAM[54 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | bullets[i].row;
             shadowOAM[54 + i].attr1 = ATTR1_TINY | bullets[i].col;
-            shadowOAM[54 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(26 * 1, 4 * 1);  
+            shadowOAM[54 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(22 * 1, 4 * 1);  
         } else {
             shadowOAM[54 + i].attr0 = ATTR0_HIDE;
         }
@@ -1091,7 +1107,7 @@ void drawGame() {
         if (treasure[i].active) {
             shadowOAM[18 + i].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | treasure[i].row;
             shadowOAM[18 + i].attr1 = ATTR1_MEDIUM | treasure[i].col;
-            shadowOAM[18 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 1 * 4);
+            shadowOAM[18 + i].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(6 * 4, 1 * 4);
         } else {
             shadowOAM[18 + i].attr0 = ATTR0_HIDE;
         }

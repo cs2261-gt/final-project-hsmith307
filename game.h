@@ -89,7 +89,11 @@ typedef struct {
     int width;
     int active;
     int cdel;
-}BLOCK;
+    int aniState;
+    int curFrame;
+    int aniCounter;
+    int numFrames;
+}COIN;
 
 // bullet struct
 typedef struct {
@@ -116,7 +120,7 @@ typedef struct {
 }TREASURE;
 
 // game macros
-#define BLOCKCOUNT 2
+#define COINCOUNT 2
 #define NUMLIVES 3
 #define BULLETCOUNT 50
 #define TREASURECOUNT 5
@@ -129,7 +133,7 @@ extern FRY fry;
 extern LEELA leela;
 extern SPACESHIP spaceship;
 extern ALIEN alien;
-extern BLOCK blocks[];
+extern COIN coins[COINCOUNT];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
@@ -188,8 +192,8 @@ void updateFry();
 
 void initSpaceship();
 
-void initBlocks();
-void updateBlocks(BLOCK *);
+void initCoins();
+void updateCoins(COIN *);
 
 void initLives();
 void updateLives();

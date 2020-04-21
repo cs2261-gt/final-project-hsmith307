@@ -185,8 +185,8 @@ void goToStart() {
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < BLOCKCOUNT; i++) {
-        blocks[i].active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
     }
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 0;
