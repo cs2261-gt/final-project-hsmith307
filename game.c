@@ -160,7 +160,7 @@ void initLeela() {
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
     leela.amJumping = 0;
-    leela.coinCount;
+    leela.coinCount = 0;
 }
 
 // initialize the alien
@@ -450,6 +450,7 @@ void initPlanet1() {
         bullets[i].cdel = 1;
     }
 
+cannonall.active = 1;
 
 
     // keep track of what planet you are on
@@ -948,7 +949,7 @@ void updateFry() {
     }
     fry.rdel += GRAVITY;
 
-    if (SHIFTDOWN(fry.row + fry.height - 1 + fry.rdel) < SCREENHEIGHT- fry.height - 1) {
+    if (SHIFTDOWN((fry.row + (fry.height - 1) + fry.rdel)) < (SCREENHEIGHT- fry.height - 1)) {
         fry.row += fry.rdel;
     } else {
         fry.rdel = 0;
@@ -989,7 +990,7 @@ void updateLeela() {
     }
     leela.rdel += GRAVITY;
 
-    if (SHIFTDOWN(leela.row + leela.height -1 + leela.rdel) < SCREENHEIGHT-leela.height-1) {
+    if (SHIFTDOWN((leela.row + (leela.height - 1) + leela.rdel)) < (SCREENHEIGHT-leela.height-1)) {
         leela.row += leela.rdel;
     } else {
         leela.rdel = 0;
@@ -1146,8 +1147,7 @@ void updateTreasure(TREASURE * treasure) {
         hideSprites();
         if (characterChoice == LEELACHARACTER) {
             if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col, 
-            treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
-                treasure->treasureNum = 1;
+            treasure->row, treasure->width, treasure->height)) {
                 
                 // make all the sprites that should not be in space inactive
                 treasure->active = 0;
@@ -1191,11 +1191,13 @@ void updateTreasure(TREASURE * treasure) {
 void updateCannonball() {
     if (cannonall.active) {
         cannonall.row += cannonall.rdel;
+        if (cannonall.row + cannonall.height == 159) {
+            cannonall.active = 0;
+            enemy.shotReady = 1;
+            drawGame();
+        }
     }
-    if (cannonall.row + cannonall.height == 0) {
-        cannonall.active = 0;
-        enemy.shotReady = 1;
-    }
+
 }
 
 // draw the game depending on which are active

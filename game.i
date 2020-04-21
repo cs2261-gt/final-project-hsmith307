@@ -1840,7 +1840,7 @@ void initLeela() {
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
     leela.amJumping = 0;
-    leela.coinCount;
+    leela.coinCount = 0;
 }
 
 
@@ -2130,6 +2130,7 @@ void initPlanet1() {
         bullets[i].cdel = 1;
     }
 
+cannonall.active = 1;
 
 
 
@@ -2354,7 +2355,7 @@ void updatePlanet1() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 686 "game.c"
+# 687 "game.c"
     drawGame();
 }
 
@@ -2402,7 +2403,7 @@ void updatePlanet2() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 743 "game.c"
+# 744 "game.c"
     drawGame();
 }
 
@@ -2457,7 +2458,7 @@ void updatePlanet3() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 807 "game.c"
+# 808 "game.c"
     drawGame();
 }
 
@@ -2511,7 +2512,7 @@ void updatePlanet4() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 870 "game.c"
+# 871 "game.c"
     drawGame();
 }
 
@@ -2593,7 +2594,7 @@ void updateFry() {
     }
     fry.rdel += 50;
 
-    if (((fry.row + fry.height - 1 + fry.rdel >> 8)) < 160 - fry.height - 1) {
+    if ((((fry.row + (fry.height - 1) + fry.rdel) >> 8)) < (160 - fry.height - 1)) {
         fry.row += fry.rdel;
     } else {
         fry.rdel = 0;
@@ -2634,7 +2635,7 @@ void updateLeela() {
     }
     leela.rdel += 50;
 
-    if (((leela.row + leela.height -1 + leela.rdel >> 8)) < 160 -leela.height-1) {
+    if ((((leela.row + (leela.height - 1) + leela.rdel) >> 8)) < (160 -leela.height-1)) {
         leela.row += leela.rdel;
     } else {
         leela.rdel = 0;
@@ -2791,8 +2792,7 @@ void updateTreasure(TREASURE * treasure) {
         hideSprites();
         if (characterChoice == LEELACHARACTER) {
             if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col,
-            treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
-                treasure->treasureNum = 1;
+            treasure->row, treasure->width, treasure->height)) {
 
 
                 treasure->active = 0;
@@ -2836,11 +2836,13 @@ void updateTreasure(TREASURE * treasure) {
 void updateCannonball() {
     if (cannonall.active) {
         cannonall.row += cannonall.rdel;
+        if (cannonall.row + cannonall.height == 159) {
+            cannonall.active = 0;
+            enemy.shotReady = 1;
+            drawGame();
+        }
     }
-    if (cannonall.row + cannonall.height == 0) {
-        cannonall.active = 0;
-        enemy.shotReady = 1;
-    }
+
 }
 
 
