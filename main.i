@@ -166,6 +166,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int timer;
 }ALIEN;
 
 
@@ -301,7 +302,7 @@ extern TREASURE treasureP1;
 extern TREASURE treasure[5];
 extern HELMET helmet;
 extern ENEMY enemy;
-extern CANNONBALL cannonall;
+extern CANNONBALL cannonball;
 
 
 
@@ -2128,6 +2129,12 @@ void planet1() {
     if (isWon == 1) {
         goToWin();
     }
+
+
+    if (collision(fry.col, fry.row, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active) {
+        fry.active = 0;
+    }
+
 
 
     if (characterChoice == LEELACHARACTER) {

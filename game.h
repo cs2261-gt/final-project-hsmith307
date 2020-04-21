@@ -184,7 +184,7 @@ extern TREASURE treasureP1;
 extern TREASURE treasure[TREASURECOUNT];
 extern HELMET helmet;
 extern ENEMY enemy;
-extern CANNONBALL cannonall;
+extern CANNONBALL cannonball;
 
 
 // counters to count which life is being lost and thus which should be hidden

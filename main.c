@@ -338,6 +338,12 @@ void planet1() {
         goToWin();
     }
 
+    // if there is a collision with fry and the cannonball
+    if (collision(fry.col, fry.row, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active) {
+        fry.active = 0;
+    }
+
+
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
         if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.screenRow, leela.width, leela.height)) {
