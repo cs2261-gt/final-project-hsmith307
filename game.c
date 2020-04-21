@@ -1069,7 +1069,7 @@ void updateAlien() {
 
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
+        if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1 && bullets[i].active) {
             alien.active = 0;
             alien.timer = 0;
             bullets[i].active = 0;
@@ -1224,7 +1224,7 @@ void updateCannonball() {
             enemy.shotReady = 1;
             drawGame();
         }
-        if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonall.col, cannonall.row, cannonall.width, cannonall.height) == 1) {
+        if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonall.col, cannonall.row, cannonall.width, cannonall.height) == 1 && (helmet.active)) {
             cannonall.active = 0;
             enemy.shotReady = 1;
         }
