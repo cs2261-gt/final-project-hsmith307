@@ -48,6 +48,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int timer;
 }ALIEN;
 
 

@@ -176,6 +176,7 @@ void initAlien() {
     alien.curFrame = 1;
     alien.numFrames = 4;
     alien.aniCounter = 0;
+    alien.timer = 1;
 }
 
 // // initialize the coins that fry will jump on
@@ -1040,9 +1041,16 @@ void updateAlien() {
     // check alien/bullet collisions
     for (int i = 0; i < BULLETCOUNT; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = SCREENWIDTH + alien.width;
+            alien.active = 0;
+            alien.timer = 0;
             bullets[i].active = 0;
         }
+    }
+
+    if (!alien.active && alien.timer == 0) {
+        initAlien();
+        alien.active = 1;
+        alien.cdel = 1;
     }
 }
 

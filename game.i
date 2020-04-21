@@ -163,6 +163,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int timer;
 }ALIEN;
 
 
@@ -1855,6 +1856,7 @@ void initAlien() {
     alien.curFrame = 1;
     alien.numFrames = 4;
     alien.aniCounter = 0;
+    alien.timer = 1;
 }
 
 
@@ -2352,7 +2354,7 @@ void updatePlanet1() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 685 "game.c"
+# 686 "game.c"
     drawGame();
 }
 
@@ -2400,7 +2402,7 @@ void updatePlanet2() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 742 "game.c"
+# 743 "game.c"
     drawGame();
 }
 
@@ -2455,7 +2457,7 @@ void updatePlanet3() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 806 "game.c"
+# 807 "game.c"
     drawGame();
 }
 
@@ -2509,7 +2511,7 @@ void updatePlanet4() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 869 "game.c"
+# 870 "game.c"
     drawGame();
 }
 
@@ -2684,9 +2686,16 @@ void updateAlien() {
 
     for (int i = 0; i < 50; i++) {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1) {
-            alien.col = 240 + alien.width;
+            alien.active = 0;
+            alien.timer = 0;
             bullets[i].active = 0;
         }
+    }
+
+    if (!alien.active && alien.timer == 0) {
+        initAlien();
+        alien.active = 1;
+        alien.cdel = 1;
     }
 }
 
