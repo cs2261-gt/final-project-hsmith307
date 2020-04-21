@@ -71,6 +71,8 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int isLeft;
+    int shotReady;
 }ENEMY;
 
 //helmet struct
@@ -178,6 +180,10 @@ extern HEART life5;
 extern BULLET bullets[BULLETCOUNT];
 extern TREASURE treasureP1;
 extern TREASURE treasure[TREASURECOUNT];
+extern HELMET helmet;
+extern ENEMY enemy;
+extern CANNONBALL cannonall;
+
 
 // counters to count which life is being lost and thus which should be hidden
 extern int lifeCounter;
@@ -244,6 +250,17 @@ void initBullets();
 
 void shootBullets();
 void updateBullets(BULLET *);
+
+void initHelmet();
+void updateHelmet();
+
+void initCannonball();
+void shootCannonball();
+void updateCannonball();
+
+
+void initEnemy();
+void updateEnemy();
 
 extern int isLost;
 extern int isWon;

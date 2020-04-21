@@ -186,6 +186,42 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int isLeft;
+    int shotReady;
+}ENEMY;
+
+
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}HELMET;
+
+
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}CANNONBALL;
+
+
+
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
 }PLANET;
 
 
@@ -259,6 +295,10 @@ extern HEART life5;
 extern BULLET bullets[50];
 extern TREASURE treasureP1;
 extern TREASURE treasure[5];
+extern HELMET helmet;
+extern ENEMY enemy;
+extern CANNONBALL cannonall;
+
 
 
 extern int lifeCounter;
@@ -325,6 +365,17 @@ void initBullets();
 
 void shootBullets();
 void updateBullets(BULLET *);
+
+void initHelmet();
+void updateHelmet();
+
+void initCannonball();
+void shootCannonball();
+void updateCannonball();
+
+
+void initEnemy();
+void updateEnemy();
 
 extern int isLost;
 extern int isWon;
@@ -1680,6 +1731,9 @@ BULLET bullets[50];
 BULLET bullet;
 TREASURE treasureP1;
 TREASURE treasure[5];
+HELMET helmet;
+ENEMY enemy;
+CANNONBALL cannonall;
 
 
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -1710,7 +1764,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 87 "game.c"
+# 90 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -1883,6 +1937,40 @@ void initTreasure() {
     }
 }
 
+
+void initEnemy() {
+    enemy.width = 32;
+    enemy.height = 32;
+    enemy.col = 240 - enemy.width;
+    enemy.row = 10;
+    enemy.cdel = 1;
+    enemy.active = 0;
+    enemy.isLeft = 1;
+    enemy.shotReady = 0;
+}
+
+void initHelmet() {
+    if (characterChoice == LEELACHARACTER) {
+        helmet.col = leela.col;
+        helmet.row = leela.row - leela.height;
+    }
+    if (characterChoice == FRYCHARACTER) {
+        helmet.col = fry.col;
+        helmet.row = fry.row - fry.height;
+    }
+    helmet.active = 0;
+    helmet.cdel = 1;
+    helmet.width = 32;
+    helmet.height = 32;
+}
+
+void initCannonball() {
+    cannonall.col = enemy.col + enemy.width / 4;
+    cannonall.row = enemy.row + enemy.height;
+    cannonall.rdel = 1;
+}
+
+
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -1958,6 +2046,8 @@ void initSpace() {
         bullets[j].active = 0;
     }
 
+    initEnemy();
+
 
     DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
     DMANow(3, spritesheet5Tiles, &((charblock *)0x6000000)[4], 32768 / 2);
@@ -2007,6 +2097,9 @@ void initPlanet1() {
     treasure[1].col = 203;
     treasure[1].row = 120;
     treasure[1].cdel = 1;
+
+    enemy.active = 1;
+    enemy.isLeft = 1;
 
 
     if (characterChoice == FRYCHARACTER) {
@@ -2091,6 +2184,9 @@ void initPlanet2() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
 
 
 }
@@ -2140,6 +2236,9 @@ void initPlanet3() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
 }
 
 void initPlanet4() {
@@ -2187,6 +2286,9 @@ void initPlanet4() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
 }
 
 void updatePlanet1() {
@@ -2217,14 +2319,26 @@ void updatePlanet1() {
             updateTreasure(&treasure[1]);
         }
     }
-# 601 "game.c"
+
+
+
+
+
+
+
+    updateEnemy();
+
+
     updateLives();
+
+
+    updateCannonball();
 
 
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 616 "game.c"
+# 672 "game.c"
     drawGame();
 }
 
@@ -2248,6 +2362,12 @@ void updatePlanet2() {
     updateLives();
 
 
+    updateEnemy();
+
+
+    updateCannonball();
+
+
     if (characterChoice == FRYCHARACTER) {
         if (fry.coinCount > 20) {
             treasure[2].active = 1;
@@ -2266,7 +2386,7 @@ void updatePlanet2() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 667 "game.c"
+# 729 "game.c"
     drawGame();
 }
 
@@ -2291,6 +2411,12 @@ void updatePlanet3() {
     updateLives();
 
 
+    updateEnemy();
+
+
+    updateCannonball();
+
+
 
     if (characterChoice == FRYCHARACTER) {
         if (fry.coinCount > 20) {
@@ -2315,7 +2441,7 @@ void updatePlanet3() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 725 "game.c"
+# 793 "game.c"
     drawGame();
 }
 
@@ -2339,6 +2465,11 @@ void updatePlanet4() {
 
     updateLives();
 
+
+    updateEnemy();
+
+
+    updateCannonball();
 
 
 
@@ -2364,7 +2495,7 @@ void updatePlanet4() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 783 "game.c"
+# 856 "game.c"
     drawGame();
 }
 
@@ -2545,6 +2676,31 @@ void updateAlien() {
     }
 }
 
+void updateEnemy() {
+    if (enemy.isLeft) {
+        enemy.col -= enemy.cdel;
+        if (enemy.col == 0) {
+            enemy.isLeft = 0;
+        }
+    } else {
+        enemy.col += enemy.cdel;
+        if (enemy.col + enemy.width == 240 - 1) {
+            enemy.isLeft = 1;
+        }
+    }
+    if (enemy.shotReady) {
+        shootCannonball();
+    }
+
+}
+
+void shootCannonball() {
+    enemy.shotReady = 0;
+    cannonall.col = enemy.col + 8;
+    cannonall.row = enemy.row + enemy.height - 10;
+    cannonall.active = 1;
+}
+
 void shootBullets() {
 
     for (int i = 0; i < 50; i++) {
@@ -2652,6 +2808,16 @@ void updateTreasure(TREASURE * treasure) {
         }
     }
 
+}
+
+void updateCannonball() {
+    if (enemy.shotReady == 0) {
+        cannonall.row += cannonall.rdel;
+    }
+    if (cannonall.row + cannonall.height == 0) {
+        cannonall.active = 0;
+        enemy.shotReady = 1;
+    }
 }
 
 
@@ -2768,6 +2934,26 @@ void drawGame() {
     }
     if (spaceship.active == 0) {
         shadowOAM[1].attr0 = (2<<8);
+    }
+
+
+    if (enemy.active) {
+        shadowOAM[35].attr0 = (0<<8) | (0<<13) | (0<<14) | enemy.row;
+        shadowOAM[35].attr1 = (2<<14) | enemy.col;
+        shadowOAM[35].attr2 = ((0)<<12) | ((1 * 4)*32+(7 * 4));
+    }
+    if (enemy.active == 0) {
+        shadowOAM[35].attr0 = (2<<8);
+    }
+
+
+    if (cannonall.active) {
+        shadowOAM[36].attr0 = (0<<8) | (0<<13) | (0<<14) | cannonall.row;
+        shadowOAM[36].attr1 = (0<<14) | cannonall.col;
+        shadowOAM[36].attr2 = ((0)<<12) | ((4 * 1)*32+(23 * 1));
+    }
+    if (cannonall.active == 0) {
+        shadowOAM[36].attr0 = (2<<8);
     }
 
 

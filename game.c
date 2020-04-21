@@ -46,6 +46,9 @@ BULLET bullets[BULLETCOUNT];
 BULLET bullet;
 TREASURE treasureP1;
 TREASURE treasure[TREASURECOUNT];
+HELMET helmet;
+ENEMY enemy;
+CANNONBALL cannonall;
 
 // set up the state trackers so you know what planet you are on
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -256,6 +259,40 @@ void initTreasure() {
     }
 }
 
+
+void initEnemy() {
+    enemy.width = 32;
+    enemy.height = 32;
+    enemy.col = SCREENWIDTH - enemy.width;
+    enemy.row = 10;
+    enemy.cdel = 1;
+    enemy.active = 0;
+    enemy.isLeft = 1;
+    enemy.shotReady = 0;
+}
+
+void initHelmet() {
+    if (characterChoice == LEELACHARACTER) {
+        helmet.col = leela.col;
+        helmet.row = leela.row - leela.height;
+    }
+    if (characterChoice == FRYCHARACTER) {
+        helmet.col = fry.col;
+        helmet.row = fry.row - fry.height;
+    }
+    helmet.active = 0;
+    helmet.cdel = 1;
+    helmet.width = 32;
+    helmet.height = 32;
+}
+
+void initCannonball() {
+    cannonall.col = enemy.col + enemy.width / 4;
+    cannonall.row = enemy.row + enemy.height;
+    cannonall.rdel = 1;
+}
+
+
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -331,6 +368,8 @@ void initSpace() {
         bullets[j].active = 0;
     }
 
+    initEnemy();
+
 
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
     DMANow(3, spritesheet5Tiles, &CHARBLOCK[4], spritesheet5TilesLen / 2);
@@ -380,6 +419,9 @@ void initPlanet1() {
     treasure[1].col = 203;
     treasure[1].row = 120;
     treasure[1].cdel = 1;
+
+    enemy.active = 1;
+    enemy.isLeft = 1;
 
     // make sure you reset the coin count of the character
     if (characterChoice == FRYCHARACTER) {
@@ -464,6 +506,9 @@ void initPlanet2() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
     //life1Counter = 0;
     
 }
@@ -513,6 +558,9 @@ void initPlanet3() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
 }
 
 void initPlanet4() {
@@ -560,6 +608,9 @@ void initPlanet4() {
         fry.active = 1;
     }
 
+    enemy.active = 1;
+    enemy.isLeft = 1;
+
 }
 
 void updatePlanet1() {
@@ -596,9 +647,14 @@ void updatePlanet1() {
     // }
     // treasure[1].treasureCounter++;
 
+    // update the enemy
+    updateEnemy();
 
     // update lives when there is a collision
     updateLives();
+
+    // update the cannonball
+    updateCannonball();
 
     //update the coins 
     for (int k = 0; k < COINCOUNT; k++) {
@@ -634,6 +690,12 @@ void updatePlanet2() {
 
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
+
+    // update the enemy
+    updateEnemy();
+
+    // update the cannonball
+    updateCannonball();
 
     // update the treasure for that planet
     if (characterChoice == FRYCHARACTER) {
@@ -686,6 +748,12 @@ void updatePlanet3() {
 
      // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
+
+    // update the enemy
+    updateEnemy();
+
+    // update the cannonball
+    updateCannonball();
 
     // update the treasure for that planet
     // update the treasure for that planet
@@ -745,6 +813,11 @@ void updatePlanet4() {
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
+    // update the enemy
+    updateEnemy();
+
+    // update the cannonball
+    updateCannonball();
 
     // // update the treasure for that planet
         // update the treasure for that planet
@@ -960,6 +1033,31 @@ void updateAlien() {
     }
 }
 
+void updateEnemy() {
+    if (enemy.isLeft) {
+        enemy.col -= enemy.cdel;
+        if (enemy.col == 0) {
+            enemy.isLeft = 0;
+        }
+    } else {
+        enemy.col += enemy.cdel;
+        if (enemy.col + enemy.width == SCREENWIDTH - 1) {
+            enemy.isLeft = 1;
+        }
+    }
+    if (enemy.shotReady) {
+        shootCannonball();
+    }
+    
+}
+
+void shootCannonball() {
+    enemy.shotReady = 0;
+    cannonall.col = enemy.col + 8;
+    cannonall.row = enemy.row + enemy.height - 10;
+    cannonall.active = 1;
+}
+
 void shootBullets() {
 	// If active, update; otherwise ignore
     for (int i = 0; i < BULLETCOUNT; i++) {
@@ -1067,6 +1165,16 @@ void updateTreasure(TREASURE * treasure) {
         }
     }
 
+}
+
+void updateCannonball() {
+    if (cannonall.active) {
+        cannonall.row += cannonall.rdel;
+    }
+    if (cannonall.row + cannonall.height == 0) {
+        cannonall.active = 0;
+        enemy.shotReady = 1;
+    }
 }
 
 // draw the game depending on which are active
@@ -1183,6 +1291,26 @@ void drawGame() {
     }
     if (spaceship.active == 0) {
         shadowOAM[1].attr0 = ATTR0_HIDE;
+    }
+
+    // draw enemy
+    if (enemy.active) {
+        shadowOAM[35].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | enemy.row;
+        shadowOAM[35].attr1 = ATTR1_MEDIUM | enemy.col;
+        shadowOAM[35].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 1 * 4);      
+    }
+    if (enemy.active == 0) {
+        shadowOAM[35].attr0 = ATTR0_HIDE;
+    }
+
+    // draw cannonball
+    if (cannonall.active) {
+        shadowOAM[36].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | cannonall.row;
+        shadowOAM[36].attr1 = ATTR1_TINY | cannonall.col;
+        shadowOAM[36].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(23 * 1, 4 * 1);    
+    }
+    if (cannonall.active == 0) {
+        shadowOAM[36].attr0 = ATTR0_HIDE;
     }
 
     //draw treasure
