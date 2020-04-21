@@ -488,7 +488,7 @@ initTreasure:
 	ldr	lr, .L60
 	mov	r7, r2
 	mov	r3, lr
-	mov	r6, #220
+	mov	r6, #200
 	mov	r5, #100
 	mov	r0, #0
 	mov	ip, #32
@@ -2605,7 +2605,7 @@ initGame:
 	mov	r3, r6
 	mov	r1, lr
 	mov	fp, lr
-	mov	r10, #220
+	mov	r10, #200
 	mov	r6, #100
 	mov	ip, #32
 	mov	r5, #500

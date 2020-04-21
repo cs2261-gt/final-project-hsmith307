@@ -247,7 +247,7 @@ void initBullets() {
 
 void initTreasure() {
     for (int i = 1; i < TREASURECOUNT; i++) {
-        treasure[i].col = 220;
+        treasure[i].col = 200;
         treasure[i].row = 100;
         treasure[i].active = 0;
         treasure[i].width = 32;
