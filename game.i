@@ -1954,14 +1954,8 @@ void initEnemy() {
 }
 
 void initHelmet() {
-    if (characterChoice == LEELACHARACTER) {
-        helmet.col = leela.col;
-        helmet.row = leela.row - leela.height;
-    }
-    if (characterChoice == FRYCHARACTER) {
-        helmet.col = fry.col;
-        helmet.row = fry.row - fry.height;
-    }
+    helmet.col = 20;
+    helmet.row = 70;
     helmet.active = 0;
     helmet.cdel = 1;
     helmet.width = 32;
@@ -2130,7 +2124,7 @@ void initPlanet1() {
         bullets[i].cdel = 1;
     }
 
-cannonall.active = 1;
+    cannonall.active = 1;
 
 
 
@@ -2187,6 +2181,9 @@ void initPlanet2() {
         bullets[i].cdel = 1;
     }
 
+    cannonall.active = 1;
+
+
 
     treasure[2].row += 25;
 
@@ -2229,6 +2226,8 @@ void initPlanet3() {
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
     }
+
+    cannonall.active = 1;
 
 
 
@@ -2279,6 +2278,8 @@ void initPlanet4() {
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
     }
+
+    cannonall.active = 1;
 
 
 
@@ -2352,10 +2353,17 @@ void updatePlanet1() {
     updateCannonball();
 
 
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    }
+
+
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 687 "game.c"
+# 695 "game.c"
     drawGame();
 }
 
@@ -2385,6 +2393,11 @@ void updatePlanet2() {
     updateCannonball();
 
 
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
+        helmet.active = 1;
+    }
+
+
     if (characterChoice == FRYCHARACTER) {
         if (fry.coinCount > 20) {
             treasure[2].active = 1;
@@ -2403,7 +2416,7 @@ void updatePlanet2() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 744 "game.c"
+# 757 "game.c"
     drawGame();
 }
 
@@ -2434,6 +2447,14 @@ void updatePlanet3() {
     updateCannonball();
 
 
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    }
+
+
+
 
     if (characterChoice == FRYCHARACTER) {
         if (fry.coinCount > 20) {
@@ -2458,7 +2479,7 @@ void updatePlanet3() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 808 "game.c"
+# 829 "game.c"
     drawGame();
 }
 
@@ -2489,6 +2510,13 @@ void updatePlanet4() {
     updateCannonball();
 
 
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    }
+
+
 
     if (characterChoice == FRYCHARACTER) {
         if (fry.coinCount > 20) {
@@ -2512,7 +2540,7 @@ void updatePlanet4() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 871 "game.c"
+# 899 "game.c"
     drawGame();
 }
 
@@ -2841,6 +2869,10 @@ void updateCannonball() {
             enemy.shotReady = 1;
             drawGame();
         }
+        if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonall.col, cannonall.row, cannonall.width, cannonall.height) == 1) {
+            cannonall.active = 0;
+            enemy.shotReady = 1;
+        }
     }
 
 }
@@ -2979,6 +3011,16 @@ void drawGame() {
     }
     if (cannonall.active == 0) {
         shadowOAM[36].attr0 = (2<<8);
+    }
+
+
+    if (helmet.active) {
+        shadowOAM[37].attr0 = (0<<8) | (0<<13) | (0<<14) | helmet.row;
+        shadowOAM[37].attr1 = (2<<14)| helmet.col;
+        shadowOAM[37].attr2 = ((0)<<12) | ((2 * 4)*32+(7 * 4));
+    }
+    if (helmet.active == 0) {
+        shadowOAM[37].attr0 = (2<<8);
     }
 
 

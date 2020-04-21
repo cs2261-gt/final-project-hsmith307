@@ -274,14 +274,8 @@ void initEnemy() {
 }
 
 void initHelmet() {
-    if (characterChoice == LEELACHARACTER) {
-        helmet.col = leela.col;
-        helmet.row = leela.row - leela.height;
-    }
-    if (characterChoice == FRYCHARACTER) {
-        helmet.col = fry.col;
-        helmet.row = fry.row - fry.height;
-    }
+    helmet.col = 20;
+    helmet.row = 70;
     helmet.active = 0;
     helmet.cdel = 1;
     helmet.width = 32;
@@ -450,7 +444,7 @@ void initPlanet1() {
         bullets[i].cdel = 1;
     }
 
-cannonall.active = 1;
+    cannonall.active = 1;
 
 
     // keep track of what planet you are on
@@ -507,6 +501,9 @@ void initPlanet2() {
         bullets[i].cdel = 1;
     }
 
+    cannonall.active = 1;
+
+
     // make the treasure look like it is on the ground 
     treasure[2].row += 25;
 
@@ -549,6 +546,8 @@ void initPlanet3() {
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 1;
     }
+
+    cannonall.active = 1;
 
 
     // make sure you reset the coin count of the character
@@ -599,6 +598,8 @@ void initPlanet4() {
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 1;
     }
+
+    cannonall.active = 1;
 
 
     // make sure you reset the coin count of the character
@@ -671,6 +672,13 @@ void updatePlanet1() {
     // update the cannonball
     updateCannonball();
 
+    // update the helmet
+    if (BUTTON_HELD(BUTTON_DOWN)) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    } 
+
     //update the coins 
     for (int k = 0; k < COINCOUNT; k++) {
         updateCoins(&coins[k]);
@@ -711,6 +719,11 @@ void updatePlanet2() {
 
     // update the cannonball
     updateCannonball();
+
+    // update the helmet
+    if (BUTTON_HELD(BUTTON_DOWN)) {
+        helmet.active = 1;
+    }
 
     // update the treasure for that planet
     if (characterChoice == FRYCHARACTER) {
@@ -769,6 +782,14 @@ void updatePlanet3() {
 
     // update the cannonball
     updateCannonball();
+
+    // update the helmet
+    if (BUTTON_HELD(BUTTON_DOWN)) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    }
+
 
     // update the treasure for that planet
     // update the treasure for that planet
@@ -833,6 +854,13 @@ void updatePlanet4() {
 
     // update the cannonball
     updateCannonball();
+
+    // update the helmet
+    if (BUTTON_HELD(BUTTON_DOWN)) {
+        helmet.active = 1;
+    } else {
+        helmet.active = 0;
+    }
 
     // // update the treasure for that planet
         // update the treasure for that planet
@@ -1196,6 +1224,10 @@ void updateCannonball() {
             enemy.shotReady = 1;
             drawGame();
         }
+        if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonall.col, cannonall.row, cannonall.width, cannonall.height) == 1) {
+            cannonall.active = 0;
+            enemy.shotReady = 1;
+        }
     }
 
 }
@@ -1334,6 +1366,16 @@ void drawGame() {
     }
     if (cannonall.active == 0) {
         shadowOAM[36].attr0 = ATTR0_HIDE;
+    }
+    
+    // draw the helmet
+    if (helmet.active) {
+        shadowOAM[37].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | helmet.row;
+        shadowOAM[37].attr1 = ATTR1_MEDIUM| helmet.col;
+        shadowOAM[37].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 2 * 4);      
+    }
+    if (helmet.active == 0) {
+        shadowOAM[37].attr0 = ATTR0_HIDE;
     }
 
     //draw treasure
