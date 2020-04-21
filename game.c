@@ -938,6 +938,9 @@ void initLose() {
     for (int i = 0; i < COINCOUNT; i++) {
         coins[i].active = 0;
     }
+    enemy.active = 0;
+    helmet.active = 0;
+    cannonall.active = 0;
     drawGame();
 }
 
@@ -957,6 +960,9 @@ void initWin() {
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    enemy.active = 0;
+    helmet.active = 0;
+    cannonall.active = 0;
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }

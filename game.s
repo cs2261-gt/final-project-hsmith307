@@ -2834,7 +2834,7 @@ initLose:
 	mov	lr, pc
 	bx	r3
 	mov	r0, #0
-	mov	r1, r0
+	mov	r2, r0
 	ldr	ip, .L341+4
 	ldr	lr, .L341+8
 	ldr	r3, .L341+12
@@ -2843,7 +2843,7 @@ initLose:
 	ldr	lr, .L341+20
 	str	r0, [ip, #16]
 	ldr	ip, .L341+24
-	add	r2, r3, #1392
+	add	r1, r3, #1392
 	str	r0, [r4, #16]
 	str	r0, [ip, #20]
 	str	r0, [ip, #60]
@@ -2852,13 +2852,19 @@ initLose:
 	str	r0, [ip, #180]
 	str	r0, [lr, #16]
 	str	r0, [lr, #56]
-	add	r2, r2, #8
+	add	r1, r1, #8
 .L338:
-	str	r1, [r3, #24]
+	str	r2, [r3, #24]
 	add	r3, r3, #28
-	cmp	r2, r3
+	cmp	r1, r3
 	bne	.L338
+	ldr	r0, .L341+28
+	ldr	r1, .L341+32
+	ldr	r3, .L341+36
 	pop	{r4, lr}
+	str	r2, [r0, #16]
+	str	r2, [r1, #16]
+	str	r2, [r3, #16]
 	b	drawGame
 .L342:
 	.align	2
@@ -2870,6 +2876,9 @@ initLose:
 	.word	fry
 	.word	coins
 	.word	treasure
+	.word	enemy
+	.word	helmet
+	.word	cannonall
 	.size	initLose, .-initLose
 	.align	2
 	.global	initWin
@@ -2887,34 +2896,40 @@ initWin:
 	bx	r3
 	mov	r0, #0
 	mov	r1, r0
-	ldr	ip, .L347+4
-	ldr	lr, .L347+8
+	ldr	lr, .L347+4
+	ldr	ip, .L347+8
+	str	r0, [lr, #16]
+	ldr	lr, .L347+12
 	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	ip, .L347+12
-	ldr	lr, .L347+16
+	ldr	ip, .L347+16
+	ldr	lr, .L347+20
 	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	ip, .L347+20
-	ldr	lr, .L347+24
+	ldr	ip, .L347+24
+	ldr	lr, .L347+28
 	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	ip, .L347+28
-	ldr	lr, .L347+32
+	ldr	ip, .L347+32
+	ldr	lr, .L347+36
 	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	ip, .L347+36
-	ldr	lr, .L347+40
+	ldr	ip, .L347+40
+	ldr	lr, .L347+44
 	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	ip, .L347+44
-	ldr	lr, .L347+48
-	ldr	r3, .L347+52
+	ldr	ip, .L347+48
+	ldr	lr, .L347+52
+	str	r0, [ip, #16]
 	str	r0, [lr, #16]
-	ldr	r4, .L347+56
+	ldr	ip, .L347+56
 	ldr	lr, .L347+60
+	ldr	r3, .L347+64
+	str	r0, [lr, #16]
+	ldr	r4, .L347+68
+	ldr	lr, .L347+72
 	str	r0, [ip, #16]
-	ldr	ip, .L347+64
+	ldr	ip, .L347+76
 	add	r2, r3, #1392
 	str	r0, [r4, #16]
 	str	r0, [ip, #20]
@@ -2948,6 +2963,9 @@ initWin:
 	.word	life3
 	.word	life4
 	.word	life5
+	.word	enemy
+	.word	helmet
+	.word	cannonall
 	.word	bullets
 	.word	fry
 	.word	coins
