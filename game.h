@@ -112,10 +112,11 @@ typedef struct {
     int active;
     volatile int treasureCounter;
     int treasureNum;
+    int distance;
 }TREASURE;
 
 // game macros
-#define BLOCKCOUNT 3
+#define BLOCKCOUNT 2
 #define NUMLIVES 3
 #define BULLETCOUNT 50
 #define TREASURECOUNT 5

@@ -9,6 +9,7 @@
 #include "pause.h"
 #include "planet1PS.h"
 // #include "bg.h"
+#include "gameintro.h"
 #include "planets.h"
 #include "stars.h"
 #include "planet2bg.h"
@@ -151,21 +152,22 @@ void initialize() {
     setupSounds();
     setupInterrupts();
 
-      buttons = BUTTONS;
-      oldButtons = 0;
-      goToStart();
+    buttons = BUTTONS;
+    oldButtons = 0;
+    goToStart();
 
 }
 
 // load the start state
 void goToStart() {
-    stopSound();
     
     hOff = 0;
     vOff = 0;
     isLost = 0;
 
     hideSprites();
+
+    //playSoundA(gameIntro, GAMEINTROLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -204,7 +206,8 @@ void start() {
     REG_BG0VOFF = 0;
 
     //stopSound();
-    playSoundA(intoSong, INTOSONGLEN, 1);
+
+
 
 
     if (BUTTON_PRESSED(BUTTON_START)) {
@@ -251,6 +254,8 @@ void game() {
 
 void goToSpace() {
     initSpace();
+
+    //playSoundA(intoSong, INTOSONGLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
@@ -476,6 +481,8 @@ void planet4() {
 
 void goToPause() {
 
+    pauseSound();
+
     initPause();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
@@ -492,6 +499,7 @@ void pause() {
     REG_BG0VOFF = 0;
     drawGame();
     if (BUTTON_PRESSED(BUTTON_START)) {
+        unpauseSound();
         if (prevState == PLANET1) {
             goToPlanet1();
         } else if (prevState == PLANET2) {
@@ -509,13 +517,12 @@ void pause() {
 void goToWin() {
     initWin();
 
-    REG_BG0HOFF = 0; 
+    vOff = 0;
+    hOff = 0;
     REG_BG0VOFF = 0;
-
-    REG_BG1HOFF = 0; 
-    REG_BG1VOFF = 0;
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
+
     DMANow(3, winPal, PALETTE, winPalLen / 2);
     DMANow(3, winTiles, &CHARBLOCK[0], winTilesLen / 2);
     DMANow(3, winMap, &SCREENBLOCK[28], winMapLen / 2);

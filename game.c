@@ -3,6 +3,7 @@
 #include "spritesheet5.h"
 #include "shot.h"
 #include "sound.h"
+#include "metal.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -176,10 +177,10 @@ void initAlien() {
 void initBlocks() {
     for (int i = 0; i < BLOCKCOUNT; i++) {
         blocks[i].col = 130 + (150 * i);
+        blocks[i].row = 50 - i;
         blocks[i].active = 1;
         blocks[i].width = 32;
         blocks[i].height = 32;
-        blocks[i].row = ground - blocks[i].height / 2;
         blocks[i].cdel = 1;
     }
 }
@@ -245,6 +246,7 @@ void initTreasure() {
         treasure[i].treasureCounter = 0;
         treasure[i].cdel = 1;
         treasure[i].treasureNum = 0;
+        treasure[i].distance = 500;
     }
 }
 
@@ -535,7 +537,7 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    if (treasure[1].treasureCounter > 50000) {
+    if (treasure[1].treasureCounter > treasure[1].distance) {
         treasure[1].active = 1;
         updateTreasure(&treasure[1]);
     }
@@ -580,7 +582,7 @@ void updatePlanet2() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[2].treasureCounter > 500) {
+    if (treasure[2].treasureCounter > treasure[2].distance) {
         treasure[2].active = 1;
         updateTreasure(&treasure[2]);
     }
@@ -624,7 +626,7 @@ void updatePlanet3() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[3].treasureCounter > 500) {
+    if (treasure[3].treasureCounter > treasure[3].distance) {
         treasure[3].active = 1;
         updateTreasure(&treasure[3]);
     }
@@ -668,7 +670,7 @@ void updatePlanet4() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[4].treasureCounter > 500) {
+    if (treasure[4].treasureCounter > treasure[4].distance) {
         treasure[4].active = 1;
         updateTreasure(&treasure[4]);
     }
@@ -734,6 +736,7 @@ void initLose() {
 }
 
 void initWin() {
+
     hideSprites();
     fry.active = 0;
     leela.active = 0;
@@ -789,7 +792,7 @@ void updateFry() {
     }
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        playSoundB(shot, SHOTLEN, 0);
+        //playSoundB(shot, SHOTLEN, 0);
         fry.bulletTimer = 0;
     }
 
@@ -826,7 +829,7 @@ void updateLeela() {
 
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        playSoundB(shot, SHOTLEN, 0);
+        //playSoundB(shot, SHOTLEN, 0);
         leela.bulletTimer = 0;
     }
 
@@ -890,11 +893,35 @@ void updateBullets(BULLET * b) {
 
 void updateBlocks(BLOCK * b) {
     b->col -= b->cdel;
-    if (collision(leela.col, leela.screenRow, leela.width, leela.height, b->col, b->row, b->width, b->height) == 1) {
-        // what should happen if you hit a block?? idk
-    }
-    if (b->col <= 0) {
-        b->col = SCREENWIDTH - b->col;
+    // if (characterChoice == LEELACHARACTER) {
+    //     if (collision(leela.col + (leela.width / 2), leela.screenRow + (leela.height / 2), leela.width / 4, leela.height / 4, b->col, b->row, b->width, b->height) == 1) {
+    //         // the treasure becomes further away and you have to get through more alien
+    //         if (curLocation == PLAN1) {
+    //             treasure[1].distance += 10;
+    //         } else if (curLocation == PLAN2) {
+    //             treasure[2].distance += 10;
+    //         } else if (curLocation == PLAN3) {
+    //             treasure[3].distance += 10;
+    //         } else {
+    //             treasure[4].distance += 10;
+    //         }
+    //     }
+    // } else {
+    //     if (collision(fry.col + (fry.width - 30), fry.screenRow + (fry.height), fry.width, fry.height, b->col, b->row, b->width, b->height) == 1) {
+    //         // the treasure becomes further away and you have to get through more alien
+    //         if (curLocation == PLAN1) {
+    //             treasure[1].distance += 10;
+    //         } else if (curLocation == PLAN2) {
+    //             treasure[2].distance += 100;
+    //         } else if (curLocation == PLAN3) {
+    //             treasure[3].distance += 100;
+    //         } else {
+    //             treasure[4].distance += 100;
+    //         }
+    //     }
+    // }
+    if (b->active ==1 && (b->col - (b->width + 20)) == 0) {
+        b->col = SCREENWIDTH;
     }
 }
 

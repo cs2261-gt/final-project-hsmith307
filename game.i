@@ -227,6 +227,7 @@ typedef struct {
     int active;
     volatile int treasureCounter;
     int treasureNum;
+    int distance;
 }TREASURE;
 
 
@@ -358,6 +359,13 @@ void pauseSound();
 void unpauseSound();
 void stopSound();
 # 6 "game.c" 2
+# 1 "metal.h" 1
+
+
+
+
+extern const signed char metal[16992];
+# 7 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1166,7 +1174,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 7 "game.c" 2
+# 8 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1213,7 +1221,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 8 "game.c" 2
+# 9 "game.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1624,11 +1632,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 9 "game.c" 2
+# 10 "game.c" 2
 
 
 
-# 11 "game.c"
+# 12 "game.c"
 void initGame();
 void updateGame();
 
@@ -1661,7 +1669,7 @@ HEART life2;
 HEART life3;
 HEART life4;
 HEART life5;
-BLOCK blocks[3];
+BLOCK blocks[2];
 BULLET bullets[50];
 BULLET bullet;
 TREASURE treasureP1;
@@ -1696,7 +1704,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 86 "game.c"
+# 87 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -1788,12 +1796,12 @@ void initAlien() {
 
 
 void initBlocks() {
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         blocks[i].col = 130 + (150 * i);
+        blocks[i].row = 50 - i;
         blocks[i].active = 1;
         blocks[i].width = 32;
         blocks[i].height = 32;
-        blocks[i].row = ground - blocks[i].height / 2;
         blocks[i].cdel = 1;
     }
 }
@@ -1859,6 +1867,7 @@ void initTreasure() {
         treasure[i].treasureCounter = 0;
         treasure[i].cdel = 1;
         treasure[i].treasureNum = 0;
+        treasure[i].distance = 500;
     }
 }
 
@@ -1930,7 +1939,7 @@ void initSpace() {
     for (int k = 0; k < 5; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         blocks[i].active = 0;
     }
     for (int j = 0; j < 50; j++) {
@@ -2149,7 +2158,7 @@ void updatePlanet1() {
     }
 
 
-    if (treasure[1].treasureCounter > 50000) {
+    if (treasure[1].treasureCounter > treasure[1].distance) {
         treasure[1].active = 1;
         updateTreasure(&treasure[1]);
     }
@@ -2159,10 +2168,10 @@ void updatePlanet1() {
     updateLives();
 
 
-    for (int k = 0; k < 3; k++) {
+    for (int k = 0; k < 2; k++) {
         updateBlocks(&blocks[k]);
     }
-# 560 "game.c"
+# 562 "game.c"
     drawGame();
 }
 
@@ -2186,17 +2195,17 @@ void updatePlanet2() {
     updateLives();
 
 
-    if (treasure[2].treasureCounter > 500) {
+    if (treasure[2].treasureCounter > treasure[2].distance) {
         treasure[2].active = 1;
         updateTreasure(&treasure[2]);
     }
     treasure[2].treasureCounter++;
 
 
-    for (int k = 0; k < 3; k++) {
+    for (int k = 0; k < 2; k++) {
         updateBlocks(&blocks[k]);
     }
-# 603 "game.c"
+# 605 "game.c"
     drawGame();
 }
 
@@ -2221,17 +2230,17 @@ void updatePlanet3() {
     updateLives();
 
 
-    if (treasure[3].treasureCounter > 500) {
+    if (treasure[3].treasureCounter > treasure[3].distance) {
         treasure[3].active = 1;
         updateTreasure(&treasure[3]);
     }
     treasure[3].treasureCounter++;
 
 
-    for (int k = 0; k < 3; k++) {
+    for (int k = 0; k < 2; k++) {
         updateBlocks(&blocks[k]);
     }
-# 647 "game.c"
+# 649 "game.c"
     drawGame();
 }
 
@@ -2256,17 +2265,17 @@ void updatePlanet4() {
     updateLives();
 
 
-    if (treasure[4].treasureCounter > 500) {
+    if (treasure[4].treasureCounter > treasure[4].distance) {
         treasure[4].active = 1;
         updateTreasure(&treasure[4]);
     }
     treasure[4].treasureCounter++;
 
 
-    for (int k = 0; k < 3; k++) {
+    for (int k = 0; k < 2; k++) {
         updateBlocks(&blocks[k]);
     }
-# 691 "game.c"
+# 693 "game.c"
     drawGame();
 }
 
@@ -2283,7 +2292,7 @@ void initPause() {
     p3.active = 0;
     p4.active = 0;
     spaceship.active = 0;
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         blocks[i].active = 0;
     }
     for (int i = 0; i < 50; i++) {
@@ -2300,19 +2309,20 @@ void initLose() {
     for (int k = 0; k < 5; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
             blocks[i].active = 0;
     }
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 0;
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         blocks[i].active = 0;
     }
     drawGame();
 }
 
 void initWin() {
+
     hideSprites();
     fry.active = 0;
     leela.active = 0;
@@ -2330,7 +2340,7 @@ void initWin() {
     for (int k = 0; k < 5; k++) {
         treasure[k].active = 0;
     }
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
             blocks[i].active = 0;
     }
     for (int j = 0; j < 50; j++) {
@@ -2368,7 +2378,7 @@ void updateFry() {
     }
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
-        playSoundB(shot, 16416, 0);
+
         fry.bulletTimer = 0;
     }
 
@@ -2405,7 +2415,7 @@ void updateLeela() {
 
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
-        playSoundB(shot, 16416, 0);
+
         leela.bulletTimer = 0;
     }
 
@@ -2469,11 +2479,9 @@ void updateBullets(BULLET * b) {
 
 void updateBlocks(BLOCK * b) {
     b->col -= b->cdel;
-    if (collision(leela.col, leela.screenRow, leela.width, leela.height, b->col, b->row, b->width, b->height) == 1) {
-
-    }
-    if (b->col <= 0) {
-        b->col = 240 - b->col;
+# 923 "game.c"
+    if (b->active ==1 && (b->col - (b->width + 20)) == 0) {
+        b->col = 240;
     }
 }
 
@@ -2488,7 +2496,7 @@ void updateTreasure(TREASURE * treasure) {
 
             treasure->active = 0;
             leela.active = 0;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 blocks[i].active = 0;
             }
             for (int j = 0; j < 50; j++) {
@@ -2508,7 +2516,7 @@ void updateTreasure(TREASURE * treasure) {
 
             treasure->active = 0;
             fry.active = 0;
-            for (int i = 0; i < 3; i++) {
+            for (int i = 0; i < 2; i++) {
                 blocks[i].active = 0;
             }
             for (int j = 0; j < 50; j++) {
@@ -2607,7 +2615,7 @@ void drawGame() {
     }
 
 
-    for (int i = 0; i < 3; i++) {
+    for (int i = 0; i < 2; i++) {
         if (blocks[i].active) {
             shadowOAM[30 + i].attr0 = (0<<8) | (0<<13) | (0<<14) | blocks[i].row;
             shadowOAM[30 + i].attr1 = (1<<14) | blocks[i].col;
