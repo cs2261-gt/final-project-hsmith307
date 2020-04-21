@@ -140,6 +140,7 @@ void initFry() {
     fry.numFrames = 4;
     fry.aniCounter = 0;
     fry.amJumping = 0;
+    fry.coinCount = 0;
 }
 
 void initLeela() {
@@ -156,6 +157,7 @@ void initLeela() {
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
     leela.amJumping = 0;
+    leela.coinCount;
 }
 
 // initialize the alien
@@ -379,6 +381,14 @@ void initPlanet1() {
     treasure[1].row = 120;
     treasure[1].cdel = 1;
 
+    // make sure you reset the coin count of the character
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER)  {
+        leela.coinCount = 0;
+    }
+
     // setting the cdel of the bullets here because this works and idk why but it does so yay
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].cdel = 1;
@@ -426,6 +436,15 @@ void initPlanet2() {
         bullets[j].active = 1;
     }
 
+
+    // make sure you reset the coin count of the character
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER)  {
+        leela.coinCount = 0;
+    }
+
      // setting the cdel of the bullets here because this works and idk why but it does so yay
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].cdel = 1;
@@ -471,6 +490,15 @@ void initPlanet3() {
         bullets[j].active = 1;
     }
 
+
+    // make sure you reset the coin count of the character
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER)  {
+        leela.coinCount = 0;
+    }
+
     // make the treasure look like it is on the ground 
     treasure[3].row += 25;
 
@@ -509,6 +537,15 @@ void initPlanet4() {
         bullets[j].active = 1;
     }
 
+
+    // make sure you reset the coin count of the character
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER)  {
+        leela.coinCount = 0;
+    }
+
     // make the treasure look like it is on the ground 
     treasure[4].row += 25;
 
@@ -541,11 +578,24 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    if (treasure[1].treasureCounter > treasure[1].distance) {
-        treasure[1].active = 1;
-        updateTreasure(&treasure[1]);
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
     }
-    treasure[1].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
+    }
+    // if (treasure[1].treasureCounter > treasure[1].distance) {
+    //     treasure[1].active = 1;
+    //     updateTreasure(&treasure[1]);
+    // }
+    // treasure[1].treasureCounter++;
+
 
     // update lives when there is a collision
     updateLives();
@@ -586,11 +636,18 @@ void updatePlanet2() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[2].treasureCounter > treasure[2].distance) {
-        treasure[2].active = 1;
-        updateTreasure(&treasure[2]);
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
     }
-    treasure[2].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
+    }
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -631,11 +688,24 @@ void updatePlanet3() {
     updateLives();
 
     // update the treasure for that planet
-    if (treasure[3].treasureCounter > treasure[3].distance) {
-        treasure[3].active = 1;
-        updateTreasure(&treasure[3]);
+    // update the treasure for that planet
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
     }
-    treasure[3].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
+    }
+    // if (treasure[3].treasureCounter > treasure[3].distance) {
+    //     treasure[3].active = 1;
+    //     updateTreasure(&treasure[3]);
+    // }
+    // treasure[3].treasureCounter++;
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -675,14 +745,28 @@ void updatePlanet4() {
     // if there is a collision with fry/leela and the alien then you lose a life
     updateLives();
 
-    // update the treasure for that planet
-    if (treasure[4].treasureCounter > treasure[4].distance) {
-        treasure[4].active = 1;
-        updateTreasure(&treasure[4]);
-    }
-    treasure[4].treasureCounter++;
 
-    //update the coins 
+    // // update the treasure for that planet
+        // update the treasure for that planet
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
+    }
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
+    }
+    // // if (treasure[4].treasureCounter > treasure[4].distance) {
+    // //     treasure[4].active = 1;
+    // //     updateTreasure(&treasure[4]);
+    // // }
+    // // treasure[4].treasureCounter++;
+
+    // //update the coins 
     for (int k = 0; k < COINCOUNT; k++) {
         updateCoins(&coins[k]);
     }
@@ -787,6 +871,11 @@ void updateFry() {
 
     fry.screenRow = SHIFTDOWN(fry.row);
 
+    if (fry.coinCount > 5) {
+        alien.active = 0;
+        fry.col += 1;
+    }
+
 
     // animate fry
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -831,6 +920,11 @@ void updateLeela() {
         } else {
             leela.curFrame = 0;
         }
+    }
+
+    if (leela.coinCount > 5) {
+        alien.active = 0;
+        leela.col += 1;
     }
 
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
@@ -911,79 +1005,68 @@ void updateCoins(COIN * b) {
     if (b->col == 0) {
         b->col = SCREENWIDTH - b->width;
     }
-    // if (characterChoice == LEELACHARACTER) {
-    //     if (collision(leela.col + (leela.width / 2), leela.screenRow + (leela.height / 2), leela.width / 4, leela.height / 4, b->col, b->row, b->width, b->height) == 1) {
-    //         // the treasure becomes further away and you have to get through more alien
-    //         if (curLocation == PLAN1) {
-    //             treasure[1].distance += 10;
-    //         } else if (curLocation == PLAN2) {
-    //             treasure[2].distance += 10;
-    //         } else if (curLocation == PLAN3) {
-    //             treasure[3].distance += 10;
-    //         } else {
-    //             treasure[4].distance += 10;
-    //         }
-    //     }
-    // } else {
-    //     if (collision(fry.col + (fry.width - 30), fry.screenRow + (fry.height), fry.width, fry.height, b->col, b->row, b->width, b->height) == 1) {
-    //         // the treasure becomes further away and you have to get through more alien
-    //         if (curLocation == PLAN1) {
-    //             treasure[1].distance += 10;
-    //         } else if (curLocation == PLAN2) {
-    //             treasure[2].distance += 100;
-    //         } else if (curLocation == PLAN3) {
-    //             treasure[3].distance += 100;
-    //         } else {
-    //             treasure[4].distance += 100;
-    //         }
-    //     }
-    // }
+    if (characterChoice == LEELACHARACTER) {
+        if (collision(leela.col + (leela.width / 2), leela.screenRow + (leela.height / 2), leela.width / 4, leela.height / 4, b->col, b->row, b->width, b->height) == 1) {
+            // update the coin count
+            leela.coinCount++;
+            b->col = SCREENWIDTH - b->width;
+        }
+    } 
+    if (characterChoice == FRYCHARACTER) {
+        if (collision(fry.col + (fry.width - 30), fry.screenRow + (fry.height), fry.width, fry.height, b->col, b->row, b->width, b->height) == 1) {
+            // update the coin count
+            fry.coinCount++;
+            b->col = SCREENWIDTH - b->width;
+        }
+    }
 
 }
 
 void updateTreasure(TREASURE * treasure) {
-    treasure->col -= treasure->cdel;
-    hideSprites();
-    if (characterChoice == LEELACHARACTER) {
-        if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col, 
-        treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
-            treasure->treasureNum = 1;
-            
-            // make all the sprites that should not be in space inactive
-            treasure->active = 0;
-            leela.active = 0;
-            for (int i = 0; i < COINCOUNT; i++) {
-                coins[i].active = 0;
-            }
-            for (int j = 0; j < BULLETCOUNT; j++) {
-                bullets[j].active = 0;
-            }
+    if (treasure->active) {
+        hideSprites();
+        if (characterChoice == LEELACHARACTER) {
+            if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col, 
+            treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
+                treasure->treasureNum = 1;
+                
+                // make all the sprites that should not be in space inactive
+                treasure->active = 0;
+                leela.active = 0;
+                for (int i = 0; i < COINCOUNT; i++) {
+                    coins[i].active = 0;
+                }
+                for (int j = 0; j < BULLETCOUNT; j++) {
+                    bullets[j].active = 0;
+                }
 
+            }
+            if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+                isWon = 1;
+            }
         }
-        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
-            isWon = 1;
+        if (characterChoice == FRYCHARACTER) {
+            if (collision(fry.col, fry.screenRow, fry.width, fry.height, treasure->col, 
+            treasure->row, treasure->width, treasure->height)) {
+                treasure->treasureNum = 1;
+                
+                // make all the sprites that should not be in space inactive
+                treasure->active = 0;
+                fry.active = 0;
+                for (int i = 0; i < COINCOUNT; i++) {
+                    coins[i].active = 0;
+                }
+                for (int j = 0; j < BULLETCOUNT; j++) {
+                    bullets[j].active = 0;
+                }
+
+            }
+            if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+                isWon = 1;
+            }
         }
     }
-    if (characterChoice == FRYCHARACTER) {
-        if (collision(fry.col, fry.screenRow, fry.width, fry.height, treasure->col, 
-        treasure->row, treasure->width, treasure->height)) {
-            treasure->treasureNum = 1;
-            
-            // make all the sprites that should not be in space inactive
-            treasure->active = 0;
-            fry.active = 0;
-            for (int i = 0; i < COINCOUNT; i++) {
-                coins[i].active = 0;
-            }
-            for (int j = 0; j < BULLETCOUNT; j++) {
-                bullets[j].active = 0;
-            }
 
-        }
-        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
-            isWon = 1;
-        }
-    }
 }
 
 // draw the game depending on which are active

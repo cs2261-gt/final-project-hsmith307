@@ -14,6 +14,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }FRY;
 
 // leela struct 
@@ -32,6 +33,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }LEELA;
 
 typedef struct {
@@ -59,6 +61,40 @@ typedef struct {
     int cdel;
     int rdel;
 }SPACESHIP;
+
+//enemy ship struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}ENEMY;
+
+//helmet struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}HELMET;
+
+//enemy cannonball struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}CANNONBALL;
+
 
 // planet struct
 typedef struct {

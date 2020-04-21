@@ -129,6 +129,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }FRY;
 
 
@@ -147,6 +148,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }LEELA;
 
 typedef struct {
@@ -1765,6 +1767,7 @@ void initFry() {
     fry.numFrames = 4;
     fry.aniCounter = 0;
     fry.amJumping = 0;
+    fry.coinCount = 0;
 }
 
 void initLeela() {
@@ -1781,6 +1784,7 @@ void initLeela() {
     leela.aniCounter = 0;
     leela.bulletTimer = 0;
     leela.amJumping = 0;
+    leela.coinCount;
 }
 
 
@@ -2005,6 +2009,14 @@ void initPlanet1() {
     treasure[1].cdel = 1;
 
 
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER) {
+        leela.coinCount = 0;
+    }
+
+
     for (int i = 0; i < 50; i++) {
         bullets[i].cdel = 1;
     }
@@ -2049,6 +2061,15 @@ void initPlanet2() {
     alien.active = 1;
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
+    }
+
+
+
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER) {
+        leela.coinCount = 0;
     }
 
 
@@ -2097,6 +2118,15 @@ void initPlanet3() {
     }
 
 
+
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER) {
+        leela.coinCount = 0;
+    }
+
+
     treasure[3].row += 25;
 
 
@@ -2135,6 +2165,15 @@ void initPlanet4() {
     }
 
 
+
+    if (characterChoice == FRYCHARACTER) {
+        fry.coinCount = 0;
+    }
+    if (characterChoice == LEELACHARACTER) {
+        leela.coinCount = 0;
+    }
+
+
     treasure[4].row += 25;
 
 
@@ -2166,20 +2205,26 @@ void updatePlanet1() {
     }
 
 
-    if (treasure[1].treasureCounter > treasure[1].distance) {
-        treasure[1].active = 1;
-        updateTreasure(&treasure[1]);
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
     }
-    treasure[1].treasureCounter++;
-
-
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
+    }
+# 601 "game.c"
     updateLives();
 
 
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 566 "game.c"
+# 616 "game.c"
     drawGame();
 }
 
@@ -2203,18 +2248,25 @@ void updatePlanet2() {
     updateLives();
 
 
-    if (treasure[2].treasureCounter > treasure[2].distance) {
-        treasure[2].active = 1;
-        updateTreasure(&treasure[2]);
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
     }
-    treasure[2].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
+    }
 
 
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 610 "game.c"
+# 667 "game.c"
     drawGame();
 }
 
@@ -2239,18 +2291,31 @@ void updatePlanet3() {
     updateLives();
 
 
-    if (treasure[3].treasureCounter > treasure[3].distance) {
-        treasure[3].active = 1;
-        updateTreasure(&treasure[3]);
+
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
     }
-    treasure[3].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
+    }
+
+
+
+
+
 
 
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 655 "game.c"
+# 725 "game.c"
     drawGame();
 }
 
@@ -2275,17 +2340,31 @@ void updatePlanet4() {
     updateLives();
 
 
-    if (treasure[4].treasureCounter > treasure[4].distance) {
-        treasure[4].active = 1;
-        updateTreasure(&treasure[4]);
+
+
+    if (characterChoice == FRYCHARACTER) {
+        if (fry.coinCount > 20) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
     }
-    treasure[4].treasureCounter++;
+    if (characterChoice == LEELACHARACTER) {
+        if (leela.coinCount > 5) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
+    }
+
+
+
+
+
 
 
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 699 "game.c"
+# 783 "game.c"
     drawGame();
 }
 
@@ -2377,6 +2456,11 @@ void updateFry() {
 
     fry.screenRow = ((fry.row >> 8));
 
+    if (fry.coinCount > 5) {
+        alien.active = 0;
+        fry.col += 1;
+    }
+
 
 
     if (fry.aniCounter % 18 == 0 && fry.active == 1) {
@@ -2421,6 +2505,11 @@ void updateLeela() {
         } else {
             leela.curFrame = 0;
         }
+    }
+
+    if (leela.coinCount > 5) {
+        alien.active = 0;
+        leela.col += 1;
     }
 
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
@@ -2501,52 +2590,68 @@ void updateCoins(COIN * b) {
     if (b->col == 0) {
         b->col = 240 - b->width;
     }
-# 942 "game.c"
-}
-
-void updateTreasure(TREASURE * treasure) {
-    treasure->col -= treasure->cdel;
-    hideSprites();
     if (characterChoice == LEELACHARACTER) {
-        if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col,
-        treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
-            treasure->treasureNum = 1;
+        if (collision(leela.col + (leela.width / 2), leela.screenRow + (leela.height / 2), leela.width / 4, leela.height / 4, b->col, b->row, b->width, b->height) == 1) {
 
-
-            treasure->active = 0;
-            leela.active = 0;
-            for (int i = 0; i < 2; i++) {
-                coins[i].active = 0;
-            }
-            for (int j = 0; j < 50; j++) {
-                bullets[j].active = 0;
-            }
-
-        }
-        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
-            isWon = 1;
+            leela.coinCount++;
+            b->col = 240 - b->width;
         }
     }
     if (characterChoice == FRYCHARACTER) {
-        if (collision(fry.col, fry.screenRow, fry.width, fry.height, treasure->col,
-        treasure->row, treasure->width, treasure->height)) {
-            treasure->treasureNum = 1;
+        if (collision(fry.col + (fry.width - 30), fry.screenRow + (fry.height), fry.width, fry.height, b->col, b->row, b->width, b->height) == 1) {
 
-
-            treasure->active = 0;
-            fry.active = 0;
-            for (int i = 0; i < 2; i++) {
-                coins[i].active = 0;
-            }
-            for (int j = 0; j < 50; j++) {
-                bullets[j].active = 0;
-            }
-
-        }
-        if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
-            isWon = 1;
+            fry.coinCount++;
+            b->col = 240 - b->width;
         }
     }
+
+}
+
+void updateTreasure(TREASURE * treasure) {
+    if (treasure->active) {
+        hideSprites();
+        if (characterChoice == LEELACHARACTER) {
+            if (collision(leela.col, leela.screenRow, leela.width, leela.height, treasure->col,
+            treasure->row, treasure->width, treasure->height) && (!treasure->treasureNum == 1)) {
+                treasure->treasureNum = 1;
+
+
+                treasure->active = 0;
+                leela.active = 0;
+                for (int i = 0; i < 2; i++) {
+                    coins[i].active = 0;
+                }
+                for (int j = 0; j < 50; j++) {
+                    bullets[j].active = 0;
+                }
+
+            }
+            if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+                isWon = 1;
+            }
+        }
+        if (characterChoice == FRYCHARACTER) {
+            if (collision(fry.col, fry.screenRow, fry.width, fry.height, treasure->col,
+            treasure->row, treasure->width, treasure->height)) {
+                treasure->treasureNum = 1;
+
+
+                treasure->active = 0;
+                fry.active = 0;
+                for (int i = 0; i < 2; i++) {
+                    coins[i].active = 0;
+                }
+                for (int j = 0; j < 50; j++) {
+                    bullets[j].active = 0;
+                }
+
+            }
+            if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+                isWon = 1;
+            }
+        }
+    }
+
 }
 
 
