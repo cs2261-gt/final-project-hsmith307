@@ -155,6 +155,7 @@ typedef struct {
     volatile int treasureCounter;
     int treasureNum;
     int distance;
+    int isCollected;
 }TREASURE;
 
 // game macros

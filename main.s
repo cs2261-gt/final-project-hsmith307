@@ -57,16 +57,16 @@ goToStart:
 	str	r5, [r3, #16]
 	str	r5, [r1, #20]
 	ldr	r3, .L6+64
-	str	r5, [r1, #56]
-	str	r5, [r1, #92]
-	str	r5, [r1, #128]
-	str	r5, [r1, #164]
+	str	r5, [r1, #60]
+	str	r5, [r1, #100]
+	str	r5, [r1, #140]
+	str	r5, [r1, #180]
 	ldr	lr, .L6+68
 	ldr	r1, .L6+72
 	str	r5, [r2, #16]
 	str	r5, [ip, #16]
 	add	r2, r3, #1392
-	str	r5, [ip, #48]
+	str	r5, [ip, #56]
 	str	r0, [lr, #16]
 	str	r0, [r1, #16]
 	add	r2, r2, #8
@@ -1079,7 +1079,7 @@ planet1:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, lr}
+	push	{r4, r5, r6, r7, lr}
 	ldr	r3, .L150
 	sub	sp, sp, #20
 	mov	lr, pc
@@ -1113,64 +1113,66 @@ planet1:
 	cmp	r3, #1
 	beq	.L147
 .L127:
-	ldr	r4, .L150+24
-	ldr	r3, [r4]
-	cmp	r3, #1
+	ldr	r5, .L150+24
+	ldr	r4, [r5]
+	cmp	r4, #1
 	beq	.L148
 .L128:
-	cmp	r3, #0
+	cmp	r4, #0
 	beq	.L149
 .L123:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	bx	lr
 .L149:
 	ldr	r3, .L150+28
-	ldr	r1, [r3, #12]
-	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
-	ldr	r3, [r3]
-	ldr	r0, .L150+32
-	str	ip, [sp, #12]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	add	r0, r0, #36
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r4, .L150+36
+	add	r0, r3, #8
 	ldm	r0, {r0, r1}
-	mov	lr, pc
-	bx	r4
-	cmp	r0, #0
-	beq	.L123
-	add	sp, sp, #20
-	@ sp needed
-	pop	{r4, r5, lr}
-	b	goToSpace
-.L148:
-	ldr	r3, .L150+40
-	ldr	r1, [r3, #12]
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L150+32
-	str	ip, [sp, #12]
+	ldr	r4, .L150+32
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #36
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
+	add	r0, r4, #40
+	ldr	r3, [r4, #52]
+	ldr	r2, [r4, #56]
+	ldm	r0, {r0, r1}
 	ldr	r5, .L150+36
-	ldm	r0, {r0, r1}
 	mov	lr, pc
 	bx	r5
 	cmp	r0, #0
+	beq	.L123
+	mov	r3, #1
+	str	r3, [r4, #76]
+	add	sp, sp, #20
+	@ sp needed
+	pop	{r4, r5, r6, r7, lr}
+	b	goToSpace
+.L148:
+	ldr	r3, .L150+40
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r3, #52]
+	ldr	r3, [r3]
+	ldr	r6, .L150+32
+	str	r0, [sp, #12]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	str	r1, [sp, #8]
+	add	r0, r6, #40
+	ldr	r3, [r6, #52]
+	ldr	r2, [r6, #56]
+	ldm	r0, {r0, r1}
+	ldr	r7, .L150+36
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #0
 	bne	.L129
 .L143:
-	ldr	r3, [r4]
+	ldr	r4, [r5]
 	b	.L128
 .L147:
 	bl	goToWin
@@ -1186,6 +1188,7 @@ planet1:
 	ldrh	r3, [r4]
 	b	.L124
 .L129:
+	str	r4, [r6, #76]
 	bl	goToSpace
 	b	.L143
 .L151:
@@ -1213,7 +1216,7 @@ planet2:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, lr}
+	push	{r4, r5, r6, r7, lr}
 	ldr	r3, .L179
 	sub	sp, sp, #20
 	mov	lr, pc
@@ -1237,12 +1240,12 @@ planet2:
 	tst	r3, #32
 	beq	.L174
 .L154:
-	ldr	r4, .L179+16
-	ldr	r3, [r4]
-	cmp	r3, #1
+	ldr	r5, .L179+16
+	ldr	r4, [r5]
+	cmp	r4, #1
 	beq	.L175
 .L155:
-	cmp	r3, #0
+	cmp	r4, #0
 	beq	.L176
 .L158:
 	ldr	r3, .L179+20
@@ -1257,28 +1260,30 @@ planet2:
 .L152:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	bx	lr
 .L176:
 	ldr	r3, .L179+28
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L179+32
-	str	ip, [sp, #12]
+	ldr	r4, .L179+32
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #72
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r4, .L179+36
+	add	r0, r4, #80
+	ldr	r3, [r4, #92]
+	ldr	r2, [r4, #96]
 	ldm	r0, {r0, r1}
+	ldr	r5, .L179+36
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	cmp	r0, #0
 	beq	.L158
+	mov	r3, #1
+	str	r3, [r4, #116]
 	bl	goToSpace
 	ldr	r3, .L179+20
 	ldr	r3, [r3]
@@ -1293,30 +1298,30 @@ planet2:
 .L178:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	b	goToWin
 .L175:
 	ldr	r3, .L179+40
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L179+32
-	str	ip, [sp, #12]
-	str	r1, [sp, #8]
+	ldr	r6, .L179+32
+	str	r0, [sp, #12]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #72
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r5, .L179+36
+	str	r1, [sp, #8]
+	add	r0, r6, #80
+	ldr	r3, [r6, #92]
+	ldr	r2, [r6, #96]
 	ldm	r0, {r0, r1}
+	ldr	r7, .L179+36
 	mov	lr, pc
-	bx	r5
+	bx	r7
 	cmp	r0, #0
 	bne	.L156
 .L172:
-	ldr	r3, [r4]
+	ldr	r4, [r5]
 	b	.L155
 .L174:
 	bl	goToSpace
@@ -1326,6 +1331,7 @@ planet2:
 	ldrh	r3, [r4]
 	b	.L153
 .L156:
+	str	r4, [r6, #116]
 	bl	goToSpace
 	b	.L172
 .L180:
@@ -1353,7 +1359,7 @@ planet3:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, lr}
+	push	{r4, r5, r6, r7, lr}
 	ldr	r3, .L208
 	sub	sp, sp, #20
 	mov	lr, pc
@@ -1377,12 +1383,12 @@ planet3:
 	tst	r3, #32
 	beq	.L203
 .L183:
-	ldr	r4, .L208+16
-	ldr	r3, [r4]
-	cmp	r3, #1
+	ldr	r5, .L208+16
+	ldr	r4, [r5]
+	cmp	r4, #1
 	beq	.L204
 .L184:
-	cmp	r3, #0
+	cmp	r4, #0
 	beq	.L205
 .L187:
 	ldr	r3, .L208+20
@@ -1397,28 +1403,30 @@ planet3:
 .L181:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	bx	lr
 .L205:
 	ldr	r3, .L208+28
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L208+32
-	str	ip, [sp, #12]
+	ldr	r4, .L208+32
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #108
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r4, .L208+36
+	add	r0, r4, #120
+	ldr	r3, [r4, #132]
+	ldr	r2, [r4, #136]
 	ldm	r0, {r0, r1}
+	ldr	r5, .L208+36
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	cmp	r0, #0
 	beq	.L187
+	mov	r3, #1
+	str	r3, [r4, #156]
 	bl	goToSpace
 	ldr	r3, .L208+20
 	ldr	r3, [r3]
@@ -1433,30 +1441,30 @@ planet3:
 .L207:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	b	goToWin
 .L204:
 	ldr	r3, .L208+40
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
+	ldr	r6, .L208+32
 	ldr	r3, [r3]
-	ldr	r0, .L208+32
-	str	ip, [sp, #12]
+	ldr	r7, .L208+36
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	ldr	r5, .L208+36
-	ldr	r3, [r0, #120]
-	ldr	r2, [r0, #124]
-	ldr	r1, [r0, #148]
-	ldr	r0, [r0, #108]
+	ldr	r2, [r6, #136]
+	ldr	r3, [r6, #132]
+	ldr	r1, [r6, #164]
+	ldr	r0, [r6, #120]
 	mov	lr, pc
-	bx	r5
+	bx	r7
 	cmp	r0, #0
 	bne	.L185
 .L201:
-	ldr	r3, [r4]
+	ldr	r4, [r5]
 	b	.L184
 .L203:
 	bl	goToSpace
@@ -1466,6 +1474,7 @@ planet3:
 	ldrh	r3, [r4]
 	b	.L182
 .L185:
+	str	r4, [r6, #156]
 	bl	goToSpace
 	b	.L201
 .L209:
@@ -1493,7 +1502,7 @@ planet4:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, lr}
+	push	{r4, r5, r6, r7, lr}
 	ldr	r3, .L237
 	sub	sp, sp, #20
 	mov	lr, pc
@@ -1517,12 +1526,12 @@ planet4:
 	tst	r3, #32
 	beq	.L232
 .L212:
-	ldr	r4, .L237+16
-	ldr	r3, [r4]
-	cmp	r3, #1
+	ldr	r5, .L237+16
+	ldr	r4, [r5]
+	cmp	r4, #1
 	beq	.L233
 .L213:
-	cmp	r3, #0
+	cmp	r4, #0
 	beq	.L234
 .L216:
 	ldr	r3, .L237+20
@@ -1537,28 +1546,30 @@ planet4:
 .L210:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	bx	lr
 .L234:
 	ldr	r3, .L237+28
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L237+32
-	str	ip, [sp, #12]
+	ldr	r4, .L237+32
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #144
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r4, .L237+36
+	add	r0, r4, #160
+	ldr	r3, [r4, #172]
+	ldr	r2, [r4, #176]
 	ldm	r0, {r0, r1}
+	ldr	r5, .L237+36
 	mov	lr, pc
-	bx	r4
+	bx	r5
 	cmp	r0, #0
 	beq	.L216
+	mov	r3, #1
+	str	r3, [r4, #196]
 	bl	goToSpace
 	ldr	r3, .L237+20
 	ldr	r3, [r3]
@@ -1573,30 +1584,30 @@ planet4:
 .L236:
 	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, lr}
+	pop	{r4, r5, r6, r7, lr}
 	b	goToWin
 .L233:
 	ldr	r3, .L237+40
-	ldr	r1, [r3, #12]
+	add	r0, r3, #8
+	ldm	r0, {r0, r1}
 	ldr	r2, [r3, #52]
-	ldr	ip, [r3, #8]
 	ldr	r3, [r3]
-	ldr	r0, .L237+32
-	str	ip, [sp, #12]
-	str	r1, [sp, #8]
+	ldr	r6, .L237+32
+	str	r0, [sp, #12]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	add	r0, r0, #144
-	ldr	r3, [r0, #12]
-	ldr	r2, [r0, #16]
-	ldr	r5, .L237+36
+	str	r1, [sp, #8]
+	add	r0, r6, #160
+	ldr	r3, [r6, #172]
+	ldr	r2, [r6, #176]
 	ldm	r0, {r0, r1}
+	ldr	r7, .L237+36
 	mov	lr, pc
-	bx	r5
+	bx	r7
 	cmp	r0, #0
 	bne	.L214
 .L230:
-	ldr	r3, [r4]
+	ldr	r4, [r5]
 	b	.L213
 .L232:
 	mov	r2, #1
@@ -1609,6 +1620,7 @@ planet4:
 	ldrh	r3, [r4]
 	b	.L211
 .L214:
+	str	r4, [r6, #196]
 	bl	goToSpace
 	b	.L230
 .L238:

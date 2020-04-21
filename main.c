@@ -341,11 +341,13 @@ void planet1() {
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
         if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, leela.col, leela.screenRow, leela.width, leela.height)) {
+            treasure[1].isCollected = 1;
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(treasure[1].col, treasure[1].row, treasure[1].width, treasure[1].height, fry.col, fry.screenRow, fry.width, fry.height)) {
+            treasure[1].isCollected = 1;
             goToSpace();
         }
     }
@@ -374,11 +376,13 @@ void planet2() {
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
         if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, leela.col, leela.screenRow, leela.width, leela.height)) {
+            treasure[2].isCollected = 1;
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(treasure[2].col, treasure[2].row, treasure[2].width, treasure[2].height, fry.col, fry.screenRow, fry.width, fry.height)) {
+            treasure[2].isCollected = 1;
             goToSpace();
         }
     }
@@ -414,11 +418,13 @@ void planet3() {
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
         if (collision(treasure[3].col, treasure[4].row, treasure[3].width, treasure[3].height, leela.col, leela.screenRow, leela.width, leela.height)) {
+            treasure[3].isCollected = 1;
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(treasure[3].col, treasure[3].row, treasure[3].width, treasure[3].height, fry.col, fry.screenRow, fry.width, fry.height)) {
+            treasure[3].isCollected = 1;
             goToSpace();
         }
     }
@@ -461,11 +467,13 @@ void planet4() {
     // go back to space if you pick up a treasure
     if (characterChoice == LEELACHARACTER) {
         if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, leela.col, leela.screenRow, leela.width, leela.height)) {
+            treasure[4].isCollected = 1;
             goToSpace();
         }
     }
     if (characterChoice == FRYCHARACTER) {
         if (collision(treasure[4].col, treasure[4].row, treasure[4].width, treasure[4].height, fry.col, fry.screenRow, fry.width, fry.height)) {
+            treasure[4].isCollected = 1;
             goToSpace();
         }
     }

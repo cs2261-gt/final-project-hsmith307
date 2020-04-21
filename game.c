@@ -256,6 +256,7 @@ void initTreasure() {
         treasure[i].cdel = 1;
         treasure[i].treasureNum = 0;
         treasure[i].distance = 500;
+        treasure[i].isCollected = 0;
     }
 }
 
@@ -352,10 +353,19 @@ void initSpace() {
 
     // make active what needs to be active, make inactive what should not be active
     spaceship.active = 1;
-    p1.active = 1;
-    p2.active = 1;
-    p3.active = 1;
-    p4.active = 1;
+    if (!treasure[1].isCollected) {
+        p1.active = 1;
+    }
+    if (!treasure[2].isCollected) {
+        p2.active = 1;
+    }
+    if (!treasure[3].isCollected) {
+        p3.active = 1;
+    }
+    if (!treasure[4].isCollected) {
+        p4.active = 1;
+    }
+
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
@@ -406,7 +416,7 @@ void updateSpace() {
         spaceship.row += spaceship.rdel;
     }
 
-    if (treasure[1].treasureNum == 1 && treasure[2].treasureNum == 1 && treasure[3].treasureNum == 1 && treasure[4].treasureNum == 1) {
+    if (treasure[1].isCollected == 1 && treasure[2].isCollected == 1 && treasure[3].isCollected == 1 && treasure[4].isCollected == 1) {
         isWon = 1;
     }
 
