@@ -290,6 +290,7 @@ void initCannonball() {
     cannonall.col = enemy.col + enemy.width / 4;
     cannonall.row = enemy.row + enemy.height;
     cannonall.rdel = 1;
+    cannonall.active = 0;
 }
 
 
@@ -369,6 +370,8 @@ void initSpace() {
     }
 
     initEnemy();
+    initCannonball();
+    initHelmet();
 
 
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
@@ -1092,7 +1095,7 @@ void updateBullets(BULLET * b) {
 void updateCoins(COIN * b) {
     b->col -= b->cdel;
     if (b->aniCounter % 18 == 0) {
-        if (b->curFrame < b->numFrames - 1) {
+        if (b->curFrame < 10) {
             b->curFrame++;
         } else {
             b->curFrame = 4;

@@ -1968,6 +1968,7 @@ void initCannonball() {
     cannonall.col = enemy.col + enemy.width / 4;
     cannonall.row = enemy.row + enemy.height;
     cannonall.rdel = 1;
+    cannonall.active = 0;
 }
 
 
@@ -2047,6 +2048,8 @@ void initSpace() {
     }
 
     initEnemy();
+    initCannonball();
+    initHelmet();
 
 
     DMANow(3, spritesheet5Pal, ((unsigned short *)0x5000200), 256);
@@ -2338,7 +2341,7 @@ void updatePlanet1() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 672 "game.c"
+# 675 "game.c"
     drawGame();
 }
 
@@ -2386,7 +2389,7 @@ void updatePlanet2() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 729 "game.c"
+# 732 "game.c"
     drawGame();
 }
 
@@ -2441,7 +2444,7 @@ void updatePlanet3() {
 ; k++) {
         updateCoins(&coins[k]);
     }
-# 793 "game.c"
+# 796 "game.c"
     drawGame();
 }
 
@@ -2495,7 +2498,7 @@ void updatePlanet4() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 856 "game.c"
+# 859 "game.c"
     drawGame();
 }
 
@@ -2735,7 +2738,7 @@ void updateBullets(BULLET * b) {
 void updateCoins(COIN * b) {
     b->col -= b->cdel;
     if (b->aniCounter % 18 == 0) {
-        if (b->curFrame < b->numFrames - 1) {
+        if (b->curFrame < 10) {
             b->curFrame++;
         } else {
             b->curFrame = 4;
@@ -2811,7 +2814,7 @@ void updateTreasure(TREASURE * treasure) {
 }
 
 void updateCannonball() {
-    if (enemy.shotReady == 0) {
+    if (cannonall.active) {
         cannonall.row += cannonall.rdel;
     }
     if (cannonall.row + cannonall.height == 0) {
