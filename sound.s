@@ -229,12 +229,11 @@ interruptHandler:
 	cmp	r2, #0
 	beq	.L20
 	ldr	r2, [r3, #28]
-	ldr	r1, [r3, #4]
+	ldr	r1, [r3, #20]
 	add	r2, r2, #1
-	sub	r0, r2, r1
-	cmp	r1, r0
+	cmp	r2, r1
 	str	r2, [r3, #28]
-	bge	.L20
+	ble	.L20
 	ldr	r2, [r3, #16]
 	cmp	r2, #1
 	beq	.L31
@@ -266,7 +265,7 @@ interruptHandler:
 	b	.L16
 .L31:
 	mov	ip, #0
-	ldr	r0, [r3]
+	ldm	r3, {r0, r1}
 	str	ip, [r3, #28]
 	bl	playSoundB
 	b	.L20

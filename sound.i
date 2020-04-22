@@ -204,7 +204,7 @@ void playSoundA( const signed char* sound, int length, int loops) {
         soundA.isPlaying = 1;
         soundA.duration = (((59.727) * soundA.length) / 11025);
         soundA.vBlankCount = 0;
-# 54 "sound.c"
+
 }
 
 
@@ -273,7 +273,7 @@ void interruptHandler() {
 
 
             soundB.vBlankCount++;
-            if ((soundB.vBlankCount - soundB.length) > soundB.length) {
+            if (soundB.vBlankCount > soundB.duration) {
                 if (soundB.loops == 1) {
                     soundB.vBlankCount = 0;
                     playSoundB(soundB.data, soundB.length, soundB.loops);

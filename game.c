@@ -144,6 +144,7 @@ void initFry() {
     fry.aniCounter = 0;
     fry.amJumping = 0;
     fry.coinCount = 0;
+    fry.hasShot = 0;
 }
 
 void initLeela() {
@@ -161,6 +162,7 @@ void initLeela() {
     leela.bulletTimer = 0;
     leela.amJumping = 0;
     leela.coinCount = 0;
+    leela.hasShot = 0;
 }
 
 // initialize the alien
@@ -238,8 +240,15 @@ void initLives() {
 
 void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
-        bullets[i].col = leela.col + leela.width;
-        bullets[i].row = leela.screenRow + 20;
+        if (characterChoice == LEELACHARACTER) {
+            bullets[i].col = leela.col + leela.width;
+            bullets[i].row = leela.screenRow + 20;
+        }
+        if (characterChoice == FRYCHARACTER) {
+            bullets[i].col = fry.col + fry.width;
+            bullets[i].row = fry.screenRow + 20;
+        }
+
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
@@ -489,7 +498,6 @@ void initPlanet2() {
     for (int j = 0; j < BULLETCOUNT; j++) {
         bullets[j].active = 1;
     }
-
 
     // make sure you reset the coin count of the character
     if (characterChoice == FRYCHARACTER) {
@@ -974,7 +982,8 @@ void updateFry() {
     }
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        //playSoundB(shot, SHOTLEN, 0);
+        fry.hasShot = 0;
+        playSoundB(shot, SHOTLEN, 0);
         fry.bulletTimer = 0;
     }
 
@@ -1016,13 +1025,14 @@ void updateLeela() {
         helmet.active = 0;
 
 
-        
+
         leela.col += 1;
     }
 
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
-        //playSoundB(shot, SHOTLEN, 0);
+        leela.hasShot = 1;
+        playSoundB(shot, SHOTLEN, 0);
         leela.bulletTimer = 0;
     }
 
@@ -1104,8 +1114,8 @@ void shootBullets() {
 
 
 void updateBullets(BULLET * b) {
-    if (b->active) {
-		if (b->row + b->width-1 >= 0
+    if (b->active && (leela.hasShot || fry.hasShot)) {
+        if (b->row + b->width-1 >= 0
             && b->col + b->cdel > 0
             && b->col + b->cdel < SCREENWIDTH-1) {
 
