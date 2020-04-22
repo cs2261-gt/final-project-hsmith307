@@ -130,6 +130,7 @@ typedef struct {
     int amJumping;
     int screenRow;
     int coinCount;
+    int hasShot;
 }FRY;
 
 
@@ -149,6 +150,7 @@ typedef struct {
     int amJumping;
     int screenRow;
     int coinCount;
+    int hasShot;
 }LEELA;
 
 typedef struct {
@@ -1824,6 +1826,7 @@ void initFry() {
     fry.aniCounter = 0;
     fry.amJumping = 0;
     fry.coinCount = 0;
+    fry.hasShot = 0;
 }
 
 void initLeela() {
@@ -1841,6 +1844,7 @@ void initLeela() {
     leela.bulletTimer = 0;
     leela.amJumping = 0;
     leela.coinCount = 0;
+    leela.hasShot = 0;
 }
 
 
@@ -1918,8 +1922,15 @@ void initLives() {
 
 void initBullets() {
     for (int i = 0; i < 50; i++) {
-        bullets[i].col = leela.col + leela.width;
-        bullets[i].row = leela.screenRow + 20;
+        if (characterChoice == LEELACHARACTER) {
+            bullets[i].col = leela.col + leela.width;
+            bullets[i].row = leela.screenRow + 20;
+        }
+        if (characterChoice == FRYCHARACTER) {
+            bullets[i].col = fry.col + fry.width;
+            bullets[i].row = fry.screenRow + 20;
+        }
+
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
@@ -2169,7 +2180,6 @@ void initPlanet2() {
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
     }
-
 
 
     if (characterChoice == FRYCHARACTER) {
@@ -2654,6 +2664,7 @@ void updateFry() {
     }
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
+        fry.hasShot = 0;
 
         fry.bulletTimer = 0;
     }
@@ -2702,6 +2713,7 @@ void updateLeela() {
 
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
+        leela.hasShot = 1;
 
         leela.bulletTimer = 0;
     }
@@ -2784,8 +2796,8 @@ void shootBullets() {
 
 
 void updateBullets(BULLET * b) {
-    if (b->active) {
-  if (b->row + b->width-1 >= 0
+    if (b->active && (leela.hasShot || fry.hasShot)) {
+        if (b->row + b->width-1 >= 0
             && b->col + b->cdel > 0
             && b->col + b->cdel < 240 -1) {
 
@@ -2886,7 +2898,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1219 "game.c"
+# 1229 "game.c"
     }
 
 }
