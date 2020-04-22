@@ -1014,6 +1014,9 @@ void updateLeela() {
         enemy.active = 0;
         cannonball.active = 0;
         helmet.active = 0;
+
+
+        
         leela.col += 1;
     }
 
