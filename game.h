@@ -120,6 +120,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int isLost;
 }HEART;
 
 // block to jump on struct

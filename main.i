@@ -2,9 +2,7 @@
 # 1 "<built-in>"
 # 1 "<command-line>"
 # 1 "main.c"
-
-
-
+# 10 "main.c"
 # 1 "myLib.h" 1
 
 
@@ -114,7 +112,7 @@ void DMANow(int channel, volatile const void *src, volatile void *dst, unsigned 
 
 
 int collision(int colA, int rowA, int widthA, int heightA, int colB, int rowB, int widthB, int heightB);
-# 5 "main.c" 2
+# 11 "main.c" 2
 # 1 "game.h" 1
 
 typedef struct {
@@ -238,6 +236,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int isLost;
 }HEART;
 
 
@@ -391,14 +390,14 @@ extern int prevTreasureNum;
 
 
 extern int curLocation;
-# 6 "main.c" 2
+# 12 "main.c" 2
 # 1 "spritesheet5.h" 1
 # 21 "spritesheet5.h"
 extern const unsigned short spritesheet5Tiles[16384];
 
 
 extern const unsigned short spritesheet5Pal[256];
-# 7 "main.c" 2
+# 13 "main.c" 2
 
 # 1 "futuramapage.h" 1
 # 22 "futuramapage.h"
@@ -409,7 +408,7 @@ extern const unsigned short futuramapageMap[1024];
 
 
 extern const unsigned short futuramapagePal[256];
-# 9 "main.c" 2
+# 15 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
 extern const unsigned short pauseTiles[6640];
@@ -419,7 +418,7 @@ extern const unsigned short pauseMap[1024];
 
 
 extern const unsigned short pausePal[256];
-# 10 "main.c" 2
+# 16 "main.c" 2
 # 1 "planet1PS.h" 1
 # 22 "planet1PS.h"
 extern const unsigned short planet1PSTiles[18080];
@@ -429,7 +428,7 @@ extern const unsigned short planet1PSMap[2048];
 
 
 extern const unsigned short planet1PSPal[256];
-# 11 "main.c" 2
+# 17 "main.c" 2
 
 # 1 "planets.h" 1
 # 22 "planets.h"
@@ -440,7 +439,7 @@ extern const unsigned short planetsMap[2048];
 
 
 extern const unsigned short planetsPal[256];
-# 13 "main.c" 2
+# 19 "main.c" 2
 # 1 "stars.h" 1
 # 22 "stars.h"
 extern const unsigned short starsTiles[7312];
@@ -450,7 +449,7 @@ extern const unsigned short starsMap[2048];
 
 
 extern const unsigned short starsPal[256];
-# 14 "main.c" 2
+# 20 "main.c" 2
 # 1 "planet2bg.h" 1
 # 22 "planet2bg.h"
 extern const unsigned short planet2bgTiles[9840];
@@ -460,7 +459,7 @@ extern const unsigned short planet2bgMap[1024];
 
 
 extern const unsigned short planet2bgPal[256];
-# 15 "main.c" 2
+# 21 "main.c" 2
 # 1 "planet3bg.h" 1
 # 22 "planet3bg.h"
 extern const unsigned short planet3bgTiles[15696];
@@ -470,7 +469,7 @@ extern const unsigned short planet3bgMap[2048];
 
 
 extern const unsigned short planet3bgPal[256];
-# 16 "main.c" 2
+# 22 "main.c" 2
 # 1 "planet4bg.h" 1
 # 22 "planet4bg.h"
 extern const unsigned short planet4bgTiles[13296];
@@ -480,7 +479,7 @@ extern const unsigned short planet4bgMap[1024];
 
 
 extern const unsigned short planet4bgPal[256];
-# 17 "main.c" 2
+# 23 "main.c" 2
 # 1 "losebg.h" 1
 # 22 "losebg.h"
 extern const unsigned short losebgTiles[6064];
@@ -490,7 +489,7 @@ extern const unsigned short losebgMap[1024];
 
 
 extern const unsigned short losebgPal[256];
-# 18 "main.c" 2
+# 24 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
 extern const unsigned short instructionsTiles[6928];
@@ -500,21 +499,21 @@ extern const unsigned short instructionsMap[1024];
 
 
 extern const unsigned short instructionsPal[256];
-# 19 "main.c" 2
+# 25 "main.c" 2
 # 1 "splashSong.h" 1
 
 
 
 
 extern const signed char splashSong[104832];
-# 20 "main.c" 2
+# 26 "main.c" 2
 # 1 "spaceSong.h" 1
 
 
 
 
 extern const signed char spaceSong[419616];
-# 21 "main.c" 2
+# 27 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[8352];
@@ -524,7 +523,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 22 "main.c" 2
+# 28 "main.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
 SOUND soundB;
@@ -541,14 +540,14 @@ void interruptHandler();
 void pauseSound();
 void unpauseSound();
 void stopSound();
-# 23 "main.c" 2
+# 29 "main.c" 2
 # 1 "forest.h" 1
 
 
 
 
 extern const signed char forestSound[1116347];
-# 24 "main.c" 2
+# 30 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1357,7 +1356,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 25 "main.c" 2
+# 31 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1404,7 +1403,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 26 "main.c" 2
+# 32 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1815,11 +1814,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 27 "main.c" 2
+# 33 "main.c" 2
 
 
 
-# 29 "main.c"
+# 35 "main.c"
 void initialize();
 void game();
 

@@ -235,6 +235,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int isLost;
 }HEART;
 
 
@@ -1890,6 +1891,7 @@ void initLives() {
     life1.active = 0;
     life1.height = 16;
     life1.width = 16;
+    life1.isLost = 0;
 
 
     life2.col = 26;
@@ -1897,6 +1899,7 @@ void initLives() {
     life2.active = 0;
     life2.height = 16;
     life2.width = 16;
+    life2.isLost = 0;
 
 
     life3.col = 47;
@@ -1904,6 +1907,7 @@ void initLives() {
     life3.active = 0;
     life3.height = 16;
     life3.width = 16;
+    life3.isLost = 0;
 
 
     life4.col = 68;
@@ -1911,6 +1915,7 @@ void initLives() {
     life4.active = 0;
     life4.height = 16;
     life4.width = 16;
+    life4.isLost = 0;
 
 
     life5.col = 89;
@@ -1918,6 +1923,7 @@ void initLives() {
     life5.active = 0;
     life5.height = 16;
     life5.width = 16;
+    life5.isLost = 0;
 }
 
 void initBullets() {
@@ -2048,6 +2054,29 @@ void initSpace() {
         p4.active = 1;
     }
 
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
+
+
+    if (life5.isLost) {
+        life5.active = 0;
+    }
+    if (life4.isLost) {
+        life4.active = 0;
+    }
+    if (life3.isLost) {
+        life3.active = 0;
+    }
+    if (life2.isLost) {
+        life2.active = 0;
+    }
+    if (life1.isLost) {
+        life1.active = 0;
+    }
+
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
@@ -2125,6 +2154,29 @@ void initPlanet1() {
 
     initAlien();
 
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
+
+
+    if (life5.isLost) {
+        life5.active = 0;
+    }
+    if (life4.isLost) {
+        life4.active = 0;
+    }
+    if (life3.isLost) {
+        life3.active = 0;
+    }
+    if (life2.isLost) {
+        life2.active = 0;
+    }
+    if (life1.isLost) {
+        life1.active = 0;
+    }
+
 
     treasure[1].col = 203;
     treasure[1].row = 120;
@@ -2178,6 +2230,12 @@ void initPlanet2() {
     initAlien();
     initCoins();
 
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
+
 
     spaceship.active = 0;
     p1.active = 0;
@@ -2187,6 +2245,23 @@ void initPlanet2() {
     alien.active = 1;
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
+    }
+
+
+    if (life5.isLost) {
+        life5.active = 0;
+    }
+    if (life4.isLost) {
+        life4.active = 0;
+    }
+    if (life3.isLost) {
+        life3.active = 0;
+    }
+    if (life2.isLost) {
+        life2.active = 0;
+    }
+    if (life1.isLost) {
+        life1.active = 0;
     }
 
 
@@ -2237,6 +2312,12 @@ void initPlanet3() {
     initAlien();
     initCoins();
 
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
+
 
     spaceship.active = 0;
     p1.active = 0;
@@ -2246,6 +2327,23 @@ void initPlanet3() {
     alien.active = 1;
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
+    }
+
+
+    if (life5.isLost) {
+        life5.active = 0;
+    }
+    if (life4.isLost) {
+        life4.active = 0;
+    }
+    if (life3.isLost) {
+        life3.active = 0;
+    }
+    if (life2.isLost) {
+        life2.active = 0;
+    }
+    if (life1.isLost) {
+        life1.active = 0;
     }
 
     cannonball.active = 1;
@@ -2291,16 +2389,35 @@ void initPlanet4() {
 
 
     spaceship.active = 0;
-    p1.active = 0;
-    p2.active = 0;
-    p3.active = 0;
-    p4.active = 0;
     alien.active = 1;
     for (int j = 0; j < 50; j++) {
         bullets[j].active = 1;
     }
 
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
+
     cannonball.active = 1;
+
+
+    if (life5.isLost) {
+        life5.active = 0;
+    }
+    if (life4.isLost) {
+        life4.active = 0;
+    }
+    if (life3.isLost) {
+        life3.active = 0;
+    }
+    if (life2.isLost) {
+        life2.active = 0;
+    }
+    if (life1.isLost) {
+        life1.active = 0;
+    }
 
 
 
@@ -2344,7 +2461,7 @@ void updatePlanet1() {
     for (int i = 0; i < 50; i++) {
          updateBullets(&bullets[i]);
     }
-# 674 "game.c"
+# 790 "game.c"
     updateEnemy();
 
 
@@ -2399,7 +2516,7 @@ void updatePlanet2() {
     } else {
         helmet.active = 0;
     }
-# 736 "game.c"
+# 852 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2441,7 +2558,7 @@ void updatePlanet3() {
     } else {
         helmet.active = 0;
     }
-# 786 "game.c"
+# 902 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2483,7 +2600,7 @@ void updatePlanet4() {
     } else {
         helmet.active = 0;
     }
-# 835 "game.c"
+# 951 "game.c"
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
@@ -2505,12 +2622,18 @@ void initPause() {
     p3.active = 0;
     p4.active = 0;
     spaceship.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
     for (int i = 0; i < 2; i++) {
         coins[i].active = 0;
     }
     for (int i = 0; i < 50; i++) {
         bullets[i].active = 0;
     }
+    enemy.active = 0;
 }
 
 
@@ -2869,7 +2992,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1230 "game.c"
+# 1352 "game.c"
     }
 
 }
@@ -2913,7 +3036,7 @@ void drawGame() {
     alien.aniCounter++;
 
 
-    if (life1.active) {
+    if (life1.active && !life1.isLost) {
         shadowOAM[7].attr0 = (0<<8) | (0<<13) | (0<<14) | life1.row;
         shadowOAM[7].attr1 = (1<<14) | life1.col;
         shadowOAM[7].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
@@ -2922,16 +3045,16 @@ void drawGame() {
         shadowOAM[7].attr0 = (2<<8);
     }
 
-    if (life2.active) {
+    if (life2.active && !life3.isLost) {
         shadowOAM[8].attr0 = (0<<8) | (0<<13) | (0<<14) | life2.row;
         shadowOAM[8].attr1 = (1<<14) | life2.col;
         shadowOAM[8].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
     }
-    if (life1.active == 0) {
+    if (life2.active == 0) {
         shadowOAM[8].attr0 = (2<<8);
     }
 
-    if (life3.active) {
+    if (life3.active && !life3.isLost) {
         shadowOAM[9].attr0 = (0<<8) | (0<<13) | (0<<14) | life3.row;
         shadowOAM[9].attr1 = (1<<14) | life3.col;
         shadowOAM[9].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
@@ -2940,7 +3063,7 @@ void drawGame() {
         shadowOAM[9].attr0 = (2<<8);
     }
 
-    if (life4.active) {
+    if (life4.active && !life4.isLost) {
         shadowOAM[16].attr0 = (0<<8) | (0<<13) | (0<<14) | life4.row;
         shadowOAM[16].attr1 = (1<<14) | life4.col;
         shadowOAM[16].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
@@ -2949,7 +3072,7 @@ void drawGame() {
         shadowOAM[16].attr0 = (2<<8);
     }
 
-    if (life5.active) {
+    if (life5.active && !life5.isLost) {
         shadowOAM[17].attr0 = (0<<8) | (0<<13) | (0<<14) | life5.row;
         shadowOAM[17].attr1 = (1<<14) | life5.col;
         shadowOAM[17].attr2 = ((0)<<12) | ((2 * 2)*32+(10 * 2));
@@ -3086,24 +3209,26 @@ void updateLives() {
 
 
 
-
     if ((collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 || collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 )&& (lifeCounter == 0) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life5.active = 0;
+       life5.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
 
     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 0) {
-       life5.active = 0;
-       enemy.shotReady = 1;
-       lifeCounter++;
-       cannonball.active = 0;
+        life5.active = 0;
+        life5.isLost = 1;
+        enemy.shotReady = 1;
+        lifeCounter++;
+        cannonball.active = 0;
     }
 
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life4.active = 0;
+       life4.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3111,6 +3236,7 @@ void updateLives() {
 
     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 1) {
        life4.active = 0;
+        life4.isLost = 1;
        lifeCounter++;
         enemy.shotReady = 1;
        cannonball.active = 0;
@@ -3119,6 +3245,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life3.active = 0;
+       life3.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3126,6 +3253,7 @@ void updateLives() {
 
     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 2) {
         life3.active = 0;
+       life3.isLost = 1;
         lifeCounter++;
         enemy.shotReady = 1;
         cannonball.active = 0;
@@ -3134,6 +3262,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3141,6 +3270,7 @@ void updateLives() {
 
     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 3) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        enemy.shotReady = 1;
        cannonball.active = 0;
@@ -3149,12 +3279,14 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
+       life1.isLost = 1;
         isLost = 1;
     }
 
 
     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 4) {
         life1.active = 0;
+       life1.isLost = 1;
         isLost = 1;
     }
 
@@ -3165,6 +3297,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life5.active = 0;
+       life5.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3172,6 +3305,7 @@ void updateLives() {
 
     if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && leela.active && characterChoice == LEELACHARACTER && lifeCounter == 0) {
        life5.active = 0;
+       life5.isLost = 1;
        enemy.shotReady = 1;
        lifeCounter++;
        cannonball.active = 0;
@@ -3180,6 +3314,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life4.active = 0;
+       life4.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3187,6 +3322,7 @@ void updateLives() {
 
     if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && leela.active && characterChoice == LEELACHARACTER && lifeCounter == 1) {
        life4.active = 0;
+       life4.isLost = 1;
        lifeCounter++;
         enemy.shotReady = 1;
        cannonball.active = 0;
@@ -3195,6 +3331,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life3.active = 0;
+       life3.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3202,6 +3339,7 @@ void updateLives() {
 
     if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && leela.active && characterChoice == LEELACHARACTER && lifeCounter == 2) {
         life3.active = 0;
+       life3.isLost = 1;
         lifeCounter++;
         enemy.shotReady = 1;
         cannonball.active = 0;
@@ -3210,6 +3348,7 @@ void updateLives() {
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
@@ -3217,13 +3356,23 @@ void updateLives() {
 
     if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && leela.active && characterChoice == LEELACHARACTER && lifeCounter == 3) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        enemy.shotReady = 1;
        cannonball.active = 0;
     }
 
+
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
+       life1.isLost = 1;
+        isLost = 1;
+    }
+
+
+    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+       life1.active = 0;
+       life1.isLost = 1;
         isLost = 1;
     }
 }
