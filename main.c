@@ -167,7 +167,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, SPLASHSONGLEN, 1);
+    //playSoundA(splashSong, SPLASHSONGLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -255,7 +255,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    //playSoundA(spaceSong, SPACESONGLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
