@@ -240,15 +240,8 @@ void initLives() {
 
 void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
-        if (characterChoice == LEELACHARACTER) {
-            bullets[i].col = leela.col + leela.width;
-            bullets[i].row = leela.screenRow + 20;
-        }
-        if (characterChoice == FRYCHARACTER) {
-            bullets[i].col = fry.col + fry.width;
-            bullets[i].row = fry.screenRow + 20;
-        }
-
+        bullets[i].col = 67;
+        bullets[i].row = 113;
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
@@ -389,6 +382,7 @@ void initSpace() {
     initEnemy();
     initCannonball();
     initHelmet();
+    initBullets();
 
 
     DMANow(3, spritesheet5Pal, SPRITEPALETTE, 256);
@@ -423,6 +417,20 @@ void updateSpace() {
         spaceship.row += spaceship.rdel;
     }
 
+    // make sure the spaceship can't go out of bounds of the screen
+    if (spaceship.col == 0) {
+        spaceship.col += 1;
+    }
+    if (spaceship.col + spaceship.width == SCREENWIDTH - 1) {
+        spaceship.col -= 1;
+    }
+    if (spaceship.row == 0) {
+        spaceship.row += 1;
+    }
+    if (spaceship.row + spaceship.height == SCREENHEIGHT - 1) {
+        spaceship.row -= 1;
+    }
+
     if (treasure[1].isCollected == 1 && treasure[2].isCollected == 1 && treasure[3].isCollected == 1 && treasure[4].isCollected == 1) {
         isWon = 1;
     }
@@ -432,7 +440,7 @@ void updateSpace() {
 void initPlanet1() {
     hideSprites();
     initCoins();
-    initBullets();
+    //initBullets();
     initAlien();
 
     // for some the treasure only moves like this??
@@ -484,7 +492,7 @@ void initPlanet1() {
 
 void initPlanet2() {
     hideSprites();
-    initBullets();
+    //initBullets();
     initAlien();
     initCoins();
 
@@ -595,7 +603,7 @@ void initPlanet4() {
     p2.active = 0;
     p3.active = 0;
     p4.active = 0;
-    initBullets();
+    //initBullets();
     initAlien();
     initCoins();
 
@@ -656,18 +664,11 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    if (characterChoice == FRYCHARACTER) {
-        if (fry.coinCount > 20) {
-            treasure[1].active = 1;
-            updateTreasure(&treasure[1]);
-        }
-    }
-    if (characterChoice == LEELACHARACTER) {
-        if (leela.coinCount > 5) {
-            treasure[1].active = 1;
-            updateTreasure(&treasure[1]);
-        }
-    }
+    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    //     treasure[1].active = 1;
+    //     updateTreasure(&treasure[1]);
+    // }
+
  
     // update the enemy
     updateEnemy();
@@ -725,19 +726,11 @@ void updatePlanet2() {
         helmet.active = 0;
     } 
 
-    // update the treasure for that planet
-    if (characterChoice == FRYCHARACTER) {
-        if (fry.coinCount > 20) {
-            treasure[2].active = 1;
-            updateTreasure(&treasure[2]);
-        }
-    }
-    if (characterChoice == LEELACHARACTER) {
-        if (leela.coinCount > 5) {
-            treasure[2].active = 1;
-            updateTreasure(&treasure[2]);
-        }
-    }
+    // // update the treasure for that planet
+    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    //     treasure[2].active = 1;
+    //     updateTreasure(&treasure[2]);
+    // }
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -784,19 +777,10 @@ void updatePlanet3() {
 
 
     // update the treasure for that planet
-    // update the treasure for that planet
-    if (characterChoice == FRYCHARACTER) {
-        if (fry.coinCount > 20) {
-            treasure[3].active = 1;
-            updateTreasure(&treasure[3]);
-        }
-    }
-    if (characterChoice == LEELACHARACTER) {
-        if (leela.coinCount > 5) {
-            treasure[3].active = 1;
-            updateTreasure(&treasure[3]);
-        }
-    }
+    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    //     treasure[3].active = 1;
+    //     updateTreasure(&treasure[3]);
+    // }
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -841,25 +825,11 @@ void updatePlanet4() {
         helmet.active = 0;
     }
 
-    // // update the treasure for that planet
-        // update the treasure for that planet
-    if (characterChoice == FRYCHARACTER) {
-        if (fry.coinCount > 20) {
-            treasure[4].active = 1;
-            updateTreasure(&treasure[4]);
-        }
-    }
-    if (characterChoice == LEELACHARACTER) {
-        if (leela.coinCount > 5) {
-            treasure[4].active = 1;
-            updateTreasure(&treasure[4]);
-        }
-    }
-    // // if (treasure[4].treasureCounter > treasure[4].distance) {
-    // //     treasure[4].active = 1;
-    // //     updateTreasure(&treasure[4]);
-    // // }
-    // // treasure[4].treasureCounter++;
+    // // // update the treasure for that planet
+    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    //     treasure[4].active = 1;
+    //     updateTreasure(&treasure[4]);
+    // }
 
     // //update the coins 
     for (int k = 0; k < COINCOUNT; k++) {
@@ -963,12 +933,28 @@ void updateFry() {
 
     fry.screenRow = SHIFTDOWN(fry.row);
 
-    if (fry.coinCount > 5) {
+    if (fry.coinCount > 10) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;
         helmet.active = 0;
         fry.col += 1;
+        if (curLocation == PLAN1) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
+        if (curLocation == PLAN2) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
+        if (curLocation == PLAN3) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
+        if (curLocation == PLAN4) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
     }
 
 
@@ -1018,15 +1004,30 @@ void updateLeela() {
         }
     }
 
-    if (leela.coinCount > 5) {
+    if (leela.coinCount > 10) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;
         helmet.active = 0;
-
-
-
         leela.col += 1;
+        if (curLocation == PLAN1) {
+            treasure[1].active = 1;
+            updateTreasure(&treasure[1]);
+        }
+        if (curLocation == PLAN2) {
+            treasure[2].active = 1;
+            updateTreasure(&treasure[2]);
+        }
+        if (curLocation == PLAN3) {
+            treasure[3].active = 1;
+            updateTreasure(&treasure[3]);
+        }
+        if (curLocation == PLAN4) {
+            treasure[4].active = 1;
+            updateTreasure(&treasure[4]);
+        }
+
+
     }
 
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {

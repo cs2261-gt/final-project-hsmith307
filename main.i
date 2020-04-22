@@ -1961,7 +1961,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, 104832, 1);
+
 
 
     spaceship.active = 0;
@@ -2049,7 +2049,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, 419616, 1);
+
 
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
