@@ -42,15 +42,6 @@ void playSoundA( const signed char* sound, int length, int loops) {
         soundA.duration = ((VBLANK_FREQ * soundA.length) / SOUND_FREQ);
         soundA.vBlankCount = 0;
 
-
-
-
-
-
-
-
-
-
 }
 
 
@@ -119,7 +110,7 @@ void interruptHandler() {
 
             //TODO 3.3 - Handle soundB playing in the interruptHandler function
             soundB.vBlankCount++;
-            if ((soundB.vBlankCount - soundB.length) > soundB.length) {
+            if (soundB.vBlankCount > soundB.duration) {
                 if (soundB.loops == 1) {
                     soundB.vBlankCount = 0;
                     playSoundB(soundB.data, soundB.length, soundB.loops);

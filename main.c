@@ -9,7 +9,6 @@
 #include "pause.h"
 #include "planet1PS.h"
 // #include "bg.h"
-#include "gameintro.h"
 #include "planets.h"
 #include "stars.h"
 #include "planet2bg.h"
@@ -17,10 +16,11 @@
 #include "planet4bg.h"
 #include "losebg.h"
 #include "instructions.h"
+#include "splashSong.h"
+#include "spaceSong.h"
 #include "win.h"
 #include "sound.h"
 #include "forest.h"
-#include "introSong.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -167,7 +167,7 @@ void goToStart() {
 
     hideSprites();
 
-    //playSoundA(gameIntro, GAMEINTROLEN, 1);
+    playSoundA(splashSong, SPLASHSONGLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -205,7 +205,7 @@ void start() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
 
-    //stopSound();
+    // stopSound();
 
 
 
@@ -255,7 +255,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    //playSoundA(intoSong, INTOSONGLEN, 1);
+    playSoundA(spaceSong, SPACESONGLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;

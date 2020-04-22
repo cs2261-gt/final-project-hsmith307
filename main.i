@@ -133,6 +133,7 @@ typedef struct {
     int amJumping;
     int screenRow;
     int coinCount;
+    int hasShot;
 }FRY;
 
 
@@ -152,6 +153,7 @@ typedef struct {
     int amJumping;
     int screenRow;
     int coinCount;
+    int hasShot;
 }LEELA;
 
 typedef struct {
@@ -429,13 +431,6 @@ extern const unsigned short planet1PSMap[2048];
 extern const unsigned short planet1PSPal[256];
 # 11 "main.c" 2
 
-# 1 "gameintro.h" 1
-
-
-
-
-extern const signed char gameIntro[3308544];
-# 13 "main.c" 2
 # 1 "planets.h" 1
 # 22 "planets.h"
 extern const unsigned short planetsTiles[24144];
@@ -445,7 +440,7 @@ extern const unsigned short planetsMap[2048];
 
 
 extern const unsigned short planetsPal[256];
-# 14 "main.c" 2
+# 13 "main.c" 2
 # 1 "stars.h" 1
 # 22 "stars.h"
 extern const unsigned short starsTiles[7312];
@@ -455,7 +450,7 @@ extern const unsigned short starsMap[2048];
 
 
 extern const unsigned short starsPal[256];
-# 15 "main.c" 2
+# 14 "main.c" 2
 # 1 "planet2bg.h" 1
 # 22 "planet2bg.h"
 extern const unsigned short planet2bgTiles[9840];
@@ -465,7 +460,7 @@ extern const unsigned short planet2bgMap[1024];
 
 
 extern const unsigned short planet2bgPal[256];
-# 16 "main.c" 2
+# 15 "main.c" 2
 # 1 "planet3bg.h" 1
 # 22 "planet3bg.h"
 extern const unsigned short planet3bgTiles[15696];
@@ -475,7 +470,7 @@ extern const unsigned short planet3bgMap[2048];
 
 
 extern const unsigned short planet3bgPal[256];
-# 17 "main.c" 2
+# 16 "main.c" 2
 # 1 "planet4bg.h" 1
 # 22 "planet4bg.h"
 extern const unsigned short planet4bgTiles[13296];
@@ -485,7 +480,7 @@ extern const unsigned short planet4bgMap[1024];
 
 
 extern const unsigned short planet4bgPal[256];
-# 18 "main.c" 2
+# 17 "main.c" 2
 # 1 "losebg.h" 1
 # 22 "losebg.h"
 extern const unsigned short losebgTiles[6064];
@@ -495,17 +490,31 @@ extern const unsigned short losebgMap[1024];
 
 
 extern const unsigned short losebgPal[256];
-# 19 "main.c" 2
+# 18 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[6144];
+extern const unsigned short instructionsTiles[6928];
 
 
 extern const unsigned short instructionsMap[1024];
 
 
 extern const unsigned short instructionsPal[256];
+# 19 "main.c" 2
+# 1 "splashSong.h" 1
+
+
+
+
+extern const signed char splashSong[104832];
 # 20 "main.c" 2
+# 1 "spaceSong.h" 1
+
+
+
+
+extern const signed char spaceSong[419616];
+# 21 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[8352];
@@ -515,7 +524,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 21 "main.c" 2
+# 22 "main.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
 SOUND soundB;
@@ -532,20 +541,13 @@ void interruptHandler();
 void pauseSound();
 void unpauseSound();
 void stopSound();
-# 22 "main.c" 2
+# 23 "main.c" 2
 # 1 "forest.h" 1
 
 
 
 
 extern const signed char forestSound[1116347];
-# 23 "main.c" 2
-# 1 "introSong.h" 1
-
-
-
-
-extern const signed char intoSong[3945888];
 # 24 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
@@ -1959,7 +1961,7 @@ void goToStart() {
 
     hideSprites();
 
-
+    playSoundA(splashSong, 104832, 1);
 
 
     spaceship.active = 0;
@@ -2014,7 +2016,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 12288 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 13856 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -2047,7 +2049,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-
+    playSoundA(spaceSong, 419616, 1);
 
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
