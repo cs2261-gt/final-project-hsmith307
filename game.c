@@ -682,16 +682,6 @@ void updatePlanet1() {
         updateCoins(&coins[k]);
     }
 
-    // THIS WORKS
-    // if (collision(alien.col + 40, alien.row, alien.width, alien.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active) {
-    //     alien.active = 0;
-    //     cannonball.active = 0;
-    // }
-    // if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active) {
-    //     fry.active = 0;
-    //     cannonball.active = 0;
-    // }
-
     drawGame();
 }
 
@@ -967,6 +957,9 @@ void updateFry() {
 
     if (fry.coinCount > 5) {
         alien.active = 0;
+        enemy.active = 0;
+        cannonball.active = 0;
+        helmet.active = 0;
         fry.col += 1;
     }
 
@@ -1018,6 +1011,9 @@ void updateLeela() {
 
     if (leela.coinCount > 5) {
         alien.active = 0;
+        enemy.active = 0;
+        cannonball.active = 0;
+        helmet.active = 0;
         leela.col += 1;
     }
 

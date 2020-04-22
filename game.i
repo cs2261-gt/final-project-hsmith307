@@ -2361,7 +2361,7 @@ void updatePlanet1() {
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
-# 695 "game.c"
+
     drawGame();
 }
 
@@ -2637,6 +2637,9 @@ void updateFry() {
 
     if (fry.coinCount > 5) {
         alien.active = 0;
+        enemy.active = 0;
+        cannonball.active = 0;
+        helmet.active = 0;
         fry.col += 1;
     }
 
@@ -2688,6 +2691,9 @@ void updateLeela() {
 
     if (leela.coinCount > 5) {
         alien.active = 0;
+        enemy.active = 0;
+        cannonball.active = 0;
+        helmet.active = 0;
         leela.col += 1;
     }
 
@@ -2877,7 +2883,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1220 "game.c"
+# 1216 "game.c"
     }
 
 }

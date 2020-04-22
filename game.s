@@ -1866,18 +1866,24 @@ updateFry:
 	cmp	r2, #5
 	str	r3, [r4, #52]
 	ble	.L211
-	mov	r1, #0
-	ldr	r3, [r4]
-	ldr	r2, .L224+12
-	add	r3, r3, #1
-	str	r3, [r4]
-	str	r1, [r2, #16]
+	mov	r3, #0
+	ldr	r2, [r4]
+	add	r2, r2, #1
+	ldr	lr, .L224+12
+	ldr	ip, .L224+16
+	str	r2, [r4]
+	ldr	r1, .L224+20
+	ldr	r2, .L224+24
+	str	r3, [lr, #16]
+	str	r3, [ip, #16]
+	str	r3, [r1, #16]
+	str	r3, [r2, #16]
 .L211:
 	ldr	r2, [r4, #32]
 	rsb	r3, r2, r2, lsl #3
 	add	r3, r3, r3, lsl #6
 	add	r3, r2, r3, lsl #3
-	ldr	r1, .L224+16
+	ldr	r1, .L224+28
 	rsb	r3, r3, r3, lsl #15
 	add	r3, r2, r3, lsl #3
 	add	r3, r3, r1
@@ -1930,6 +1936,9 @@ updateFry:
 	.word	fry
 	.word	buttons
 	.word	alien
+	.word	enemy
+	.word	cannonball
+	.word	helmet
 	.word	238609294
 	.size	updateFry, .-updateFry
 	.align	2
@@ -1994,11 +2003,19 @@ updateLeela:
 .L230:
 	ldr	r2, [r4, #56]
 	cmp	r2, #5
-	movgt	r1, #0
-	ldrgt	r2, .L242+16
-	addgt	r3, r3, #1
-	strgt	r3, [r4]
-	strgt	r1, [r2, #16]
+	ble	.L232
+	mov	r2, #0
+	add	r3, r3, #1
+	ldr	lr, .L242+16
+	ldr	ip, .L242+20
+	str	r3, [r4]
+	ldr	r1, .L242+24
+	ldr	r3, .L242+28
+	str	r2, [lr, #16]
+	str	r2, [ip, #16]
+	str	r2, [r1, #16]
+	str	r2, [r3, #16]
+.L232:
 	tst	r0, #16
 	beq	.L235
 	ldr	r3, .L242+8
@@ -2033,6 +2050,9 @@ updateLeela:
 	.word	buttons
 	.word	238609294
 	.word	alien
+	.word	enemy
+	.word	cannonball
+	.word	helmet
 	.size	updateLeela, .-updateLeela
 	.align	2
 	.global	updateBullets
