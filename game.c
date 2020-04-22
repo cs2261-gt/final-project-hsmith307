@@ -682,6 +682,16 @@ void updatePlanet1() {
         updateCoins(&coins[k]);
     }
 
+    // THIS WORKS
+    // if (collision(alien.col + 40, alien.row, alien.width, alien.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active) {
+    //     alien.active = 0;
+    //     cannonball.active = 0;
+    // }
+    if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active) {
+        fry.active = 0;
+        cannonball.active = 0;
+    }
+
     drawGame();
 }
 
@@ -1426,19 +1436,7 @@ void updateLives() {
        alien.col = 190;
     }
 
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 0) && (cannonball.active) && (fry.active) && (characterChoice == FRYCHARACTER)) {
-       life5.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
-
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
-       life4.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
-
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (cannonball.active) && (fry.active) && (characterChoice == FRYCHARACTER)) {
        life4.active = 0;
        lifeCounter++;
        alien.col = 190;
@@ -1450,19 +1448,7 @@ void updateLives() {
        alien.col = 190;
     }
 
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (cannonball.active) && (fry.active) && (characterChoice == FRYCHARACTER)) {
-       life3.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
-
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
-       life2.active = 0;
-       lifeCounter++;
-       alien.col = 190;
-    }
-
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (cannonball.active) && (fry.active) && (characterChoice == FRYCHARACTER)) {
        life2.active = 0;
        lifeCounter++;
        alien.col = 190;
@@ -1471,11 +1457,6 @@ void updateLives() {
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
         isLost = 1;
-    }
-
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (cannonball.active) && (fry.active) && (characterChoice == FRYCHARACTER)) {
-       life1.active = 0;
-        isLost = 1; 
     }
 
     // if there is a collision with leela and the alien then you lose a life
