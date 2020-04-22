@@ -3070,400 +3070,754 @@ updateLives:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	push	{r4, r5, r6, lr}
-	ldr	r5, .L425
-	add	r0, r5, #8
+	push	{r4, r5, r6, r7, lr}
+	ldr	r4, .L492
+	add	r0, r4, #8
 	ldm	r0, {r0, r1}
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	r4, .L425+4
-	sub	sp, sp, #16
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	ldr	r5, .L492+4
+	sub	sp, sp, #20
 	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	ldr	r2, [r4, #12]
-	ldr	r3, [r4, #8]
-	ldm	r4, {r0, r1}
-	ldr	r6, .L425+8
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	ldr	r7, .L492+8
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L366
-.L368:
-	ldr	r0, [r4]
-.L367:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
-	mov	lr, pc
-	bx	r6
-	cmp	r0, #1
-	beq	.L369
-.L371:
-	ldr	r0, [r4]
+	ldr	r6, .L492+12
+	bne	.L366
+.L369:
+	ldr	r3, [r5, #16]
+	cmp	r3, #0
+	bne	.L367
 .L370:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
+	ldmib	r6, {r1, r3, ip}
 	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
-	mov	lr, pc
-	bx	r6
-	cmp	r0, #1
-	beq	.L372
-.L374:
 	ldr	r0, [r4]
-.L373:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
 	str	r3, [sp]
-	str	ip, [sp, #12]
+	add	r2, r2, r2, lsr #31
 	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L375
-.L377:
-	ldr	r0, [r4]
-.L376:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
-	mov	lr, pc
-	bx	r6
-	cmp	r0, #1
-	beq	.L423
-.L378:
-	ldr	r5, .L425+12
-	add	r0, r5, #8
+	beq	.L474
+.L371:
+	add	r0, r4, #8
 	ldm	r0, {r0, r1}
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
 	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	ldr	r2, [r4, #12]
-	ldr	r3, [r4, #8]
-	ldm	r4, {r0, r1}
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L379
-.L381:
+	beq	.L475
+.L372:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
 	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L476
+.L373:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L477
+.L374:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
+	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L478
+.L375:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L479
+.L376:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
+	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L480
+.L377:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L481
+.L378:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
+	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L482
+.L379:
+	ldr	r4, .L492+16
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L483
 .L380:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
+	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L484
+.L381:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L382
-.L384:
+	beq	.L485
+.L382:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
 	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L486
 .L383:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L385
-.L387:
+	beq	.L487
+.L384:
+	ldmib	r6, {r1, r3, ip}
+	ldr	r2, [r4, #12]
 	ldr	r0, [r4]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L488
+.L385:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
+	str	r1, [sp, #8]
+	str	r2, [sp, #4]
+	str	r3, [sp]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L489
 .L386:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
-	str	r1, [sp, #8]
-	str	r2, [sp, #4]
-	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
+	ldmib	r6, {r1, r3, ip}
 	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
-	mov	lr, pc
-	bx	r6
-	cmp	r0, #1
-	beq	.L388
-.L390:
 	ldr	r0, [r4]
-.L389:
-	ldr	r1, [r5, #12]
-	ldr	r2, [r5, #52]
-	ldr	r3, [r5]
-	ldr	ip, [r5, #8]
+	str	r3, [sp, #12]
+	ldr	r3, [r6]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	beq	.L490
+.L387:
+	add	r0, r4, #8
+	ldm	r0, {r0, r1}
+	ldr	r2, [r4, #52]
+	ldr	r3, [r4]
+	str	r0, [sp, #12]
 	str	r1, [sp, #8]
 	str	r2, [sp, #4]
 	str	r3, [sp]
-	str	ip, [sp, #12]
-	ldr	r3, [r4, #8]
-	ldr	r2, [r4, #12]
-	ldr	r1, [r4, #4]
+	ldr	r2, [r5, #12]
+	ldr	r3, [r5, #8]
+	ldm	r5, {r0, r1}
 	mov	lr, pc
-	bx	r6
+	bx	r7
 	cmp	r0, #1
-	beq	.L424
+	beq	.L491
 .L365:
-	add	sp, sp, #16
+	add	sp, sp, #20
 	@ sp needed
-	pop	{r4, r5, r6, lr}
+	pop	{r4, r5, r6, r7, lr}
 	bx	lr
 .L366:
-	ldr	r2, [r4, #16]
-	cmp	r2, #0
-	beq	.L368
-	ldr	ip, .L425+16
-	ldr	r1, .L425+20
-	ldr	r2, [ip]
-	ldr	r1, [r1]
-	orrs	r2, r2, r1
-	bne	.L368
-	mov	r3, r0
-	mov	r1, #190
-	str	r3, [ip]
-	ldr	r3, .L425+24
-	mov	r0, r1
-	str	r1, [r4]
-	str	r2, [r3, #16]
-	b	.L367
-.L424:
-	ldr	r3, .L425+16
+	add	r0, r6, #8
+	ldm	r0, {r0, ip}
+	ldr	r2, [r4, #12]
+	ldr	r1, [r6, #4]
+	str	r0, [sp, #12]
+	ldr	r3, [r6]
+	ldr	r0, [r4]
+	stmib	sp, {r1, ip}
+	str	r3, [sp]
+	add	r2, r2, r2, lsr #31
+	ldr	r3, [r4, #8]
+	ldr	r1, [r4, #52]
+	asr	r2, r2, #1
+	add	r0, r0, #20
+	mov	lr, pc
+	bx	r7
+	cmp	r0, #1
+	bne	.L370
+	b	.L369
+.L491:
+	ldr	r3, .L492+20
 	ldr	r3, [r3]
 	cmp	r3, #4
 	bne	.L365
-	ldr	r3, [r4, #16]
+	ldr	r3, [r5, #16]
 	cmp	r3, #0
 	beq	.L365
-	ldr	r3, .L425+20
+	ldr	r3, .L492+24
 	ldr	r3, [r3]
 	cmp	r3, #1
 	moveq	r0, #0
-	ldreq	r1, .L425+28
-	ldreq	r2, .L425+32
+	ldreq	r1, .L492+28
+	ldreq	r2, .L492+32
 	streq	r0, [r1, #16]
 	streq	r3, [r2]
 	b	.L365
-.L388:
-	ldr	r3, .L425+16
+.L490:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L387
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L387
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #1
+	bne	.L387
+	ldr	r2, .L492+20
+	ldr	r1, [r2]
+	cmp	r1, #3
+	bne	.L387
+	mov	ip, #4
+	mov	r1, #0
+	ldr	r0, .L492+36
+	str	ip, [r2]
+	ldr	r2, .L492+40
+	str	r1, [r6, #16]
+	str	r1, [r0, #16]
+	str	r3, [r2, #32]
+	b	.L387
+.L489:
+	ldr	r3, .L492+20
 	ldr	r2, [r3]
 	cmp	r2, #3
-	bne	.L390
-	ldr	r2, [r4, #16]
+	bne	.L386
+	ldr	r2, [r5, #16]
 	cmp	r2, #0
-	beq	.L390
-	ldr	r2, .L425+20
+	beq	.L386
+	ldr	r2, .L492+24
 	ldr	r2, [r2]
 	cmp	r2, #1
-	bne	.L390
-	mov	r2, #190
-	mov	r1, #0
+	bne	.L386
+	mov	r0, #0
 	mov	ip, #4
-	mov	r0, r2
-	str	r2, [r4]
-	ldr	r2, .L425+36
+	mov	r2, #190
+	ldr	r1, .L492+36
 	str	ip, [r3]
-	str	r1, [r2, #16]
-	b	.L389
-.L385:
-	ldr	r3, .L425+16
+	str	r0, [r1, #16]
+	str	r2, [r5]
+	b	.L386
+.L488:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L385
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L385
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #1
+	bne	.L385
+	ldr	r2, .L492+20
+	ldr	r1, [r2]
+	cmp	r1, #2
+	bne	.L385
+	mov	r1, #0
+	mov	r0, #3
+	ldr	ip, .L492+44
+	str	r1, [r6, #16]
+	str	r1, [ip, #16]
+	ldr	r1, .L492+40
+	str	r0, [r2]
+	str	r3, [r1, #32]
+	b	.L385
+.L487:
+	ldr	r3, .L492+20
 	ldr	r2, [r3]
 	cmp	r2, #2
-	bne	.L387
-	ldr	r2, [r4, #16]
-	cmp	r2, #0
-	beq	.L387
-	ldr	r2, .L425+20
-	ldr	r2, [r2]
-	cmp	r2, #1
-	bne	.L387
-	mov	r2, #190
-	mov	r1, #0
-	mov	ip, #3
-	mov	r0, r2
-	str	r2, [r4]
-	ldr	r2, .L425+40
-	str	ip, [r3]
-	str	r1, [r2, #16]
-	b	.L386
-.L382:
-	ldr	r3, .L425+16
-	ldr	r2, [r3]
-	cmp	r2, #1
 	bne	.L384
-	ldr	r2, [r4, #16]
+	ldr	r2, [r5, #16]
 	cmp	r2, #0
 	beq	.L384
-	ldr	r2, .L425+20
+	ldr	r2, .L492+24
 	ldr	r2, [r2]
 	cmp	r2, #1
 	bne	.L384
+	mov	r0, #0
+	mov	ip, #3
 	mov	r2, #190
-	mov	r1, #0
-	mov	ip, #2
-	mov	r0, r2
-	str	r2, [r4]
-	ldr	r2, .L425+44
+	ldr	r1, .L492+44
 	str	ip, [r3]
-	str	r1, [r2, #16]
+	str	r0, [r1, #16]
+	str	r2, [r5]
+	b	.L384
+.L486:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L383
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L383
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #1
+	bne	.L383
+	ldr	r2, .L492+20
+	ldr	r3, [r2]
+	cmp	r3, #1
+	bne	.L383
+	mov	r1, #0
+	mov	r0, #2
+	ldr	ip, .L492+48
+	str	r1, [r6, #16]
+	str	r1, [ip, #16]
+	ldr	r1, .L492+40
+	str	r0, [r2]
+	str	r3, [r1, #32]
 	b	.L383
-.L379:
-	ldr	r2, .L425+16
+.L485:
+	ldr	r3, .L492+20
+	ldr	r2, [r3]
+	cmp	r2, #1
+	bne	.L382
+	ldr	r2, [r5, #16]
+	cmp	r2, #0
+	beq	.L382
+	ldr	r2, .L492+24
+	ldr	r2, [r2]
+	cmp	r2, #1
+	bne	.L382
+	mov	r0, #0
+	mov	ip, #2
+	mov	r2, #190
+	ldr	r1, .L492+48
+	str	ip, [r3]
+	str	r0, [r1, #16]
+	str	r2, [r5]
+	b	.L382
+.L484:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L381
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L381
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #1
+	bne	.L381
+	ldr	r1, .L492+20
+	ldr	r2, [r1]
+	cmp	r2, #0
+	bne	.L381
+	ldr	r0, .L492+52
+	str	r3, [r1]
+	ldr	r1, .L492+40
+	str	r2, [r6, #16]
+	str	r2, [r0, #16]
+	str	r3, [r1, #32]
+	b	.L381
+.L483:
+	ldr	r2, .L492+20
 	ldr	r3, [r2]
 	cmp	r3, #0
-	bne	.L381
-	ldr	r1, [r4, #16]
+	bne	.L380
+	ldr	r1, [r5, #16]
 	cmp	r1, #0
-	beq	.L381
-	ldr	r1, .L425+20
+	beq	.L380
+	ldr	r1, .L492+24
 	ldr	r1, [r1]
 	cmp	r1, #1
-	bne	.L381
-	mov	ip, #190
-	str	r1, [r2]
-	ldr	r2, .L425+24
-	mov	r0, ip
-	str	ip, [r4]
-	str	r3, [r2, #16]
+	moveq	r0, #190
+	streq	r1, [r2]
+	ldreq	r2, .L492+52
+	streq	r0, [r5]
+	streq	r3, [r2, #16]
 	b	.L380
-.L423:
-	ldr	r3, .L425+16
+.L482:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L379
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L379
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #0
+	bne	.L379
+	ldr	r2, .L492+20
+	ldr	r2, [r2]
+	cmp	r2, #4
+	ldreq	r1, .L492+28
+	ldreq	r2, .L492+32
+	streq	r3, [r1, #16]
+	streq	r0, [r2]
+	b	.L379
+.L481:
+	ldr	r3, .L492+20
 	ldr	r3, [r3]
 	cmp	r3, #4
 	bne	.L378
-	ldr	r3, [r4, #16]
+	ldr	r3, [r5, #16]
 	cmp	r3, #0
 	beq	.L378
-	ldr	r3, .L425+20
+	ldr	r3, .L492+24
 	ldr	r3, [r3]
 	cmp	r3, #0
-	ldreq	r1, .L425+28
-	ldreq	r2, .L425+32
+	ldreq	r1, .L492+28
+	ldreq	r2, .L492+32
 	streq	r3, [r1, #16]
 	streq	r0, [r2]
 	b	.L378
-.L375:
-	ldr	r3, .L425+16
+.L480:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L377
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L377
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #0
+	bne	.L377
+	ldr	r2, .L492+20
+	ldr	r1, [r2]
+	cmp	r1, #3
+	bne	.L377
+	mov	ip, #4
+	ldr	r1, .L492+36
+	str	ip, [r2]
+	ldr	r2, .L492+40
+	str	r3, [r6, #16]
+	str	r3, [r1, #16]
+	str	r0, [r2, #32]
+	b	.L377
+.L479:
+	ldr	r3, .L492+20
 	ldr	r2, [r3]
 	cmp	r2, #3
-	bne	.L377
-	ldr	r2, [r4, #16]
+	bne	.L376
+	ldr	r2, [r5, #16]
 	cmp	r2, #0
-	beq	.L377
-	ldr	r2, .L425+20
+	beq	.L376
+	ldr	r2, .L492+24
 	ldr	r2, [r2]
 	cmp	r2, #0
-	bne	.L377
+	bne	.L376
+	mov	r0, #4
 	mov	r1, #190
-	mov	ip, #4
-	mov	r0, r1
-	str	r1, [r4]
-	ldr	r1, .L425+36
-	str	ip, [r3]
-	str	r2, [r1, #16]
+	str	r0, [r3]
+	ldr	r3, .L492+36
+	str	r1, [r5]
+	str	r2, [r3, #16]
 	b	.L376
-.L372:
-	ldr	r3, .L425+16
+.L478:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L375
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L375
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #0
+	bne	.L375
+	ldr	r2, .L492+20
+	ldr	r1, [r2]
+	cmp	r1, #2
+	bne	.L375
+	mov	ip, #3
+	ldr	r1, .L492+44
+	str	ip, [r2]
+	ldr	r2, .L492+40
+	str	r3, [r6, #16]
+	str	r3, [r1, #16]
+	str	r0, [r2, #32]
+	b	.L375
+.L477:
+	ldr	r3, .L492+20
 	ldr	r2, [r3]
 	cmp	r2, #2
 	bne	.L374
-	ldr	r2, [r4, #16]
+	ldr	r2, [r5, #16]
 	cmp	r2, #0
 	beq	.L374
-	ldr	r2, .L425+20
+	ldr	r2, .L492+24
 	ldr	r2, [r2]
 	cmp	r2, #0
 	bne	.L374
+	mov	r0, #3
 	mov	r1, #190
-	mov	ip, #3
-	mov	r0, r1
-	str	r1, [r4]
-	ldr	r1, .L425+40
-	str	ip, [r3]
-	str	r2, [r1, #16]
+	str	r0, [r3]
+	ldr	r3, .L492+44
+	str	r1, [r5]
+	str	r2, [r3, #16]
+	b	.L374
+.L476:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L373
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L373
+	ldr	r3, .L492+24
+	ldr	r3, [r3]
+	cmp	r3, #0
+	bne	.L373
+	ldr	r1, .L492+20
+	ldr	r2, [r1]
+	cmp	r2, #1
+	bne	.L373
+	mov	ip, #2
+	ldr	r0, .L492+48
+	str	ip, [r1]
+	ldr	r1, .L492+40
+	str	r3, [r6, #16]
+	str	r3, [r0, #16]
+	str	r2, [r1, #32]
 	b	.L373
-.L369:
-	ldr	r3, .L425+16
+.L475:
+	ldr	r3, .L492+20
 	ldr	r2, [r3]
 	cmp	r2, #1
-	bne	.L371
-	ldr	r2, [r4, #16]
+	bne	.L372
+	ldr	r2, [r5, #16]
 	cmp	r2, #0
-	beq	.L371
-	ldr	r2, .L425+20
+	beq	.L372
+	ldr	r2, .L492+24
 	ldr	r2, [r2]
 	cmp	r2, #0
-	bne	.L371
+	bne	.L372
+	mov	r0, #2
 	mov	r1, #190
-	mov	ip, #2
-	mov	r0, r1
-	str	r1, [r4]
-	ldr	r1, .L425+44
-	str	ip, [r3]
-	str	r2, [r1, #16]
+	str	r0, [r3]
+	ldr	r3, .L492+48
+	str	r1, [r5]
+	str	r2, [r3, #16]
+	b	.L372
+.L474:
+	ldr	r3, [r6, #16]
+	cmp	r3, #0
+	beq	.L371
+	ldr	r3, [r4, #16]
+	cmp	r3, #0
+	beq	.L371
+	ldr	r3, .L492+24
+	ldr	r1, .L492+20
+	ldr	r3, [r3]
+	ldr	r2, [r1]
+	orrs	r3, r3, r2
+	bne	.L371
+	ldr	ip, .L492+52
+	ldr	r2, .L492+40
+	str	r0, [r1]
+	str	r3, [r6, #16]
+	str	r3, [ip, #16]
+	str	r0, [r2, #32]
+	b	.L371
+.L367:
+	ldr	r1, .L492+20
+	ldr	r2, .L492+24
+	ldr	r3, [r1]
+	ldr	r2, [r2]
+	orrs	r3, r3, r2
+	bne	.L370
+	mov	r2, #1
+	mov	r0, #190
+	str	r2, [r1]
+	ldr	r2, .L492+52
+	str	r0, [r5]
+	str	r3, [r2, #16]
 	b	.L370
-.L426:
+.L493:
 	.align	2
-.L425:
+.L492:
 	.word	fry
 	.word	alien
 	.word	collision
+	.word	cannonball
 	.word	leela
 	.word	lifeCounter
 	.word	characterChoice
-	.word	life5
 	.word	life1
 	.word	isLost
 	.word	life2
+	.word	enemy
 	.word	life3
 	.word	life4
+	.word	life5
 	.size	updateLives, .-updateLives
 	.align	2
 	.global	updatePlanet1
@@ -3476,13 +3830,12 @@ updatePlanet1:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	ip, #25
-	push	{r4, r5, r6, lr}
-	ldr	r2, .L446
+	ldr	r2, .L507
 	ldrh	r3, [r2]
-	ldr	r0, .L446+4
-	ldr	r1, .L446+8
+	ldr	r0, .L507+4
+	push	{r4, lr}
+	ldr	r1, .L507+8
 	add	r3, r3, #1
-	sub	sp, sp, #16
 	strh	ip, [r0]	@ movhi
 	strh	r3, [r2]	@ movhi
 	mov	lr, pc
@@ -3490,91 +3843,64 @@ updatePlanet1:
 	bl	updateFry
 	bl	updateAlien
 	bl	updateLeela
-	ldr	r0, .L446+12
+	ldr	r0, .L507+12
 	add	r1, r0, #1392
 	add	r1, r1, #8
-.L429:
+.L496:
 	ldr	r3, [r0, #24]
 	cmp	r3, #0
 	blne	updateBullets.part.0
-.L428:
+.L495:
 	add	r0, r0, #28
 	cmp	r0, r1
-	bne	.L429
-	ldr	r5, .L446+16
-	ldr	r3, [r5]
+	bne	.L496
+	ldr	r4, .L507+16
+	ldr	r3, [r4]
 	cmp	r3, #0
-	ldr	r4, .L446+20
-	bne	.L430
-	ldr	r3, [r4, #56]
+	bne	.L497
+	ldr	r3, .L507+20
+	ldr	r3, [r3, #56]
 	cmp	r3, #20
-	bgt	.L445
-.L432:
+	bgt	.L506
+.L499:
 	bl	updateEnemy
 	bl	updateLives
 	bl	updateCannonball
-	ldr	r3, .L446+24
+	ldr	r3, .L507+24
 	ldrh	r3, [r3, #48]
 	lsr	r3, r3, #7
-	ldr	r2, .L446+28
+	ldr	r2, .L507+28
 	eor	r3, r3, #1
 	and	r3, r3, #1
-	ldr	r0, .L446+32
+	ldr	r0, .L507+32
 	str	r3, [r2, #16]
-	ldr	r5, .L446+36
 	bl	updateCoins
-	ldr	r0, .L446+40
+	ldr	r0, .L507+36
 	bl	updateCoins
-	ldr	r2, [r4, #12]
-	ldr	r1, [r5, #4]
-	ldr	r3, [r5]
-	ldr	lr, [r5, #8]
-	ldr	ip, [r5, #12]
-	ldr	r0, [r4]
-	add	r2, r2, r2, lsr #31
-	stmib	sp, {r1, ip, lr}
-	str	r3, [sp]
-	ldr	r1, [r4, #52]
-	ldr	r3, [r4, #8]
-	ldr	r6, .L446+44
-	asr	r2, r2, #1
-	add	r0, r0, #20
-	mov	lr, pc
-	bx	r6
-	cmp	r0, #1
-	bne	.L434
-	ldr	r3, [r5, #16]
-	cmp	r3, #0
-	movne	r3, #0
-	strne	r3, [r4, #16]
-	strne	r3, [r5, #16]
-.L434:
-	add	sp, sp, #16
-	@ sp needed
-	pop	{r4, r5, r6, lr}
+	pop	{r4, lr}
 	b	drawGame
-.L445:
+.L506:
 	mov	r2, #1
-	ldr	r3, .L446+48
+	ldr	r3, .L507+40
 	str	r2, [r3, #60]
 	add	r0, r3, #40
 	bl	updateTreasure.part.0
-	ldr	r3, [r5]
-.L430:
+	ldr	r3, [r4]
+.L497:
 	cmp	r3, #1
-	bne	.L432
-	ldr	r2, .L446+52
+	bne	.L499
+	ldr	r2, .L507+44
 	ldr	r2, [r2, #56]
 	cmp	r2, #5
-	ble	.L432
-	ldr	r2, .L446+48
+	ble	.L499
+	ldr	r2, .L507+40
 	str	r3, [r2, #60]
 	add	r0, r2, #40
 	bl	updateTreasure.part.0
-	b	.L432
-.L447:
+	b	.L499
+.L508:
 	.align	2
-.L446:
+.L507:
 	.word	hOff
 	.word	vOff
 	.word	hideSprites
@@ -3584,9 +3910,7 @@ updatePlanet1:
 	.word	67109120
 	.word	helmet
 	.word	coins
-	.word	cannonball
 	.word	coins+40
-	.word	collision
 	.word	treasure
 	.word	leela
 	.size	updatePlanet1, .-updatePlanet1
@@ -3601,11 +3925,11 @@ updatePlanet2:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	ip, #25
-	ldr	r2, .L461
+	ldr	r2, .L522
 	ldrh	r3, [r2]
-	ldr	r0, .L461+4
+	ldr	r0, .L522+4
 	push	{r4, lr}
-	ldr	r1, .L461+8
+	ldr	r1, .L522+8
 	add	r3, r3, #1
 	strh	ip, [r0]	@ movhi
 	strh	r3, [r2]	@ movhi
@@ -3614,64 +3938,64 @@ updatePlanet2:
 	bl	updateFry
 	bl	updateAlien
 	bl	updateLeela
-	ldr	r0, .L461+12
+	ldr	r0, .L522+12
 	add	r1, r0, #1392
 	add	r1, r1, #8
-.L450:
+.L511:
 	ldr	r3, [r0, #24]
 	cmp	r3, #0
 	blne	updateBullets.part.0
-.L449:
+.L510:
 	add	r0, r0, #28
 	cmp	r0, r1
-	bne	.L450
+	bne	.L511
 	bl	updateLives
 	bl	updateEnemy
 	bl	updateCannonball
-	ldr	r3, .L461+16
-	ldr	r4, .L461+20
+	ldr	r3, .L522+16
+	ldr	r4, .L522+20
 	ldrh	r3, [r3, #48]
 	ldr	r2, [r4]
 	lsr	r3, r3, #7
-	ldr	r1, .L461+24
+	ldr	r1, .L522+24
 	eor	r3, r3, #1
 	and	r3, r3, #1
 	cmp	r2, #0
 	str	r3, [r1, #16]
-	bne	.L451
-	ldr	r3, .L461+28
+	bne	.L512
+	ldr	r3, .L522+28
 	ldr	r3, [r3, #56]
 	cmp	r3, #20
-	bgt	.L460
-.L453:
-	ldr	r0, .L461+32
+	bgt	.L521
+.L514:
+	ldr	r0, .L522+32
 	bl	updateCoins
-	ldr	r0, .L461+36
+	ldr	r0, .L522+36
 	bl	updateCoins
 	pop	{r4, lr}
 	b	drawGame
-.L460:
+.L521:
 	mov	r2, #1
-	ldr	r3, .L461+40
+	ldr	r3, .L522+40
 	str	r2, [r3, #100]
 	add	r0, r3, #80
 	bl	updateTreasure.part.0
 	ldr	r2, [r4]
-.L451:
+.L512:
 	cmp	r2, #1
-	bne	.L453
-	ldr	r3, .L461+44
+	bne	.L514
+	ldr	r3, .L522+44
 	ldr	r3, [r3, #56]
 	cmp	r3, #5
-	ble	.L453
-	ldr	r3, .L461+40
+	ble	.L514
+	ldr	r3, .L522+40
 	str	r2, [r3, #100]
 	add	r0, r3, #80
 	bl	updateTreasure.part.0
-	b	.L453
-.L462:
+	b	.L514
+.L523:
 	.align	2
-.L461:
+.L522:
 	.word	hOff
 	.word	vOff
 	.word	hideSprites
@@ -3696,11 +4020,11 @@ updatePlanet3:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	ip, #45
-	ldr	r2, .L476
+	ldr	r2, .L537
 	ldrh	r3, [r2]
-	ldr	r0, .L476+4
+	ldr	r0, .L537+4
 	push	{r4, lr}
-	ldr	r1, .L476+8
+	ldr	r1, .L537+8
 	add	r3, r3, #1
 	strh	ip, [r0]	@ movhi
 	strh	r3, [r2]	@ movhi
@@ -3709,64 +4033,64 @@ updatePlanet3:
 	bl	updateFry
 	bl	updateAlien
 	bl	updateLeela
-	ldr	r0, .L476+12
+	ldr	r0, .L537+12
 	add	r1, r0, #1392
 	add	r1, r1, #8
-.L465:
+.L526:
 	ldr	r3, [r0, #24]
 	cmp	r3, #0
 	blne	updateBullets.part.0
-.L464:
+.L525:
 	add	r0, r0, #28
 	cmp	r0, r1
-	bne	.L465
+	bne	.L526
 	bl	updateLives
 	bl	updateEnemy
 	bl	updateCannonball
-	ldr	r3, .L476+16
-	ldr	r4, .L476+20
+	ldr	r3, .L537+16
+	ldr	r4, .L537+20
 	ldrh	r3, [r3, #48]
 	ldr	r2, [r4]
 	lsr	r3, r3, #7
-	ldr	r1, .L476+24
+	ldr	r1, .L537+24
 	eor	r3, r3, #1
 	and	r3, r3, #1
 	cmp	r2, #0
 	str	r3, [r1, #16]
-	bne	.L466
-	ldr	r3, .L476+28
+	bne	.L527
+	ldr	r3, .L537+28
 	ldr	r3, [r3, #56]
 	cmp	r3, #20
-	bgt	.L475
-.L468:
-	ldr	r0, .L476+32
+	bgt	.L536
+.L529:
+	ldr	r0, .L537+32
 	bl	updateCoins
-	ldr	r0, .L476+36
+	ldr	r0, .L537+36
 	bl	updateCoins
 	pop	{r4, lr}
 	b	drawGame
-.L475:
+.L536:
 	mov	r2, #1
-	ldr	r3, .L476+40
+	ldr	r3, .L537+40
 	str	r2, [r3, #140]
 	add	r0, r3, #120
 	bl	updateTreasure.part.0
 	ldr	r2, [r4]
-.L466:
+.L527:
 	cmp	r2, #1
-	bne	.L468
-	ldr	r3, .L476+44
+	bne	.L529
+	ldr	r3, .L537+44
 	ldr	r3, [r3, #56]
 	cmp	r3, #5
-	ble	.L468
-	ldr	r3, .L476+40
+	ble	.L529
+	ldr	r3, .L537+40
 	str	r2, [r3, #140]
 	add	r0, r3, #120
 	bl	updateTreasure.part.0
-	b	.L468
-.L477:
+	b	.L529
+.L538:
 	.align	2
-.L476:
+.L537:
 	.word	hOff
 	.word	vOff
 	.word	hideSprites
@@ -3791,11 +4115,11 @@ updatePlanet4:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	mov	ip, #45
-	ldr	r2, .L491
+	ldr	r2, .L552
 	ldrh	r3, [r2]
-	ldr	r0, .L491+4
+	ldr	r0, .L552+4
 	push	{r4, lr}
-	ldr	r1, .L491+8
+	ldr	r1, .L552+8
 	add	r3, r3, #1
 	strh	ip, [r0]	@ movhi
 	strh	r3, [r2]	@ movhi
@@ -3804,64 +4128,64 @@ updatePlanet4:
 	bl	updateFry
 	bl	updateAlien
 	bl	updateLeela
-	ldr	r0, .L491+12
+	ldr	r0, .L552+12
 	add	r1, r0, #1392
 	add	r1, r1, #8
-.L480:
+.L541:
 	ldr	r3, [r0, #24]
 	cmp	r3, #0
 	blne	updateBullets.part.0
-.L479:
+.L540:
 	add	r0, r0, #28
 	cmp	r0, r1
-	bne	.L480
+	bne	.L541
 	bl	updateLives
 	bl	updateEnemy
 	bl	updateCannonball
-	ldr	r3, .L491+16
-	ldr	r4, .L491+20
+	ldr	r3, .L552+16
+	ldr	r4, .L552+20
 	ldrh	r3, [r3, #48]
 	ldr	r2, [r4]
 	lsr	r3, r3, #7
-	ldr	r1, .L491+24
+	ldr	r1, .L552+24
 	eor	r3, r3, #1
 	and	r3, r3, #1
 	cmp	r2, #0
 	str	r3, [r1, #16]
-	bne	.L481
-	ldr	r3, .L491+28
+	bne	.L542
+	ldr	r3, .L552+28
 	ldr	r3, [r3, #56]
 	cmp	r3, #20
-	bgt	.L490
-.L483:
-	ldr	r0, .L491+32
+	bgt	.L551
+.L544:
+	ldr	r0, .L552+32
 	bl	updateCoins
-	ldr	r0, .L491+36
+	ldr	r0, .L552+36
 	bl	updateCoins
 	pop	{r4, lr}
 	b	drawGame
-.L490:
+.L551:
 	mov	r2, #1
-	ldr	r3, .L491+40
+	ldr	r3, .L552+40
 	str	r2, [r3, #180]
 	add	r0, r3, #160
 	bl	updateTreasure.part.0
 	ldr	r2, [r4]
-.L481:
+.L542:
 	cmp	r2, #1
-	bne	.L483
-	ldr	r3, .L491+44
+	bne	.L544
+	ldr	r3, .L552+44
 	ldr	r3, [r3, #56]
 	cmp	r3, #5
-	ble	.L483
-	ldr	r3, .L491+40
+	ble	.L544
+	ldr	r3, .L552+40
 	str	r2, [r3, #180]
 	add	r0, r3, #160
 	bl	updateTreasure.part.0
-	b	.L483
-.L492:
+	b	.L544
+.L553:
 	.align	2
-.L491:
+.L552:
 	.word	hOff
 	.word	vOff
 	.word	hideSprites
