@@ -2694,6 +2694,9 @@ void updateLeela() {
         enemy.active = 0;
         cannonball.active = 0;
         helmet.active = 0;
+
+
+
         leela.col += 1;
     }
 
@@ -2883,7 +2886,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1216 "game.c"
+# 1219 "game.c"
     }
 
 }
