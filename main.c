@@ -1,4 +1,10 @@
 // COMMENT BLOCK ABOUT WHAT IS NEW IN MILESTONE 4
+/*
+    * I added sound- a splash screen song, a space song, and a non-looping laser sound
+    * I already had the main sprites, but I felt my game needed an extra something. So I added the bomber UFO and the helmet to block bombs
+    * I added the scrolling space background. The stars and the planet background are different backgrounds and move at different speeds
+    
+*/
 
 
 #include "myLib.h"
