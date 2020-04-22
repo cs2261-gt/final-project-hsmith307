@@ -1824,8 +1824,8 @@ updateFry:
 	tst	r0, #16
 	beq	.L208
 	ldr	r3, .L216+8
-	ldrh	r3, [r3]
-	ands	r5, r3, #16
+	ldrh	r2, [r3]
+	ands	r5, r2, #16
 	beq	.L215
 .L208:
 	ldr	r3, [r4, #44]
@@ -1853,8 +1853,14 @@ updateFry:
 	b	.L204
 .L215:
 	bl	shootBullets
-	mov	r3, #1
+	mov	r2, r5
+	ldr	r3, .L216+32
+	ldr	r1, .L216+36
+	ldr	r0, .L216+40
 	str	r5, [r4, #60]
+	mov	lr, pc
+	bx	r3
+	mov	r3, #1
 	str	r3, [r4, #44]
 	pop	{r4, r5, r6, lr}
 	bx	lr
@@ -1869,6 +1875,9 @@ updateFry:
 	.word	cannonball
 	.word	helmet
 	.word	238609294
+	.word	playSoundB
+	.word	16416
+	.word	shot
 	.size	updateFry, .-updateFry
 	.align	2
 	.global	updateLeela
@@ -1882,7 +1891,7 @@ updateLeela:
 	@ frame_needed = 0, uses_anonymous_args = 0
 	ldr	r3, .L234
 	ldrh	r0, [r3]
-	push	{r4, lr}
+	push	{r4, r5, r6, lr}
 	ldr	r4, .L234+4
 	tst	r0, #64
 	ldr	r3, [r4, #24]
@@ -1948,14 +1957,14 @@ updateLeela:
 	tst	r0, #16
 	beq	.L227
 	ldr	r3, .L234+8
-	ldrh	r3, [r3]
-	tst	r3, #16
+	ldrh	r2, [r3]
+	ands	r6, r2, #16
 	beq	.L233
 .L227:
 	ldr	r3, [r4, #44]
 	add	r3, r3, #1
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L232:
 	ldr	r2, [r4, #48]
@@ -1966,12 +1975,18 @@ updateLeela:
 	subeq	r3, r3, #12
 	b	.L219
 .L233:
+	mov	r5, #1
 	bl	shootBullets
-	mov	r2, #1
-	mov	r3, r2
-	str	r2, [r4, #60]
+	mov	r2, r6
+	ldr	r3, .L234+32
+	ldr	r1, .L234+36
+	ldr	r0, .L234+40
+	str	r5, [r4, #60]
+	mov	lr, pc
+	bx	r3
+	mov	r3, r5
 	str	r3, [r4, #44]
-	pop	{r4, lr}
+	pop	{r4, r5, r6, lr}
 	bx	lr
 .L235:
 	.align	2
@@ -1984,6 +1999,9 @@ updateLeela:
 	.word	enemy
 	.word	cannonball
 	.word	helmet
+	.word	playSoundB
+	.word	16416
+	.word	shot
 	.size	updateLeela, .-updateLeela
 	.align	2
 	.global	updateBullets

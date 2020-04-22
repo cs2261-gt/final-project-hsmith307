@@ -983,7 +983,7 @@ void updateFry() {
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
         fry.hasShot = 0;
-        //playSoundB(shot, SHOTLEN, 0);
+        playSoundB(shot, SHOTLEN, 0);
         fry.bulletTimer = 0;
     }
 
@@ -1032,7 +1032,7 @@ void updateLeela() {
     if (BUTTON_PRESSED(BUTTON_RIGHT)) {
         shootBullets();
         leela.hasShot = 1;
-        //playSoundB(shot, SHOTLEN, 0);
+        playSoundB(shot, SHOTLEN, 0);
         leela.bulletTimer = 0;
     }
 

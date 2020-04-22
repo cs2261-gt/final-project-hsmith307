@@ -2665,7 +2665,7 @@ void updateFry() {
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
         fry.hasShot = 0;
-
+        playSoundB(shot, 16416, 0);
         fry.bulletTimer = 0;
     }
 
@@ -2714,7 +2714,7 @@ void updateLeela() {
     if ((!(~(oldButtons)&((1<<4))) && (~buttons & ((1<<4))))) {
         shootBullets();
         leela.hasShot = 1;
-
+        playSoundB(shot, 16416, 0);
         leela.bulletTimer = 0;
     }
 
