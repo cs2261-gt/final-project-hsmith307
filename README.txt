@@ -11,6 +11,9 @@ If the alien hits you more than 6 times in all the planets combined, you lose.
 If you kill the alien, wait for the treasure to collide with you and then you add it to your inventory.
 Once you collide with the treasure, you are taken back to space.
 
+Jump over the blocks. I have not yet decided what I want to happen if you collide with a block, so you can hit them
+currently and it does not matter. But they are there to jump over. 
+
 Get the treasure from each planet without having the alien kill you. 
 
 If you collect the treasure from each planet, you win.

@@ -14,6 +14,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }FRY;
 
 // leela struct 
@@ -32,6 +33,7 @@ typedef struct {
     int bulletTimer;
     int amJumping;
     int screenRow;
+    int coinCount;
 }LEELA;
 
 typedef struct {
@@ -46,6 +48,7 @@ typedef struct {
     int aniCounter;
     int curFrame;
     int numFrames;
+    int timer;
 }ALIEN;
 
 
@@ -59,6 +62,42 @@ typedef struct {
     int cdel;
     int rdel;
 }SPACESHIP;
+
+//enemy ship struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+    int isLeft;
+    int shotReady;
+}ENEMY;
+
+//helmet struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}HELMET;
+
+//enemy cannonball struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+    int cdel;
+    int rdel;
+}CANNONBALL;
+
 
 // planet struct
 typedef struct {
@@ -89,7 +128,11 @@ typedef struct {
     int width;
     int active;
     int cdel;
-}BLOCK;
+    int aniState;
+    int curFrame;
+    int aniCounter;
+    int numFrames;
+}COIN;
 
 // bullet struct
 typedef struct {
@@ -112,10 +155,12 @@ typedef struct {
     int active;
     volatile int treasureCounter;
     int treasureNum;
+    int distance;
+    int isCollected;
 }TREASURE;
 
 // game macros
-#define BLOCKCOUNT 3
+#define COINCOUNT 2
 #define NUMLIVES 3
 #define BULLETCOUNT 50
 #define TREASURECOUNT 5
@@ -128,7 +173,7 @@ extern FRY fry;
 extern LEELA leela;
 extern SPACESHIP spaceship;
 extern ALIEN alien;
-extern BLOCK blocks[];
+extern COIN coins[COINCOUNT];
 extern HEART life1;
 extern HEART life2;
 extern HEART life3;
@@ -137,6 +182,10 @@ extern HEART life5;
 extern BULLET bullets[BULLETCOUNT];
 extern TREASURE treasureP1;
 extern TREASURE treasure[TREASURECOUNT];
+extern HELMET helmet;
+extern ENEMY enemy;
+extern CANNONBALL cannonball;
+
 
 // counters to count which life is being lost and thus which should be hidden
 extern int lifeCounter;
@@ -187,8 +236,8 @@ void updateFry();
 
 void initSpaceship();
 
-void initBlocks();
-void updateBlocks(BLOCK *);
+void initCoins();
+void updateCoins(COIN *);
 
 void initLives();
 void updateLives();
@@ -203,6 +252,17 @@ void initBullets();
 
 void shootBullets();
 void updateBullets(BULLET *);
+
+void initHelmet();
+void updateHelmet();
+
+void initCannonball();
+void shootCannonball();
+void updateCannonball();
+
+
+void initEnemy();
+void updateEnemy();
 
 extern int isLost;
 extern int isWon;
