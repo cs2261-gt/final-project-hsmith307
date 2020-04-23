@@ -3346,7 +3346,7 @@ void updateLives() {
     }
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && leela.active && (characterChoice == LEELACHARACTER)) {
        life2.active = 0;
        life2.isLost = 1;
        lifeCounter++;
@@ -3370,7 +3370,7 @@ void updateLives() {
     }
 
 
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (cannonball.active) && leela.active && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
        life1.isLost = 1;
         isLost = 1;

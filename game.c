@@ -1599,7 +1599,7 @@ void updateLives() {
     }
 
     // fry and the alien, life 3
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && fry.active && (characterChoice == FRYCHARACTER)) {
        life3.active = 0;
        life3.isLost = 1;
        lifeCounter++;
@@ -1702,7 +1702,7 @@ void updateLives() {
     }
 
     // leela and the alien, life 2
-    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && leela.active && (characterChoice == LEELACHARACTER)) {
        life2.active = 0;
        life2.isLost = 1;
        lifeCounter++;
@@ -1726,7 +1726,7 @@ void updateLives() {
     }
 
     // leela and the bomb, life one (last lide)
-    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
+    if (collision(cannonball.col, cannonball.row, cannonball.width, cannonball.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (cannonball.active) && leela.active && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
        life1.isLost = 1;
         isLost = 1;
