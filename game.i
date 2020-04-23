@@ -131,6 +131,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }FRY;
 
 
@@ -151,6 +152,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }LEELA;
 
 typedef struct {
@@ -314,6 +316,8 @@ extern int life4Counter;
 
 extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
+
+extern int coinsNeeded;
 
 
 
@@ -1756,6 +1760,9 @@ int life3Counter;
 int life4Counter;
 
 
+int coinsNeeded;
+
+
 int prevState;
 int isLost;
 int isWon;
@@ -1769,7 +1776,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 90 "game.c"
+# 93 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -1789,13 +1796,14 @@ void initGame() {
     life4.active = 0;
     life5.active = 0;
 
+    coinsNeeded = 10;
 
     initLives();
-    life1.active = 1;
-    life2.active = 1;
-    life3.active = 1;
-    life4.active = 1;
-    life5.active = 1;
+
+
+
+
+
     initTreasure();
     initBullets();
     hideSprites();
@@ -1828,6 +1836,7 @@ void initFry() {
     fry.amJumping = 0;
     fry.coinCount = 0;
     fry.hasShot = 0;
+    fry.isCheating = 0;
 }
 
 void initLeela() {
@@ -1846,6 +1855,7 @@ void initLeela() {
     leela.amJumping = 0;
     leela.coinCount = 0;
     leela.hasShot = 0;
+    leela.isCheating = 0;
 }
 
 
@@ -2038,6 +2048,12 @@ void initSpace() {
     initp2();
     initp3();
     initp4();
+
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
 
 
     spaceship.active = 1;
@@ -2461,7 +2477,7 @@ void updatePlanet1() {
     for (int i = 0; i < 50; i++) {
          updateBullets(&bullets[i]);
     }
-# 790 "game.c"
+# 802 "game.c"
     updateEnemy();
 
 
@@ -2516,7 +2532,7 @@ void updatePlanet2() {
     } else {
         helmet.active = 0;
     }
-# 852 "game.c"
+# 864 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2558,7 +2574,7 @@ void updatePlanet3() {
     } else {
         helmet.active = 0;
     }
-# 902 "game.c"
+# 914 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2600,7 +2616,7 @@ void updatePlanet4() {
     } else {
         helmet.active = 0;
     }
-# 951 "game.c"
+# 963 "game.c"
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
@@ -2706,9 +2722,18 @@ void updateFry() {
         fry.amJumping = 0;
     }
 
+
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<2)))) {
+        coinsNeeded = 5;
+        fry.isCheating = 1;
+    } else {
+        fry.isCheating = 0;
+        coinsNeeded = 10;
+    }
+
     fry.screenRow = ((fry.row >> 8));
 
-    if (fry.coinCount > 10) {
+    if (fry.coinCount > coinsNeeded) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;
@@ -2759,6 +2784,15 @@ void updateLeela() {
     }
     leela.rdel += 50;
 
+
+    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<2)))) {
+        coinsNeeded = 5;
+        leela.isCheating = 1;
+    } else {
+        leela.isCheating = 0;
+        coinsNeeded = 10;
+    }
+
     if ((((leela.row + (leela.height - 1) + leela.rdel) >> 8)) < (160 -leela.height-1)) {
         leela.row += leela.rdel;
     } else {
@@ -2779,7 +2813,7 @@ void updateLeela() {
         }
     }
 
-    if (leela.coinCount > 10) {
+    if (leela.coinCount > coinsNeeded) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;
@@ -2992,7 +3026,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1352 "game.c"
+# 1382 "game.c"
     }
 
 }
@@ -3243,7 +3277,7 @@ void updateLives() {
     }
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
+    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && fry.active && (characterChoice == FRYCHARACTER)) {
        life3.active = 0;
        life3.isLost = 1;
        lifeCounter++;

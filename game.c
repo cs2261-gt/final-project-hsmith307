@@ -65,6 +65,9 @@ int life2Counter;
 int life3Counter;
 int life4Counter;
 
+// for the cheat
+int coinsNeeded;
+
 // keeps track of what state of the game the player was in before pause was pressed
 int prevState;
 int isLost;
@@ -106,13 +109,14 @@ void initGame() {
     life4.active = 0;
     life5.active = 0;
     
-    
+    coinsNeeded = 10;
+
     initLives();
-    life1.active = 1;
-    life2.active = 1;
-    life3.active = 1;
-    life4.active = 1;
-    life5.active = 1;
+    // life1.active = 1;
+    // life2.active = 1;
+    // life3.active = 1;
+    // life4.active = 1;
+    // life5.active = 1;
     initTreasure();
     initBullets();
     hideSprites();
@@ -145,6 +149,7 @@ void initFry() {
     fry.amJumping = 0;
     fry.coinCount = 0;
     fry.hasShot = 0;
+    fry.isCheating = 0;
 }
 
 void initLeela() {
@@ -163,6 +168,7 @@ void initLeela() {
     leela.amJumping = 0;
     leela.coinCount = 0;
     leela.hasShot = 0;
+    leela.isCheating = 0;
 }
 
 // initialize the alien
@@ -355,6 +361,12 @@ void initSpace() {
     initp2();
     initp3();
     initp4();
+
+    life1.active = 1;
+    life2.active = 1;
+    life3.active = 1;
+    life4.active = 1;
+    life5.active = 1;
 
     // make active what needs to be active, make inactive what should not be active
     spaceship.active = 1;
@@ -780,7 +792,7 @@ void updatePlanet1() {
     } 
  
     // update the treasure for that planet
-    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
     //     treasure[1].active = 1;
     //     updateTreasure(&treasure[1]);
     // }
@@ -843,7 +855,7 @@ void updatePlanet2() {
     } 
 
     // // update the treasure for that planet
-    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
     //     treasure[2].active = 1;
     //     updateTreasure(&treasure[2]);
     // }
@@ -893,7 +905,7 @@ void updatePlanet3() {
 
 
     // update the treasure for that planet
-    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
     //     treasure[3].active = 1;
     //     updateTreasure(&treasure[3]);
     // }
@@ -942,7 +954,7 @@ void updatePlanet4() {
     }
 
     // // // update the treasure for that planet
-    // if (leela.coinCount > 10 || fry.coinCount > 10) {
+    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
     //     treasure[4].active = 1;
     //     updateTreasure(&treasure[4]);
     // }
@@ -1053,9 +1065,18 @@ void updateFry() {
         fry.amJumping = 0;
     }
 
+    // cheat if you press select
+    if (BUTTON_HELD(BUTTON_SELECT)) {
+        coinsNeeded = 5;
+        fry.isCheating = 1;
+    } else {
+        fry.isCheating = 0;
+        coinsNeeded = 10;
+    }
+
     fry.screenRow = SHIFTDOWN(fry.row);
 
-    if (fry.coinCount > 10) {
+    if (fry.coinCount > coinsNeeded) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;
@@ -1106,6 +1127,15 @@ void updateLeela() {
     }
     leela.rdel += GRAVITY;
 
+    // cheat if you press select
+    if (BUTTON_HELD(BUTTON_SELECT)) {
+        coinsNeeded = 5;
+        leela.isCheating = 1;
+    } else {
+        leela.isCheating = 0;
+        coinsNeeded = 10;
+    }
+
     if (SHIFTDOWN((leela.row + (leela.height - 1) + leela.rdel)) < (SCREENHEIGHT-leela.height-1)) {
         leela.row += leela.rdel;
     } else {
@@ -1126,7 +1156,7 @@ void updateLeela() {
         }
     }
 
-    if (leela.coinCount > 10) {
+    if (leela.coinCount > coinsNeeded) {
         alien.active = 0;
         enemy.active = 0;
         cannonball.active = 0;

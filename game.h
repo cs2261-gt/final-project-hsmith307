@@ -16,6 +16,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }FRY;
 
 // leela struct 
@@ -36,6 +37,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }LEELA;
 
 typedef struct {
@@ -199,6 +201,8 @@ extern int life4Counter;
 
 extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
+
+extern int coinsNeeded;
 
 
 
