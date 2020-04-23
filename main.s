@@ -340,13 +340,13 @@ goToSpace:
 .L29:
 	.word	initSpace
 	.word	DMANow
-	.word	planetsPal
-	.word	23556
-	.word	24144
+	.word	planets2Pal
+	.word	23044
+	.word	11936
 	.word	100679680
-	.word	planetsTiles
-	.word	100720640
-	.word	planetsMap
+	.word	planets2Tiles
+	.word	100716544
+	.word	planets2Map
 	.word	7312
 	.word	starsTiles
 	.word	100724736
@@ -485,13 +485,15 @@ goToPlanet2:
 	ldr	r3, .L56
 	mov	lr, pc
 	bx	r3
-	mov	r2, #67108864
-	mov	r1, #7168
+	mov	r3, #67108864
+	mov	r1, #4352
+	mov	r2, #7168
 	ldr	r4, .L56+4
-	strh	r1, [r2, #8]	@ movhi
+	strh	r1, [r3]	@ movhi
+	strh	r2, [r3, #8]	@ movhi
+	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	mov	r0, #3
 	ldr	r1, .L56+8
 	mov	lr, pc
 	bx	r4
@@ -538,13 +540,15 @@ goToPlanet3:
 	ldr	r3, .L60
 	mov	lr, pc
 	bx	r3
-	mov	r2, #67108864
-	mov	r1, #23552
+	mov	r3, #67108864
+	mov	r1, #4352
+	mov	r2, #23552
 	ldr	r4, .L60+4
-	strh	r1, [r2, #8]	@ movhi
+	strh	r1, [r3]	@ movhi
+	strh	r2, [r3, #8]	@ movhi
+	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	mov	r0, #3
 	ldr	r1, .L60+8
 	mov	lr, pc
 	bx	r4
@@ -593,12 +597,14 @@ goToPlanet4:
 	bx	r3
 	mov	r1, #67108864
 	mov	r2, #0
+	mov	r3, #4352
 	mov	r0, #7168
 	strh	r2, [r1, #16]	@ movhi
 	ldr	r4, .L64+4
 	strh	r2, [r1, #18]	@ movhi
-	mov	r3, #256
+	strh	r3, [r1]	@ movhi
 	strh	r0, [r1, #8]	@ movhi
+	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
 	ldr	r1, .L64+8

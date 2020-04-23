@@ -430,15 +430,15 @@ extern const unsigned short planet1PSMap[2048];
 extern const unsigned short planet1PSPal[256];
 # 17 "main.c" 2
 
-# 1 "planets.h" 1
-# 22 "planets.h"
-extern const unsigned short planetsTiles[24144];
+# 1 "planets2.h" 1
+# 22 "planets2.h"
+extern const unsigned short planets2Tiles[11936];
 
 
-extern const unsigned short planetsMap[2048];
+extern const unsigned short planets2Map[2048];
 
 
-extern const unsigned short planetsPal[256];
+extern const unsigned short planets2Pal[256];
 # 19 "main.c" 2
 # 1 "stars.h" 1
 # 22 "stars.h"
@@ -2053,12 +2053,12 @@ void goToSpace() {
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
 
-    DMANow(3, planetsPal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planets2Pal, ((unsigned short *)0x5000000), 512 / 2);
 
-    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((28)<<8) | (1<<14);
+    (*(volatile unsigned short*)0x400000A) = ((1)<<2) | ((26)<<8) | (1<<14);
 
-    DMANow(3, planetsTiles, &((charblock *)0x6000000)[1], 48288 / 2);
-    DMANow(3, planetsMap, &((screenblock *)0x6000000)[28], 4096 / 2);
+    DMANow(3, planets2Tiles, &((charblock *)0x6000000)[1], 23872 / 2);
+    DMANow(3, planets2Map, &((screenblock *)0x6000000)[26], 4096 / 2);
 
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (1<<14);
@@ -2155,6 +2155,7 @@ void planet1() {
 
 void goToPlanet2() {
     initPlanet2();
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, planet2bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet2bgTiles, &((charblock *)0x6000000)[0], 19680 / 2);
@@ -2197,6 +2198,7 @@ void planet2() {
 
 void goToPlanet3() {
     initPlanet3();
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
     DMANow(3, planet3bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet3bgTiles, &((charblock *)0x6000000)[0], 31392 / 2);
@@ -2242,6 +2244,7 @@ void goToPlanet4() {
     initPlanet4();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, planet4bgPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, planet4bgTiles, &((charblock *)0x6000000)[0], 26592 / 2);
