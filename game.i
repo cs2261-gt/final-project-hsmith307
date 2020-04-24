@@ -2650,6 +2650,7 @@ void initPause() {
         bullets[i].active = 0;
     }
     enemy.active = 0;
+    cannonball.active = 0;
 }
 
 
@@ -3026,7 +3027,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1382 "game.c"
+# 1383 "game.c"
     }
 
 }

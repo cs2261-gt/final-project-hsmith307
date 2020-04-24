@@ -22,6 +22,7 @@
 #include "planet4bg.h"
 #include "losebg.h"
 #include "instructions.h"
+#include "instructions2.h"
 #include "splashSong.h"
 #include "spaceSong.h"
 #include "win.h"
@@ -56,6 +57,8 @@ void goToWin();
 void win();
 void goToLose();
 void lose();
+void goToInstructions();
+void instructions();
 
 
 // more function prototypes
@@ -82,7 +85,7 @@ SOUND soundA;
 SOUND soundB;
 
 // Game states enum
-enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE};
+enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE, INSTRUCTIONS};
 int state;
 int prevState;
 
@@ -140,6 +143,8 @@ int main() {
         case LOSE:
             lose();
             break;
+        case INSTRUCTIONS:
+            instructions();
         default:
             break;
         }
@@ -521,6 +526,9 @@ void pause() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
     drawGame();
+    if (BUTTON_PRESSED(BUTTON_B)) {
+        goToInstructions();
+    }
     if (BUTTON_PRESSED(BUTTON_START)) {
         unpauseSound();
         if (prevState == PLANET1) {
@@ -576,5 +584,49 @@ void goToLose() {
 void lose() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToStart();
+    }
+}
+
+void goToInstructions() {
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    DMANow(3, instructions2Pal, PALETTE, instructions2PalLen / 2);
+    DMANow(3, instructions2Tiles, &CHARBLOCK[0], instructions2TilesLen / 2);
+    DMANow(3, instructions2Map, &SCREENBLOCK[30], instructions2MapLen / 2);
+
+     hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    // for (int i = 1; i < TREASURECOUNT; i++ {
+    //     treasure[i].active = 0;
+    // }
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
+    }
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].active = 0;
+    }
+    enemy.active = 0;
+
+    state = INSTRUCTIONS;
+}
+
+void instructions() {
+    hideSprites();
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+    drawGame();
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        goToPause();
     }
 }

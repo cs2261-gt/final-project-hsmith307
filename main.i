@@ -132,6 +132,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }FRY;
 
 
@@ -152,6 +153,7 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
 }LEELA;
 
 typedef struct {
@@ -316,6 +318,8 @@ extern int life4Counter;
 extern enum {FRYCHARACTER, LEELACHARACTER};
 extern int characterChoice;
 
+extern int coinsNeeded;
+
 
 
 
@@ -411,7 +415,7 @@ extern const unsigned short futuramapagePal[256];
 # 15 "main.c" 2
 # 1 "pause.h" 1
 # 22 "pause.h"
-extern const unsigned short pauseTiles[6640];
+extern const unsigned short pauseTiles[4976];
 
 
 extern const unsigned short pauseMap[1024];
@@ -500,20 +504,30 @@ extern const unsigned short instructionsMap[1024];
 
 extern const unsigned short instructionsPal[256];
 # 25 "main.c" 2
+# 1 "instructions2.h" 1
+# 22 "instructions2.h"
+extern const unsigned short instructions2Tiles[6528];
+
+
+extern const unsigned short instructions2Map[1024];
+
+
+extern const unsigned short instructions2Pal[256];
+# 26 "main.c" 2
 # 1 "splashSong.h" 1
 
 
 
 
 extern const signed char splashSong[104832];
-# 26 "main.c" 2
+# 27 "main.c" 2
 # 1 "spaceSong.h" 1
 
 
 
 
 extern const signed char spaceSong[419616];
-# 27 "main.c" 2
+# 28 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[8352];
@@ -523,7 +537,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 28 "main.c" 2
+# 29 "main.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
 SOUND soundB;
@@ -540,14 +554,14 @@ void interruptHandler();
 void pauseSound();
 void unpauseSound();
 void stopSound();
-# 29 "main.c" 2
+# 30 "main.c" 2
 # 1 "forest.h" 1
 
 
 
 
 extern const signed char forestSound[1116347];
-# 30 "main.c" 2
+# 31 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1356,7 +1370,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 31 "main.c" 2
+# 32 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1403,7 +1417,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 32 "main.c" 2
+# 33 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1814,11 +1828,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 33 "main.c" 2
+# 34 "main.c" 2
 
 
 
-# 35 "main.c"
+# 36 "main.c"
 void initialize();
 void game();
 
@@ -1843,6 +1857,8 @@ void goToWin();
 void win();
 void goToLose();
 void lose();
+void goToInstructions();
+void instructions();
 
 
 
@@ -1869,7 +1885,7 @@ SOUND soundA;
 SOUND soundB;
 
 
-enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE};
+enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE, INSTRUCTIONS};
 int state;
 int prevState;
 
@@ -1927,6 +1943,8 @@ int main() {
         case LOSE:
             lose();
             break;
+        case INSTRUCTIONS:
+            instructions();
         default:
             break;
         }
@@ -2297,7 +2315,7 @@ void goToPause() {
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, pausePal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, pauseTiles, &((charblock *)0x6000000)[1], 13280 / 2);
+    DMANow(3, pauseTiles, &((charblock *)0x6000000)[1], 9952 / 2);
     DMANow(3, pauseMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = PAUSE;
@@ -2308,6 +2326,9 @@ void pause() {
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
     drawGame();
+    if ((!(~(oldButtons)&((1<<1))) && (~buttons & ((1<<1))))) {
+        goToInstructions();
+    }
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         unpauseSound();
         if (prevState == PLANET1) {
@@ -2363,5 +2384,49 @@ void goToLose() {
 void lose() {
     if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
         goToStart();
+    }
+}
+
+void goToInstructions() {
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
+    DMANow(3, instructions2Pal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, instructions2Tiles, &((charblock *)0x6000000)[0], 13056 / 2);
+    DMANow(3, instructions2Map, &((screenblock *)0x6000000)[30], 2048 / 2);
+
+     hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+
+
+
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+    for (int i = 0; i < 2; i++) {
+        coins[i].active = 0;
+    }
+    for (int i = 0; i < 50; i++) {
+        bullets[i].active = 0;
+    }
+    enemy.active = 0;
+
+    state = INSTRUCTIONS;
+}
+
+void instructions() {
+    hideSprites();
+    (*(volatile unsigned short *)0x04000010) = 0;
+    (*(volatile unsigned short *)0x04000012) = 0;
+    drawGame();
+    if ((!(~(oldButtons)&((1<<3))) && (~buttons & ((1<<3))))) {
+        goToPause();
     }
 }

@@ -1627,7 +1627,7 @@ initPause:
 	mov	lr, pc
 	bx	r3
 	mov	r0, #0
-	mov	r1, r0
+	mov	r2, r0
 	ldr	ip, .L251+4
 	ldr	lr, .L251+8
 	str	r0, [ip, #16]
@@ -1654,20 +1654,22 @@ initPause:
 	ldr	ip, .L251+52
 	ldr	r4, .L251+56
 	ldr	lr, .L251+60
-	add	r2, r3, #1392
+	add	r1, r3, #1392
 	str	r0, [r4, #16]
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
 	str	r0, [ip, #56]
-	add	r2, r2, #8
+	add	r1, r1, #8
 .L248:
-	str	r1, [r3, #24]
+	str	r2, [r3, #24]
 	add	r3, r3, #28
-	cmp	r2, r3
+	cmp	r1, r3
 	bne	.L248
-	ldr	r3, .L251+64
+	ldr	r1, .L251+64
+	ldr	r3, .L251+68
+	str	r2, [r1, #16]
+	str	r2, [r3, #16]
 	pop	{r4, lr}
-	str	r1, [r3, #16]
 	bx	lr
 .L252:
 	.align	2
@@ -1689,6 +1691,7 @@ initPause:
 	.word	fry
 	.word	life5
 	.word	enemy
+	.word	cannonball
 	.size	initPause, .-initPause
 	.align	2
 	.global	updateAlien

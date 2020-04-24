@@ -993,6 +993,7 @@ void initPause() {
         bullets[i].active = 0;
     }
     enemy.active = 0;
+    cannonball.active = 0;
 }
 
 
