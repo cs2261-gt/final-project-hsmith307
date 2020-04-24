@@ -1796,7 +1796,9 @@ void initGame() {
     life4.active = 0;
     life5.active = 0;
 
+
     coinsNeeded = 10;
+    lifeCounter = 0;
 
     initLives();
 
@@ -2477,7 +2479,7 @@ void updatePlanet1() {
     for (int i = 0; i < 50; i++) {
          updateBullets(&bullets[i]);
     }
-# 802 "game.c"
+# 804 "game.c"
     updateEnemy();
 
 
@@ -2532,7 +2534,7 @@ void updatePlanet2() {
     } else {
         helmet.active = 0;
     }
-# 864 "game.c"
+# 866 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2574,7 +2576,7 @@ void updatePlanet3() {
     } else {
         helmet.active = 0;
     }
-# 914 "game.c"
+# 916 "game.c"
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2616,7 +2618,7 @@ void updatePlanet4() {
     } else {
         helmet.active = 0;
     }
-# 963 "game.c"
+# 965 "game.c"
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
@@ -3027,7 +3029,7 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-# 1383 "game.c"
+# 1385 "game.c"
     }
 
 }
@@ -3244,10 +3246,17 @@ void updateLives() {
 
 
 
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) {
+    if (((collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) ^ (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1)) && !life5.isLost) {
        life5.active = 0;
        life5.isLost = 1;
-
+       alien.col = 240;
     }
-# 1764 "game.c"
+
+
+    if (((collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) ^ (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1)) && life5.isLost && !life4.isLost && !life3.isLost && !life2.isLost && !life1.isLost) {
+       life4.active = 0;
+       life4.isLost = 1;
+       alien.col = 240;
+    }
+# 1776 "game.c"
 }

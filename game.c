@@ -109,7 +109,9 @@ void initGame() {
     life4.active = 0;
     life5.active = 0;
     
+    // variables that need to be initiated before the game starts
     coinsNeeded = 10;
+    lifeCounter = 0;
 
     initLives();
     // life1.active = 1;
@@ -1595,12 +1597,22 @@ void updateLives() {
 /*
     FRY'S LIVES
         */
-    // if there is a collision with fry and the alien then you lose a life
-    if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) {
+    // lose life 5
+    if (((collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) ^ (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1)) && !life5.isLost) {
        life5.active = 0;
        life5.isLost = 1;
-       //lifeCounter++;
+       alien.col = SCREENWIDTH;
     }
+
+    // lose life 4
+    if (((collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1) ^ (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1)) && life5.isLost && !life4.isLost && !life3.isLost && !life2.isLost && !life1.isLost) {
+       life4.active = 0;
+       life4.isLost = 1;
+       alien.col = SCREENWIDTH;
+    }
+
+
+
 
 //     // or if there is a collision with fry and a bomb, you also lose a life
 //     if (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && cannonball.active && fry.active && characterChoice == FRYCHARACTER && lifeCounter == 0) {
