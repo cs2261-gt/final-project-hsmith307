@@ -596,6 +596,7 @@ void lose() {
 }
 
 void goToInstructions() {
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, instructions2Pal, PALETTE, instructions2PalLen / 2);
     DMANow(3, instructions2Tiles, &CHARBLOCK[0], instructions2TilesLen / 2);

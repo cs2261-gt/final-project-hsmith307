@@ -517,7 +517,7 @@ extern const unsigned short planet4bgPal[256];
 # 23 "main.c" 2
 # 1 "losebg.h" 1
 # 22 "losebg.h"
-extern const unsigned short losebgTiles[6064];
+extern const unsigned short losebgTiles[7248];
 
 
 extern const unsigned short losebgMap[1024];
@@ -527,7 +527,7 @@ extern const unsigned short losebgPal[256];
 # 24 "main.c" 2
 # 1 "instructions.h" 1
 # 22 "instructions.h"
-extern const unsigned short instructionsTiles[6928];
+extern const unsigned short instructionsTiles[6848];
 
 
 extern const unsigned short instructionsMap[1024];
@@ -537,7 +537,7 @@ extern const unsigned short instructionsPal[256];
 # 25 "main.c" 2
 # 1 "instructions2.h" 1
 # 22 "instructions2.h"
-extern const unsigned short instructions2Tiles[6528];
+extern const unsigned short instructions2Tiles[6448];
 
 
 extern const unsigned short instructions2Map[1024];
@@ -2066,7 +2066,7 @@ void goToGame() {
 
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 13856 / 2);
+    DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 13696 / 2);
     DMANow(3, instructionsMap, &((screenblock *)0x6000000)[30], 2048 / 2);
 
 
@@ -2414,7 +2414,7 @@ void goToLose() {
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((1)<<2) | ((28)<<8) | (0<<14);
     DMANow(3, losebgPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, losebgTiles, &((charblock *)0x6000000)[1], 12128 / 2);
+    DMANow(3, losebgTiles, &((charblock *)0x6000000)[1], 14496 / 2);
     DMANow(3, losebgMap, &((screenblock *)0x6000000)[28], 2048 / 2);
 
     state = LOSE;
@@ -2427,9 +2427,10 @@ void lose() {
 }
 
 void goToInstructions() {
+    (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructions2Pal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, instructions2Tiles, &((charblock *)0x6000000)[0], 13056 / 2);
+    DMANow(3, instructions2Tiles, &((charblock *)0x6000000)[0], 12896 / 2);
     DMANow(3, instructions2Map, &((screenblock *)0x6000000)[30], 2048 / 2);
 
      hideSprites();

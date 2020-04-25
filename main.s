@@ -228,20 +228,20 @@ goToGame:
 	ldr	r1, .L18+8
 	mov	lr, pc
 	bx	r4
+	mov	r3, #6848
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r3, .L18+12
-	ldr	r1, .L18+16
+	ldr	r1, .L18+12
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L18+20
+	ldr	r2, .L18+16
 	mov	r0, #3
-	ldr	r1, .L18+24
+	ldr	r1, .L18+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #1
-	ldr	r3, .L18+28
+	ldr	r3, .L18+24
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
@@ -251,7 +251,6 @@ goToGame:
 	.word	initGame
 	.word	DMANow
 	.word	instructionsPal
-	.word	6928
 	.word	instructionsTiles
 	.word	100724736
 	.word	instructionsMap
@@ -1053,7 +1052,7 @@ goToLose:
 	.word	7172
 	.word	DMANow
 	.word	losebgPal
-	.word	6064
+	.word	7248
 	.word	100679680
 	.word	losebgTiles
 	.word	100720640
@@ -1682,60 +1681,62 @@ goToInstructions:
 	@ Function supports interworking.
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
-	mov	r2, #67108864
-	mov	r1, #7680
+	mov	r3, #67108864
+	mov	r1, #4352
+	mov	r2, #7680
 	push	{r4, lr}
-	mov	r3, #256
-	ldr	r4, .L235
-	strh	r1, [r2, #8]	@ movhi
 	mov	r0, #3
-	mov	r2, #83886080
+	ldr	r4, .L235
+	strh	r1, [r3]	@ movhi
+	strh	r2, [r3, #8]	@ movhi
 	ldr	r1, .L235+4
+	mov	r3, #256
+	mov	r2, #83886080
 	mov	lr, pc
 	bx	r4
-	mov	r3, #6528
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r1, .L235+8
+	ldr	r3, .L235+8
+	ldr	r1, .L235+12
 	mov	lr, pc
 	bx	r4
 	mov	r0, #3
-	ldr	r2, .L235+12
-	ldr	r1, .L235+16
+	ldr	r2, .L235+16
+	ldr	r1, .L235+20
 	mov	r3, #1024
 	mov	lr, pc
 	bx	r4
-	ldr	r3, .L235+20
+	ldr	r3, .L235+24
 	mov	lr, pc
 	bx	r3
 	mov	r0, #0
 	mov	r1, r0
-	ldr	ip, .L235+24
-	ldr	lr, .L235+28
+	ldr	ip, .L235+28
+	ldr	lr, .L235+32
 	str	r0, [ip, #16]
-	ldr	ip, .L235+32
+	ldr	ip, .L235+36
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
-	ldr	lr, .L235+36
-	ldr	ip, .L235+40
+	ldr	lr, .L235+40
+	ldr	ip, .L235+44
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
-	ldr	lr, .L235+44
-	ldr	ip, .L235+48
+	ldr	lr, .L235+48
+	ldr	ip, .L235+52
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
-	ldr	lr, .L235+52
-	ldr	ip, .L235+56
+	ldr	lr, .L235+56
+	ldr	ip, .L235+60
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
-	ldr	lr, .L235+60
-	ldr	ip, .L235+64
+	ldr	lr, .L235+64
+	ldr	ip, .L235+68
 	str	r0, [lr, #16]
 	str	r0, [ip, #16]
-	ldr	r3, .L235+68
-	ldr	ip, .L235+72
-	ldr	r4, .L235+76
-	ldr	lr, .L235+80
+	ldr	r3, .L235+72
+	ldr	ip, .L235+76
+	ldr	r4, .L235+80
+	ldr	lr, .L235+84
 	add	r2, r3, #1392
 	str	r0, [r4, #16]
 	str	r0, [lr, #16]
@@ -1748,8 +1749,8 @@ goToInstructions:
 	cmp	r2, r3
 	bne	.L232
 	mov	r0, #10
-	ldr	r2, .L235+84
-	ldr	r3, .L235+88
+	ldr	r2, .L235+88
+	ldr	r3, .L235+92
 	str	r0, [r2]
 	str	r1, [r3, #16]
 	pop	{r4, lr}
@@ -1759,6 +1760,7 @@ goToInstructions:
 .L235:
 	.word	DMANow
 	.word	instructions2Pal
+	.word	6448
 	.word	instructions2Tiles
 	.word	100724736
 	.word	instructions2Map
