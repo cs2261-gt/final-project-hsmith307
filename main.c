@@ -178,7 +178,7 @@ void goToStart() {
 
     hideSprites();
 
-    //playSoundA(splashSong, SPLASHSONGLEN, 1);
+    playSoundA(splashSong, SPLASHSONGLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -266,7 +266,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    //playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSong, SPACESONGLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
@@ -322,6 +322,8 @@ void space() {
 }
 
 void goToPlanet1() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
+
     initPlanet1();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
@@ -372,6 +374,8 @@ void planet1() {
 }
 
 void goToPlanet2() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
+
     initPlanet2();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
@@ -415,6 +419,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
     initPlanet3();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
@@ -459,6 +464,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
     initPlanet4();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;

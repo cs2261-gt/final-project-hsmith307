@@ -133,6 +133,7 @@ typedef struct {
     int coinCount;
     int hasShot;
     int isCheating;
+    int canJump;
 }FRY;
 
 
@@ -154,6 +155,7 @@ typedef struct {
     int coinCount;
     int hasShot;
     int isCheating;
+    int canJump;
 }LEELA;
 
 typedef struct {
@@ -205,6 +207,10 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int aniState;
+    int curFrame;
+    int timer;
+    int activeTimer;
 }HELMET;
 
 
@@ -270,6 +276,15 @@ typedef struct {
 typedef struct {
     int col;
     int row;
+    int height;
+    int width;
+    int active;
+}GOO;
+
+
+typedef struct {
+    int col;
+    int row;
     int cdel;
     int height;
     int width;
@@ -306,6 +321,7 @@ extern TREASURE treasure[5];
 extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
+extern GOO goo;
 
 
 
@@ -386,6 +402,9 @@ void updateCannonball();
 
 void initEnemy();
 void updateEnemy();
+
+void initGoo();
+void updateGoo();
 
 extern int isLost;
 extern int isWon;
@@ -1978,7 +1997,7 @@ void goToStart() {
 
     hideSprites();
 
-
+    playSoundA(splashSong, 104832, 1);
 
 
     spaceship.active = 0;
@@ -2066,7 +2085,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-
+    playSoundA(spaceSong, 419616, 1);
 
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
@@ -2122,6 +2141,8 @@ void space() {
 }
 
 void goToPlanet1() {
+    playSoundA(spaceSong, 419616, 1);
+
     initPlanet1();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
@@ -2172,6 +2193,8 @@ void planet1() {
 }
 
 void goToPlanet2() {
+    playSoundA(spaceSong, 419616, 1);
+
     initPlanet2();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
@@ -2215,6 +2238,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
+    playSoundA(spaceSong, 419616, 1);
     initPlanet3();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
@@ -2259,6 +2283,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
+    playSoundA(spaceSong, 419616, 1);
     initPlanet4();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;

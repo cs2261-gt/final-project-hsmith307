@@ -3105,10 +3105,6 @@ void updateCannonball() {
 }
 
 void updateHelmet() {
-    helmet.activeTimer++;
-    if (helmet.active && helmet.activeTimer == 70) {
-        helmet.active = 0;
-    }
     if (helmet.curFrame == 3) {
         helmet.timer++;
     }

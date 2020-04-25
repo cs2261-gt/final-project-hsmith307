@@ -32,37 +32,43 @@ goToStart:
 	str	r5, [r2]
 	mov	lr, pc
 	bx	r3
+	mov	r2, #1
+	ldr	r1, .L6+16
+	ldr	r0, .L6+20
+	ldr	r3, .L6+24
+	mov	lr, pc
+	bx	r3
 	mov	r0, #1
 	mov	r4, r5
-	ldr	r1, .L6+16
-	ldr	r2, .L6+20
-	str	r5, [r1, #16]
-	ldr	r3, .L6+24
 	ldr	r1, .L6+28
-	str	r5, [r2, #16]
-	str	r5, [r3, #16]
-	str	r5, [r1, #16]
 	ldr	r2, .L6+32
+	str	r5, [r1, #16]
 	ldr	r3, .L6+36
 	ldr	r1, .L6+40
 	str	r5, [r2, #16]
 	str	r5, [r3, #16]
+	str	r5, [r1, #16]
 	ldr	r2, .L6+44
 	ldr	r3, .L6+48
-	str	r5, [r1, #16]
 	ldr	r1, .L6+52
 	str	r5, [r2, #16]
-	ldr	ip, .L6+56
-	ldr	r2, .L6+60
+	str	r5, [r3, #16]
+	ldr	r2, .L6+56
+	ldr	r3, .L6+60
+	str	r5, [r1, #16]
+	ldr	r1, .L6+64
+	str	r5, [r2, #16]
+	ldr	ip, .L6+68
+	ldr	r2, .L6+72
 	str	r5, [r3, #16]
 	str	r5, [r1, #20]
-	ldr	r3, .L6+64
+	ldr	r3, .L6+76
 	str	r5, [r1, #60]
 	str	r5, [r1, #100]
 	str	r5, [r1, #140]
 	str	r5, [r1, #180]
-	ldr	lr, .L6+68
-	ldr	r1, .L6+72
+	ldr	lr, .L6+80
+	ldr	r1, .L6+84
 	str	r5, [r2, #16]
 	str	r5, [ip, #16]
 	add	r2, r3, #1392
@@ -77,27 +83,27 @@ goToStart:
 	bne	.L2
 	mov	r2, #67108864
 	mov	r1, #7680
-	ldr	r5, .L6+76
+	ldr	r5, .L6+88
 	strh	r1, [r2, #8]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L6+80
+	ldr	r1, .L6+92
 	mov	lr, pc
 	bx	r5
 	mov	r3, #1936
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r1, .L6+84
+	ldr	r1, .L6+96
 	mov	lr, pc
 	bx	r5
 	mov	r3, #1024
 	mov	r0, #3
-	ldr	r2, .L6+88
-	ldr	r1, .L6+92
+	ldr	r2, .L6+100
+	ldr	r1, .L6+104
 	mov	lr, pc
 	bx	r5
-	ldr	r3, .L6+96
+	ldr	r3, .L6+108
 	str	r4, [r3]
 	pop	{r4, r5, r6, lr}
 	bx	lr
@@ -108,6 +114,9 @@ goToStart:
 	.word	vOff
 	.word	isLost
 	.word	hideSprites
+	.word	104832
+	.word	splashSong
+	.word	playSoundA
 	.word	p2
 	.word	spaceship
 	.word	p1
@@ -292,46 +301,52 @@ goToSpace:
 	ldr	r3, .L29
 	mov	lr, pc
 	bx	r3
+	mov	r2, #1
+	ldr	r1, .L29+4
+	ldr	r0, .L29+8
+	ldr	r3, .L29+12
+	mov	lr, pc
+	bx	r3
 	mov	r5, #67108864
 	mov	r2, #4864
-	ldr	r4, .L29+4
+	ldr	r4, .L29+16
 	strh	r2, [r5]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L29+8
+	ldr	r1, .L29+20
 	mov	lr, pc
 	bx	r4
-	ldr	r2, .L29+12
+	ldr	r2, .L29+24
 	mov	r0, #3
 	strh	r2, [r5, #10]	@ movhi
-	ldr	r3, .L29+16
-	ldr	r2, .L29+20
-	ldr	r1, .L29+24
+	ldr	r3, .L29+28
+	ldr	r2, .L29+32
+	ldr	r1, .L29+36
 	mov	lr, pc
 	bx	r4
 	mov	r3, #2048
 	mov	r0, #3
-	ldr	r2, .L29+28
-	ldr	r1, .L29+32
+	ldr	r2, .L29+40
+	ldr	r1, .L29+44
 	mov	lr, pc
 	bx	r4
 	mov	r2, #24064
 	mov	r0, #3
 	strh	r2, [r5, #8]	@ movhi
-	ldr	r3, .L29+36
+	ldr	r3, .L29+48
 	mov	r2, #100663296
-	ldr	r1, .L29+40
+	ldr	r1, .L29+52
 	mov	lr, pc
 	bx	r4
 	mov	r3, #2048
-	ldr	r2, .L29+44
+	ldr	r2, .L29+56
 	mov	r0, #3
-	ldr	r1, .L29+48
+	ldr	r1, .L29+60
 	mov	lr, pc
 	bx	r4
 	mov	r2, #2
-	ldr	r3, .L29+52
+	ldr	r3, .L29+64
 	pop	{r4, r5, r6, lr}
 	str	r2, [r3]
 	bx	lr
@@ -339,6 +354,9 @@ goToSpace:
 	.align	2
 .L29:
 	.word	initSpace
+	.word	419616
+	.word	spaceSong
+	.word	playSoundA
 	.word	DMANow
 	.word	planets2Pal
 	.word	23044
@@ -427,41 +445,50 @@ goToPlanet1:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L52
+	mov	r2, #1
+	ldr	r1, .L52
+	ldr	r0, .L52+4
+	ldr	r3, .L52+8
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L52+12
 	mov	lr, pc
 	bx	r3
 	mov	r3, #67108864
 	mov	r1, #4352
 	mov	r2, #23552
-	ldr	r4, .L52+4
+	ldr	r4, .L52+16
 	strh	r1, [r3]	@ movhi
 	strh	r2, [r3, #8]	@ movhi
 	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	ldr	r1, .L52+8
+	ldr	r1, .L52+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r3, .L52+12
-	ldr	r1, .L52+16
+	ldr	r3, .L52+24
+	ldr	r1, .L52+28
 	mov	lr, pc
 	bx	r4
 	mov	r3, #2048
-	ldr	r2, .L52+20
+	ldr	r2, .L52+32
 	mov	r0, #3
-	ldr	r1, .L52+24
+	ldr	r1, .L52+36
 	mov	lr, pc
 	bx	r4
 	mov	r2, #3
-	ldr	r3, .L52+28
+	ldr	r3, .L52+40
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L53:
 	.align	2
 .L52:
+	.word	419616
+	.word	spaceSong
+	.word	playSoundA
 	.word	initPlanet1
 	.word	DMANow
 	.word	planet1PSPal
@@ -482,41 +509,50 @@ goToPlanet2:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L56
+	mov	r2, #1
+	ldr	r1, .L56
+	ldr	r0, .L56+4
+	ldr	r3, .L56+8
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L56+12
 	mov	lr, pc
 	bx	r3
 	mov	r3, #67108864
 	mov	r1, #4352
 	mov	r2, #7168
-	ldr	r4, .L56+4
+	ldr	r4, .L56+16
 	strh	r1, [r3]	@ movhi
 	strh	r2, [r3, #8]	@ movhi
 	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	ldr	r1, .L56+8
+	ldr	r1, .L56+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r3, .L56+12
-	ldr	r1, .L56+16
+	ldr	r3, .L56+24
+	ldr	r1, .L56+28
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L56+20
+	ldr	r2, .L56+32
 	mov	r0, #3
-	ldr	r1, .L56+24
+	ldr	r1, .L56+36
 	mov	lr, pc
 	bx	r4
 	mov	r2, #4
-	ldr	r3, .L56+28
+	ldr	r3, .L56+40
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L57:
 	.align	2
 .L56:
+	.word	419616
+	.word	spaceSong
+	.word	playSoundA
 	.word	initPlanet2
 	.word	DMANow
 	.word	planet2bgPal
@@ -537,41 +573,50 @@ goToPlanet3:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L60
+	mov	r2, #1
+	ldr	r1, .L60
+	ldr	r0, .L60+4
+	ldr	r3, .L60+8
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L60+12
 	mov	lr, pc
 	bx	r3
 	mov	r3, #67108864
 	mov	r1, #4352
 	mov	r2, #23552
-	ldr	r4, .L60+4
+	ldr	r4, .L60+16
 	strh	r1, [r3]	@ movhi
 	strh	r2, [r3, #8]	@ movhi
 	mov	r0, #3
 	mov	r3, #256
 	mov	r2, #83886080
-	ldr	r1, .L60+8
+	ldr	r1, .L60+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r3, .L60+12
-	ldr	r1, .L60+16
+	ldr	r3, .L60+24
+	ldr	r1, .L60+28
 	mov	lr, pc
 	bx	r4
 	mov	r3, #2048
-	ldr	r2, .L60+20
+	ldr	r2, .L60+32
 	mov	r0, #3
-	ldr	r1, .L60+24
+	ldr	r1, .L60+36
 	mov	lr, pc
 	bx	r4
 	mov	r2, #5
-	ldr	r3, .L60+28
+	ldr	r3, .L60+40
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L61:
 	.align	2
 .L60:
+	.word	419616
+	.word	spaceSong
+	.word	playSoundA
 	.word	initPlanet3
 	.word	DMANow
 	.word	planet3bgPal
@@ -592,7 +637,13 @@ goToPlanet4:
 	@ args = 0, pretend = 0, frame = 0
 	@ frame_needed = 0, uses_anonymous_args = 0
 	push	{r4, lr}
-	ldr	r3, .L64
+	mov	r2, #1
+	ldr	r1, .L64
+	ldr	r0, .L64+4
+	ldr	r3, .L64+8
+	mov	lr, pc
+	bx	r3
+	ldr	r3, .L64+12
 	mov	lr, pc
 	bx	r3
 	mov	r1, #67108864
@@ -600,36 +651,39 @@ goToPlanet4:
 	mov	r3, #4352
 	mov	r0, #7168
 	strh	r2, [r1, #16]	@ movhi
-	ldr	r4, .L64+4
+	ldr	r4, .L64+16
 	strh	r2, [r1, #18]	@ movhi
 	strh	r3, [r1]	@ movhi
 	strh	r0, [r1, #8]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L64+8
+	ldr	r1, .L64+20
 	mov	lr, pc
 	bx	r4
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r3, .L64+12
-	ldr	r1, .L64+16
+	ldr	r3, .L64+24
+	ldr	r1, .L64+28
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L64+20
+	ldr	r2, .L64+32
 	mov	r0, #3
-	ldr	r1, .L64+24
+	ldr	r1, .L64+36
 	mov	lr, pc
 	bx	r4
 	mov	r2, #6
-	ldr	r3, .L64+28
+	ldr	r3, .L64+40
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
 .L65:
 	.align	2
 .L64:
+	.word	419616
+	.word	spaceSong
+	.word	playSoundA
 	.word	initPlanet4
 	.word	DMANow
 	.word	planet4bgPal
