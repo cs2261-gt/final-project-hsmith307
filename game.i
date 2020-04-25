@@ -2812,8 +2812,7 @@ void updateFry() {
             fry.isCheating = 1;
             coinsNeeded = 5;
             cheatmode.active = 1;
-        }
-        if (fry.isCheating) {
+        } else {
             fry.isCheating = 0;
             coinsNeeded = 10;
             cheatmode.active = 0;
@@ -2879,8 +2878,7 @@ void updateLeela() {
             leela.isCheating = 1;
             coinsNeeded = 5;
             cheatmode.active = 1;
-        }
-        if (leela.isCheating) {
+        } else {
             leela.isCheating = 0;
             coinsNeeded = 10;
             cheatmode.active = 0;
