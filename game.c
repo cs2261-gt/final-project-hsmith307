@@ -50,6 +50,7 @@ HELMET helmet;
 ENEMY enemy;
 CANNONBALL cannonball;
 GOO goo;
+CHEATMODE cheatmode;
 
 // set up the state trackers so you know what planet you are on
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -77,7 +78,7 @@ int treasureNum;
 int prevTreasureNum;
 
 // picking a character
-//enum {FRYCHARACTER, LEELACHARACTER};
+enum {FRYCHARACTER, LEELACHARACTER};
 int characterChoice;
 
 // vertical and horizontal offsets
@@ -322,6 +323,14 @@ void initGoo() {
     goo.height = 64;
 }
 
+void initCheatmode() {
+    cheatmode.width = 32;
+    cheatmode.height = 32;
+    cheatmode.col = SCREENWIDTH - cheatmode.width - 2;
+    cheatmode.active = 0;
+    cheatmode.row = 3;
+}
+
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -457,6 +466,7 @@ void initSpace() {
 
 void updateSpace() {
     drawGame();
+    initCheatmode();
 
     hOff+= 3;
 
@@ -992,6 +1002,8 @@ void initPause() {
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int i = 0; i < COINCOUNT; i++) {
         coins[i].active = 0;
     }
@@ -1008,6 +1020,8 @@ void initLose() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
@@ -1045,6 +1059,8 @@ void initWin() {
     enemy.active = 0;
     helmet.active = 0;
     cannonball.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int k = 0; k < TREASURECOUNT; k++) {
         treasure[k].active = 0;
     }
@@ -1073,13 +1089,18 @@ void updateFry() {
     }
 
     // cheat if you press select
-    if (BUTTON_HELD(BUTTON_SELECT)) {
-        coinsNeeded = 5;
-        fry.isCheating = 1;
-    } else {
-        fry.isCheating = 0;
-        coinsNeeded = 10;
-    }
+    if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        if (!fry.isCheating) {
+            fry.isCheating = 1;
+            coinsNeeded = 5;
+            cheatmode.active = 1;
+        }
+        if (fry.isCheating) {
+            fry.isCheating = 0;
+            coinsNeeded = 10;
+            cheatmode.active = 0;
+        }
+    } 
 
     fry.screenRow = SHIFTDOWN(fry.row);
 
@@ -1135,13 +1156,18 @@ void updateLeela() {
     leela.rdel += GRAVITY;
 
     // cheat if you press select
-    if (BUTTON_HELD(BUTTON_SELECT)) {
-        coinsNeeded = 5;
-        leela.isCheating = 1;
-    } else {
-        leela.isCheating = 0;
-        coinsNeeded = 10;
-    }
+    if (BUTTON_PRESSED(BUTTON_SELECT)) {
+        if (!leela.isCheating) {
+            leela.isCheating = 1;
+            coinsNeeded = 5;
+            cheatmode.active = 1;
+        }
+        if (leela.isCheating) {
+            leela.isCheating = 0;
+            coinsNeeded = 10;
+            cheatmode.active = 0;
+        }
+    } 
 
     if (SHIFTDOWN((leela.row + (leela.height - 1) + leela.rdel)) < (SCREENHEIGHT-leela.height-1)) {
         leela.row += leela.rdel;
@@ -1385,13 +1411,15 @@ void updateCannonball() {
             helmet.curFrame = 3;
             enemy.shotReady = 1;
         }
-        if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
+        if ((collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && leela.active && cannonball.active) || (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && fry.active && cannonball.active)) {
             if (characterChoice == LEELACHARACTER) {
                 leela.canJump = 0;
             }
             if (characterChoice == FRYCHARACTER) {
                 fry.canJump = 0;
             }
+            cannonball.active = 0;
+            enemy.shotReady = 1;
             goo.active = 1;
         }
     }
@@ -1562,6 +1590,16 @@ void drawGame() {
     }
     if (goo.active == 0) {
         shadowOAM[38].attr0 = ATTR0_HIDE;
+    }
+
+    // draw cheat mode indicator
+    if (cheatmode.active) {
+        shadowOAM[39].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | cheatmode.row;
+        shadowOAM[39].attr1 = ATTR1_MEDIUM | cheatmode.col;
+        shadowOAM[39].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 4 * 4);          
+    }
+    if (cheatmode.active == 0) {
+        shadowOAM[39].attr0 = ATTR0_HIDE;
     }
 
     //draw treasure

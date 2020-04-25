@@ -224,6 +224,15 @@ typedef struct {
 }CANNONBALL;
 
 
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}CHEATMODE;
+
+
 
 typedef struct {
     int col;
@@ -321,6 +330,7 @@ extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
 extern GOO goo;
+extern CHEATMODE cheatmode;
 
 
 
@@ -330,7 +340,7 @@ extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
 
-extern enum {FRYCHARACTER, LEELACHARACTER};
+
 extern int characterChoice;
 
 extern int coinsNeeded;
@@ -404,6 +414,8 @@ void updateEnemy();
 
 void initGoo();
 void updateGoo();
+
+void initCheatmode();
 
 extern int isLost;
 extern int isWon;
@@ -1763,6 +1775,7 @@ HELMET helmet;
 ENEMY enemy;
 CANNONBALL cannonball;
 GOO goo;
+CHEATMODE cheatmode;
 
 
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -1790,13 +1803,13 @@ int treasureNum;
 int prevTreasureNum;
 
 
-
+enum {FRYCHARACTER, LEELACHARACTER};
 int characterChoice;
 
 
 unsigned short hOff;
 unsigned short vOff;
-# 94 "game.c"
+# 95 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -2028,6 +2041,14 @@ void initGoo() {
     goo.height = 64;
 }
 
+void initCheatmode() {
+    cheatmode.width = 32;
+    cheatmode.height = 32;
+    cheatmode.col = 240 - cheatmode.width - 2;
+    cheatmode.active = 0;
+    cheatmode.row = 3;
+}
+
 void initp1() {
     p1.col = 200;
     p1.row = 20;
@@ -2163,6 +2184,7 @@ void initSpace() {
 
 void updateSpace() {
     drawGame();
+    initCheatmode();
 
     hOff+= 3;
 
@@ -2698,6 +2720,8 @@ void initPause() {
     life3.active = 0;
     life4.active = 0;
     life5.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int i = 0; i < 2; i++) {
         coins[i].active = 0;
     }
@@ -2714,6 +2738,8 @@ void initLose() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int k = 0; k < 5; k++) {
         treasure[k].active = 0;
     }
@@ -2751,6 +2777,8 @@ void initWin() {
     enemy.active = 0;
     helmet.active = 0;
     cannonball.active = 0;
+    goo.active = 0;
+    cheatmode.active = 0;
     for (int k = 0; k < 5; k++) {
         treasure[k].active = 0;
     }
@@ -2779,12 +2807,17 @@ void updateFry() {
     }
 
 
-    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<2)))) {
-        coinsNeeded = 5;
-        fry.isCheating = 1;
-    } else {
-        fry.isCheating = 0;
-        coinsNeeded = 10;
+    if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))) {
+        if (!fry.isCheating) {
+            fry.isCheating = 1;
+            coinsNeeded = 5;
+            cheatmode.active = 1;
+        }
+        if (fry.isCheating) {
+            fry.isCheating = 0;
+            coinsNeeded = 10;
+            cheatmode.active = 0;
+        }
     }
 
     fry.screenRow = ((fry.row >> 8));
@@ -2841,12 +2874,17 @@ void updateLeela() {
     leela.rdel += 50;
 
 
-    if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<2)))) {
-        coinsNeeded = 5;
-        leela.isCheating = 1;
-    } else {
-        leela.isCheating = 0;
-        coinsNeeded = 10;
+    if ((!(~(oldButtons)&((1<<2))) && (~buttons & ((1<<2))))) {
+        if (!leela.isCheating) {
+            leela.isCheating = 1;
+            coinsNeeded = 5;
+            cheatmode.active = 1;
+        }
+        if (leela.isCheating) {
+            leela.isCheating = 0;
+            coinsNeeded = 10;
+            cheatmode.active = 0;
+        }
     }
 
     if ((((leela.row + (leela.height - 1) + leela.rdel) >> 8)) < (160 -leela.height-1)) {
@@ -3091,13 +3129,15 @@ void updateCannonball() {
             helmet.curFrame = 3;
             enemy.shotReady = 1;
         }
-        if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
+        if ((collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && leela.active && cannonball.active) || (collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && fry.active && cannonball.active)) {
             if (characterChoice == LEELACHARACTER) {
                 leela.canJump = 0;
             }
             if (characterChoice == FRYCHARACTER) {
                 fry.canJump = 0;
             }
+            cannonball.active = 0;
+            enemy.shotReady = 1;
             goo.active = 1;
         }
     }
@@ -3268,6 +3308,16 @@ void drawGame() {
     }
     if (goo.active == 0) {
         shadowOAM[38].attr0 = (2<<8);
+    }
+
+
+    if (cheatmode.active) {
+        shadowOAM[39].attr0 = (0<<8) | (0<<13) | (0<<14) | cheatmode.row;
+        shadowOAM[39].attr1 = (2<<14) | cheatmode.col;
+        shadowOAM[39].attr2 = ((0)<<12) | ((4 * 4)*32+(7 * 4));
+    }
+    if (cheatmode.active == 0) {
+        shadowOAM[39].attr0 = (2<<8);
     }
 
 

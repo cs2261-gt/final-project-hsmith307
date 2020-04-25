@@ -97,6 +97,8 @@ unsigned short oldButtons;
 unsigned short hOff;
 unsigned short vOff;
 
+enum {FRYCHARACTER, LEELACHARACTER};
+
 // set up shadow OAM
 OBJ_ATTR shadowOAM[128];
 

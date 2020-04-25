@@ -225,6 +225,15 @@ typedef struct {
 }CANNONBALL;
 
 
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}CHEATMODE;
+
+
 
 typedef struct {
     int col;
@@ -322,6 +331,7 @@ extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
 extern GOO goo;
+extern CHEATMODE cheatmode;
 
 
 
@@ -331,7 +341,7 @@ extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
 
-extern enum {FRYCHARACTER, LEELACHARACTER};
+
 extern int characterChoice;
 
 extern int coinsNeeded;
@@ -405,6 +415,8 @@ void updateEnemy();
 
 void initGoo();
 void updateGoo();
+
+void initCheatmode();
 
 extern int isLost;
 extern int isWon;
@@ -1915,6 +1927,8 @@ unsigned short oldButtons;
 
 unsigned short hOff;
 unsigned short vOff;
+
+enum {FRYCHARACTER, LEELACHARACTER};
 
 
 OBJ_ATTR shadowOAM[128];

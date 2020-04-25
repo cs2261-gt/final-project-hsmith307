@@ -108,6 +108,15 @@ typedef struct {
     int rdel;
 }CANNONBALL;
 
+//cheat mode struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}CHEATMODE;
+
 
 // planet struct
 typedef struct {
@@ -206,6 +215,7 @@ extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
 extern GOO goo;
+extern CHEATMODE cheatmode;
 
 
 // counters to count which life is being lost and thus which should be hidden
@@ -215,7 +225,7 @@ extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
 
-extern enum {FRYCHARACTER, LEELACHARACTER};
+
 extern int characterChoice;
 
 extern int coinsNeeded;
@@ -289,6 +299,8 @@ void updateEnemy();
 
 void initGoo();
 void updateGoo();
+
+void initCheatmode();
 
 extern int isLost;
 extern int isWon;
