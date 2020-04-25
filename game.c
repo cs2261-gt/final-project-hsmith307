@@ -49,6 +49,7 @@ TREASURE treasure[TREASURECOUNT];
 HELMET helmet;
 ENEMY enemy;
 CANNONBALL cannonball;
+GOO goo;
 
 // set up the state trackers so you know what planet you are on
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -309,6 +310,13 @@ void initCannonball() {
     cannonball.height = 8;
 }
 
+void initGoo() {
+    goo.col = 3;
+    goo.row = 153;
+    goo.active = 0;
+    goo.width = 64;
+    goo.height = 64;
+}
 
 void initp1() {
     p1.col = 200;
@@ -486,6 +494,7 @@ void initPlanet1() {
     initCoins();
     //initBullets();
     initAlien();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -562,6 +571,7 @@ void initPlanet2() {
     //initBullets();
     initAlien();
     initCoins();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -644,6 +654,7 @@ void initPlanet3() {
     initBullets();
     initAlien();
     initCoins();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -719,6 +730,7 @@ void initPlanet4() {
     //initBullets();
     initAlien();
     initCoins();
+    initGoo();
 
     // set what needs to be active or inactive
     spaceship.active = 0;

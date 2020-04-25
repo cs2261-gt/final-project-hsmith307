@@ -152,6 +152,15 @@ typedef struct {
     int active;
 }BULLET;
 
+//goo struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}GOO;
+
 // treasure struct for displaying lives
 typedef struct {
     int col;
@@ -192,6 +201,7 @@ extern TREASURE treasure[TREASURECOUNT];
 extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
+extern GOO goo;
 
 
 // counters to count which life is being lost and thus which should be hidden
@@ -272,6 +282,9 @@ void updateCannonball();
 
 void initEnemy();
 void updateEnemy();
+
+void initGoo();
+void updateGoo();
 
 extern int isLost;
 extern int isWon;
