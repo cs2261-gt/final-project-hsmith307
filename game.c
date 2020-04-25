@@ -1217,6 +1217,12 @@ void updateAlien() {
         if (collision(alien.col + 40, alien.row, alien.width, alien.height, bullets[i].col, bullets[i].row, bullets[i].width, bullets[i].height) == 1 && bullets[i].active) {
             alien.active = 0;
             bullets[i].active = 0;
+            if (characterChoice == FRYCHARACTER && !fry.canJump) {
+                fry.canJump = 1;
+            }
+            if (characterChoice == LEELACHARACTER && !leela.canJump) {
+                leela.canJump = 1;
+            }
         }
     }
 
@@ -1434,7 +1440,7 @@ void drawGame() {
         shadowOAM[7].attr0 = ATTR0_HIDE;
     }
 
-    if (life2.active && !life3.isLost) {
+    if (life2.active && !life2.isLost) {
         shadowOAM[8].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | life2.row;
         shadowOAM[8].attr1 = ATTR1_SMALL | life2.col;
         shadowOAM[8].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(10 * 2, 2 * 2);              
@@ -1597,60 +1603,70 @@ void updateLives() {
     // if there is a collision with fry and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life5.active = 0;
+       life5.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life4.active = 0;
+       life4.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life3.active = 0;
+       life3.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, fry.col, fry.screenRow, fry.width, fry.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == FRYCHARACTER)) {
        life1.active = 0;
+       life1.isLost = 1;
         isLost = 1;
     }
 
     // if there is a collision with leela and the alien then you lose a life
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 0) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life5.active = 0;
+       life5.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 1) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life4.active = 0;
+       life4.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 2) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life3.active = 0;
+       life3.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 3) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life2.active = 0;
+       life2.isLost = 1;
        lifeCounter++;
        alien.col = 190;
     }
 
     if (collision(alien.col, alien.row, alien.width, alien.height, leela.col, leela.screenRow, leela.width, leela.height) == 1 && (lifeCounter == 4) && (alien.active) && (characterChoice == LEELACHARACTER)) {
        life1.active = 0;
+       life1.isLost = 1;
         isLost = 1;
     }
 }
