@@ -17,6 +17,7 @@ typedef struct {
     int coinCount;
     int hasShot;
     int isCheating;
+    int canJump;
 }FRY;
 
 // leela struct 
@@ -38,6 +39,7 @@ typedef struct {
     int coinCount;
     int hasShot;
     int isCheating;
+    int canJump;
 }LEELA;
 
 typedef struct {

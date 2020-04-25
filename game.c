@@ -152,6 +152,7 @@ void initFry() {
     fry.coinCount = 0;
     fry.hasShot = 0;
     fry.isCheating = 0;
+    fry.canJump = 1;
 }
 
 void initLeela() {
@@ -171,6 +172,7 @@ void initLeela() {
     leela.coinCount = 0;
     leela.hasShot = 0;
     leela.isCheating = 0;
+    leela.canJump = 1;
 }
 
 // initialize the alien
@@ -1055,7 +1057,7 @@ void initWin() {
 
 void updateFry() {
       // gravity stuff
-    if (BUTTON_PRESSED(BUTTON_UP) && !fry.amJumping) {
+    if (BUTTON_PRESSED(BUTTON_UP) && !fry.amJumping && fry.canJump) {
         fry.rdel -= JUMPPOWER;
         fry.amJumping = 1;
     }
@@ -1124,7 +1126,7 @@ void updateFry() {
 
 void updateLeela() {
       // gravity stuff
-    if (BUTTON_PRESSED(BUTTON_UP) && !leela.amJumping) {
+    if (BUTTON_PRESSED(BUTTON_UP) && !leela.amJumping && leela.canJump) {
         leela.rdel -= JUMPPOWER;
         leela.amJumping = 1;
     }
@@ -1372,16 +1374,14 @@ void updateCannonball() {
             cannonball.active = 0;
             enemy.shotReady = 1;
         }
-        // if (characterChoice == FRYCHARACTER) {
-        //     if (collision(fry.col, fry.row, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && (cannonball.active) && (fry.active)) {
-        //         fry.row -= 30;
-        //     }
-        // }
-        // if (characterChoice == LEELACHARACTER) {
-        //     if ((cannonball.row + cannonball.height == leela.row) && (cannonball.active) && (leela.active)) {
-        //         leela.row -= 30;
-        //     }
-        // }
+        if (collision(leela.col, leela.screenRow, leela.width, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col, fry.screenRow, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
+            if (characterChoice == LEELACHARACTER) {
+                leela.canJump = 0;
+            }
+            if (characterChoice == FRYCHARACTER) {
+                fry.canJump = 0;
+            }
+        }
     }
 
 }
