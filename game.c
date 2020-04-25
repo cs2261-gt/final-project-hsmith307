@@ -299,6 +299,10 @@ void initHelmet() {
     helmet.cdel = 1;
     helmet.width = 32;
     helmet.height = 32;
+    helmet.aniState = 7;
+    helmet.curFrame = 2;
+    helmet.timer = 0;
+    helmet.activeTimer = 0;
 }
 
 void initCannonball() {
@@ -312,7 +316,7 @@ void initCannonball() {
 
 void initGoo() {
     goo.col = 3;
-    goo.row = 153;
+    goo.row = 90;
     goo.active = 0;
     goo.width = 64;
     goo.height = 64;
@@ -806,14 +810,7 @@ void updatePlanet1() {
     for (int i = 0; i < BULLETCOUNT; i++) {
          updateBullets(&bullets[i]);
     } 
- 
-    // update the treasure for that planet
-    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
-    //     treasure[1].active = 1;
-    //     updateTreasure(&treasure[1]);
-    // }
 
- 
     // update the enemy
     updateEnemy();
 
@@ -822,6 +819,9 @@ void updatePlanet1() {
 
     // update the cannonball
     updateCannonball();
+
+    // update the helmet
+    updateHelmet();
 
     // update the helmet
     if (BUTTON_HELD(BUTTON_DOWN)) {
@@ -864,17 +864,14 @@ void updatePlanet2() {
     updateCannonball();
 
     // update the helmet
+    updateHelmet();
+
+    // update the helmet
     if (BUTTON_HELD(BUTTON_DOWN)) {
         helmet.active = 1;
     } else {
         helmet.active = 0;
     } 
-
-    // // update the treasure for that planet
-    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
-    //     treasure[2].active = 1;
-    //     updateTreasure(&treasure[2]);
-    // }
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -898,6 +895,9 @@ void updatePlanet3() {
     updateAlien();
     updateLeela();
 
+    // update the helmet
+    updateHelmet();
+
     // shoot bullets and update their position
     for (int i = 0; i < BULLETCOUNT; i++) {
          updateBullets(&bullets[i]);
@@ -918,13 +918,6 @@ void updatePlanet3() {
     } else {
         helmet.active = 0;
     }
-
-
-    // update the treasure for that planet
-    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
-    //     treasure[3].active = 1;
-    //     updateTreasure(&treasure[3]);
-    // }
 
     //update the coins 
     for (int k = 0; k < COINCOUNT
@@ -963,17 +956,14 @@ void updatePlanet4() {
     updateCannonball();
 
     // update the helmet
+    updateHelmet();
+
+    // update the helmet
     if (BUTTON_HELD(BUTTON_DOWN)) {
         helmet.active = 1;
     } else {
         helmet.active = 0;
     }
-
-    // // // update the treasure for that planet
-    // if (leela.coinCount > coinsNeeded|| fry.coinCount > 10) {
-    //     treasure[4].active = 1;
-    //     updateTreasure(&treasure[4]);
-    // }
 
     // //update the coins 
     for (int k = 0; k < COINCOUNT; k++) {
@@ -1231,9 +1221,11 @@ void updateAlien() {
             bullets[i].active = 0;
             if (characterChoice == FRYCHARACTER && !fry.canJump) {
                 fry.canJump = 1;
+                goo.active = 0;
             }
             if (characterChoice == LEELACHARACTER && !leela.canJump) {
                 leela.canJump = 1;
+                goo.active = 0;
             }
         }
     }
@@ -1259,7 +1251,7 @@ void updateEnemy() {
             enemy.isLeft = 1;
         }
     }
-    if (enemy.shotReady) {
+    if (enemy.shotReady && (enemy.col == 10 || enemy.col == 30 || enemy.col == 60 || enemy.col == 90)) {
         shootCannonball();
     }
     
@@ -1390,18 +1382,30 @@ void updateCannonball() {
         }
         if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && (helmet.active) && (cannonball.active)) {
             cannonball.active = 0;
+            helmet.curFrame = 3;
             enemy.shotReady = 1;
         }
-        if (collision(leela.col, leela.screenRow, leela.width, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col, fry.screenRow, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
+        if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
             if (characterChoice == LEELACHARACTER) {
                 leela.canJump = 0;
             }
             if (characterChoice == FRYCHARACTER) {
                 fry.canJump = 0;
             }
+            goo.active = 1;
         }
     }
 
+}
+
+void updateHelmet() {
+    if (helmet.curFrame == 3) {
+        helmet.timer++;
+    }
+    if (helmet.curFrame == 3 && helmet.timer == 100) {
+        helmet.curFrame = 2;
+        helmet.timer = 0;
+    }
 }
 
 // draw the game depending on which are active
@@ -1544,10 +1548,20 @@ void drawGame() {
     if (helmet.active) {
         shadowOAM[37].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | helmet.row;
         shadowOAM[37].attr1 = ATTR1_MEDIUM| helmet.col;
-        shadowOAM[37].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(7 * 4, 2 * 4);      
+        shadowOAM[37].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(helmet.aniState * 4, helmet.curFrame * 4);      
     }
     if (helmet.active == 0) {
         shadowOAM[37].attr0 = ATTR0_HIDE;
+    }
+
+    // draw the goo
+    if (goo.active) {
+        shadowOAM[38].attr0 = ATTR0_REGULAR | ATTR0_4BPP | ATTR0_SQUARE | goo.row;
+        shadowOAM[38].attr1 = ATTR1_LARGE| goo.col;
+        shadowOAM[38].attr2 = ATTR2_PALROW(0) |  ATTR2_TILEID(3 * 8, 3 * 8);          
+    }
+    if (goo.active == 0) {
+        shadowOAM[38].attr0 = ATTR0_HIDE;
     }
 
     //draw treasure

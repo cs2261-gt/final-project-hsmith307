@@ -206,6 +206,10 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int aniState;
+    int curFrame;
+    int timer;
+    int activeTimer;
 }HELMET;
 
 
@@ -271,6 +275,15 @@ typedef struct {
 typedef struct {
     int col;
     int row;
+    int height;
+    int width;
+    int active;
+}GOO;
+
+
+typedef struct {
+    int col;
+    int row;
     int cdel;
     int height;
     int width;
@@ -307,6 +320,7 @@ extern TREASURE treasure[5];
 extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
+extern GOO goo;
 
 
 
@@ -387,6 +401,9 @@ void updateCannonball();
 
 void initEnemy();
 void updateEnemy();
+
+void initGoo();
+void updateGoo();
 
 extern int isLost;
 extern int isWon;
@@ -1745,6 +1762,7 @@ TREASURE treasure[5];
 HELMET helmet;
 ENEMY enemy;
 CANNONBALL cannonball;
+GOO goo;
 
 
 enum {PLAN1, PLAN2, PLAN3, PLAN4};
@@ -1778,7 +1796,7 @@ int characterChoice;
 
 unsigned short hOff;
 unsigned short vOff;
-# 93 "game.c"
+# 94 "game.c"
 void initGame() {
 
     leela.active = 0;
@@ -1987,6 +2005,10 @@ void initHelmet() {
     helmet.cdel = 1;
     helmet.width = 32;
     helmet.height = 32;
+    helmet.aniState = 7;
+    helmet.curFrame = 2;
+    helmet.timer = 0;
+    helmet.activeTimer = 0;
 }
 
 void initCannonball() {
@@ -1998,6 +2020,13 @@ void initCannonball() {
     cannonball.height = 8;
 }
 
+void initGoo() {
+    goo.col = 3;
+    goo.row = 90;
+    goo.active = 0;
+    goo.width = 64;
+    goo.height = 64;
+}
 
 void initp1() {
     p1.col = 200;
@@ -2175,6 +2204,7 @@ void initPlanet1() {
     initCoins();
 
     initAlien();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -2251,6 +2281,7 @@ void initPlanet2() {
 
     initAlien();
     initCoins();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -2333,6 +2364,7 @@ void initPlanet3() {
     initBullets();
     initAlien();
     initCoins();
+    initGoo();
 
     life1.active = 1;
     life2.active = 1;
@@ -2408,6 +2440,7 @@ void initPlanet4() {
 
     initAlien();
     initCoins();
+    initGoo();
 
 
     spaceship.active = 0;
@@ -2483,7 +2516,8 @@ void updatePlanet1() {
     for (int i = 0; i < 50; i++) {
          updateBullets(&bullets[i]);
     }
-# 806 "game.c"
+
+
     updateEnemy();
 
 
@@ -2491,6 +2525,9 @@ void updatePlanet1() {
 
 
     updateCannonball();
+
+
+    updateHelmet();
 
 
     if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
@@ -2533,12 +2570,16 @@ void updatePlanet2() {
     updateCannonball();
 
 
+    updateHelmet();
+
+
     if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
         helmet.active = 1;
     } else {
         helmet.active = 0;
     }
-# 868 "game.c"
+
+
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2561,6 +2602,9 @@ void updatePlanet3() {
     updateLeela();
 
 
+    updateHelmet();
+
+
     for (int i = 0; i < 50; i++) {
          updateBullets(&bullets[i]);
     }
@@ -2580,7 +2624,8 @@ void updatePlanet3() {
     } else {
         helmet.active = 0;
     }
-# 918 "game.c"
+
+
     for (int k = 0; k < 2
 ; k++) {
         updateCoins(&coins[k]);
@@ -2617,12 +2662,16 @@ void updatePlanet4() {
     updateCannonball();
 
 
+    updateHelmet();
+
+
     if ((~((*(volatile unsigned short *)0x04000130)) & ((1<<7)))) {
         helmet.active = 1;
     } else {
         helmet.active = 0;
     }
-# 967 "game.c"
+
+
     for (int k = 0; k < 2; k++) {
         updateCoins(&coins[k]);
     }
@@ -2878,9 +2927,11 @@ void updateAlien() {
             bullets[i].active = 0;
             if (characterChoice == FRYCHARACTER && !fry.canJump) {
                 fry.canJump = 1;
+                goo.active = 0;
             }
             if (characterChoice == LEELACHARACTER && !leela.canJump) {
                 leela.canJump = 1;
+                goo.active = 0;
             }
         }
     }
@@ -2906,7 +2957,7 @@ void updateEnemy() {
             enemy.isLeft = 1;
         }
     }
-    if (enemy.shotReady) {
+    if (enemy.shotReady && (enemy.col == 10 || enemy.col == 30 || enemy.col == 60 || enemy.col == 90)) {
         shootCannonball();
     }
 
@@ -3037,18 +3088,34 @@ void updateCannonball() {
         }
         if (collision(helmet.col, helmet.row, helmet.width, helmet.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) == 1 && (helmet.active) && (cannonball.active)) {
             cannonball.active = 0;
+            helmet.curFrame = 3;
             enemy.shotReady = 1;
         }
-        if (collision(leela.col, leela.screenRow, leela.width, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col, fry.screenRow, fry.width, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
+        if (collision(leela.col + 20, leela.screenRow, leela.width / 2, leela.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height) || collision(fry.col + 20, fry.screenRow, fry.width / 2, fry.height, cannonball.col, cannonball.row, cannonball.width, cannonball.height)) {
             if (characterChoice == LEELACHARACTER) {
                 leela.canJump = 0;
             }
             if (characterChoice == FRYCHARACTER) {
                 fry.canJump = 0;
             }
+            goo.active = 1;
         }
     }
 
+}
+
+void updateHelmet() {
+    helmet.activeTimer++;
+    if (helmet.active && helmet.activeTimer == 70) {
+        helmet.active = 0;
+    }
+    if (helmet.curFrame == 3) {
+        helmet.timer++;
+    }
+    if (helmet.curFrame == 3 && helmet.timer == 100) {
+        helmet.curFrame = 2;
+        helmet.timer = 0;
+    }
 }
 
 
@@ -3191,10 +3258,20 @@ void drawGame() {
     if (helmet.active) {
         shadowOAM[37].attr0 = (0<<8) | (0<<13) | (0<<14) | helmet.row;
         shadowOAM[37].attr1 = (2<<14)| helmet.col;
-        shadowOAM[37].attr2 = ((0)<<12) | ((2 * 4)*32+(7 * 4));
+        shadowOAM[37].attr2 = ((0)<<12) | ((helmet.curFrame * 4)*32+(helmet.aniState * 4));
     }
     if (helmet.active == 0) {
         shadowOAM[37].attr0 = (2<<8);
+    }
+
+
+    if (goo.active) {
+        shadowOAM[38].attr0 = (0<<8) | (0<<13) | (0<<14) | goo.row;
+        shadowOAM[38].attr1 = (3<<14)| goo.col;
+        shadowOAM[38].attr2 = ((0)<<12) | ((3 * 8)*32+(3 * 8));
+    }
+    if (goo.active == 0) {
+        shadowOAM[38].attr0 = (2<<8);
     }
 
 

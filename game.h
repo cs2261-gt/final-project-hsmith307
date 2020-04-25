@@ -91,6 +91,10 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int aniState;
+    int curFrame;
+    int timer;
+    int activeTimer;
 }HELMET;
 
 //enemy cannonball struct
