@@ -15,13 +15,14 @@
 #include "pause.h"
 #include "planet1PS.h"
 // #include "bg.h"
-#include "planets.h"
+#include "planets2.h"
 #include "stars.h"
 #include "planet2bg.h"
 #include "planet3bg.h"
 #include "planet4bg.h"
 #include "losebg.h"
 #include "instructions.h"
+#include "instructions2.h"
 #include "splashSong.h"
 #include "spaceSong.h"
 #include "win.h"
@@ -56,6 +57,8 @@ void goToWin();
 void win();
 void goToLose();
 void lose();
+void goToInstructions();
+void instructions();
 
 
 // more function prototypes
@@ -82,7 +85,7 @@ SOUND soundA;
 SOUND soundB;
 
 // Game states enum
-enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE};
+enum {START, GAME, SPACE, PLANET1, PLANET2, PLANET3, PLANET4, PAUSE, WIN, LOSE, INSTRUCTIONS};
 int state;
 int prevState;
 
@@ -93,6 +96,8 @@ unsigned short oldButtons;
 // Horizontal Offset
 unsigned short hOff;
 unsigned short vOff;
+
+enum {FRYCHARACTER, LEELACHARACTER};
 
 // set up shadow OAM
 OBJ_ATTR shadowOAM[128];
@@ -140,6 +145,8 @@ int main() {
         case LOSE:
             lose();
             break;
+        case INSTRUCTIONS:
+            instructions();
         default:
             break;
         }
@@ -173,7 +180,7 @@ void goToStart() {
 
     hideSprites();
 
-    //playSoundA(splashSong, SPLASHSONGLEN, 1);
+    playSoundA(splashSong, SPLASHSONGLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -261,17 +268,17 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    //playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSong, SPACESONGLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
 
-    DMANow(3, planetsPal, PALETTE, planetsPalLen / 2);
+    DMANow(3, planets2Pal, PALETTE, planets2PalLen / 2);
 
-    REG_BG1CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
+    REG_BG1CNT = BG_CHARBLOCK(1) | BG_SCREENBLOCK(26) | BG_SIZE_WIDE;
  
-    DMANow(3, planetsTiles, &CHARBLOCK[1], planetsTilesLen / 2);
-    DMANow(3, planetsMap, &SCREENBLOCK[28], planetsMapLen / 2);
+    DMANow(3, planets2Tiles, &CHARBLOCK[1], planets2TilesLen / 2);
+    DMANow(3, planets2Map, &SCREENBLOCK[26], planets2MapLen / 2);
 
     // set up the stars bg 
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_WIDE;
@@ -317,6 +324,8 @@ void space() {
 }
 
 void goToPlanet1() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
+
     initPlanet1();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
@@ -367,7 +376,10 @@ void planet1() {
 }
 
 void goToPlanet2() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
+
     initPlanet2();
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, planet2bgPal, PALETTE, planet2bgPalLen / 2);
     DMANow(3, planet2bgTiles, &CHARBLOCK[0], planet2bgTilesLen / 2);
@@ -409,7 +421,9 @@ void planet2() {
 }
 
 void goToPlanet3() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
     initPlanet3();
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
     DMANow(3, planet3bgPal, PALETTE, planet3bgPalLen / 2);
     DMANow(3, planet3bgTiles, &CHARBLOCK[0], planet3bgTilesLen / 2);
@@ -452,9 +466,11 @@ void planet3() {
 }
 
 void goToPlanet4() {
+    playSoundA(spaceSong, SPACESONGLEN, 1);
     initPlanet4();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
+    REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
     DMANow(3, planet4bgPal, PALETTE, planet4bgPalLen / 2);
     DMANow(3, planet4bgTiles, &CHARBLOCK[0], planet4bgTilesLen / 2);
@@ -518,6 +534,9 @@ void pause() {
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
     drawGame();
+    if (BUTTON_PRESSED(BUTTON_B)) {
+        goToInstructions();
+    }
     if (BUTTON_PRESSED(BUTTON_START)) {
         unpauseSound();
         if (prevState == PLANET1) {
@@ -573,5 +592,49 @@ void goToLose() {
 void lose() {
     if (BUTTON_PRESSED(BUTTON_START)) {
         goToStart();
+    }
+}
+
+void goToInstructions() {
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
+    DMANow(3, instructions2Pal, PALETTE, instructions2PalLen / 2);
+    DMANow(3, instructions2Tiles, &CHARBLOCK[0], instructions2TilesLen / 2);
+    DMANow(3, instructions2Map, &SCREENBLOCK[30], instructions2MapLen / 2);
+
+     hideSprites();
+    fry.active = 0;
+    leela.active = 0;
+    alien.active = 0;
+    // for (int i = 1; i < TREASURECOUNT; i++ {
+    //     treasure[i].active = 0;
+    // }
+    p1.active = 0;
+    p2.active = 0;
+    p3.active = 0;
+    p4.active = 0;
+    spaceship.active = 0;
+    life1.active = 0;
+    life2.active = 0;
+    life3.active = 0;
+    life4.active = 0;
+    life5.active = 0;
+    for (int i = 0; i < COINCOUNT; i++) {
+        coins[i].active = 0;
+    }
+    for (int i = 0; i < BULLETCOUNT; i++) {
+        bullets[i].active = 0;
+    }
+    enemy.active = 0;
+
+    state = INSTRUCTIONS;
+}
+
+void instructions() {
+    hideSprites();
+    REG_BG0HOFF = 0; 
+    REG_BG0VOFF = 0;
+    drawGame();
+    if (BUTTON_PRESSED(BUTTON_START)) {
+        goToPause();
     }
 }

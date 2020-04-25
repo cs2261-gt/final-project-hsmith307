@@ -16,6 +16,8 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
+    int canJump;
 }FRY;
 
 // leela struct 
@@ -36,6 +38,8 @@ typedef struct {
     int screenRow;
     int coinCount;
     int hasShot;
+    int isCheating;
+    int canJump;
 }LEELA;
 
 typedef struct {
@@ -87,6 +91,10 @@ typedef struct {
     int active;
     int cdel;
     int rdel;
+    int aniState;
+    int curFrame;
+    int timer;
+    int activeTimer;
 }HELMET;
 
 //enemy cannonball struct
@@ -99,6 +107,15 @@ typedef struct {
     int cdel;
     int rdel;
 }CANNONBALL;
+
+//cheat mode struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}CHEATMODE;
 
 
 // planet struct
@@ -120,6 +137,7 @@ typedef struct {
     int height;
     int width;
     int active;
+    int isLost;
 }HEART;
 
 // block to jump on struct
@@ -146,6 +164,15 @@ typedef struct {
     int width;
     int active;
 }BULLET;
+
+//goo struct
+typedef struct {
+    int col;
+    int row;
+    int height;
+    int width;
+    int active;
+}GOO;
 
 // treasure struct for displaying lives
 typedef struct {
@@ -187,6 +214,8 @@ extern TREASURE treasure[TREASURECOUNT];
 extern HELMET helmet;
 extern ENEMY enemy;
 extern CANNONBALL cannonball;
+extern GOO goo;
+extern CHEATMODE cheatmode;
 
 
 // counters to count which life is being lost and thus which should be hidden
@@ -196,8 +225,10 @@ extern int life2Counter;
 extern int life3Counter;
 extern int life4Counter;
 
-extern enum {FRYCHARACTER, LEELACHARACTER};
+
 extern int characterChoice;
+
+extern int coinsNeeded;
 
 
 
@@ -265,6 +296,11 @@ void updateCannonball();
 
 void initEnemy();
 void updateEnemy();
+
+void initGoo();
+void updateGoo();
+
+void initCheatmode();
 
 extern int isLost;
 extern int isWon;
