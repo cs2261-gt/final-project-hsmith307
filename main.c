@@ -23,8 +23,10 @@
 #include "losebg.h"
 #include "instructions.h"
 #include "instructions2.h"
-#include "splashSong.h"
-#include "spaceSong.h"
+#include "splashSong1.h"
+#include "spaceSong1.h"
+#include "planet-background-2.h"
+#include "planet-background1.h"
 #include "win.h"
 #include "sound.h"
 #include "forest.h"
@@ -180,7 +182,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, SPLASHSONGLEN, 1);
+    playSoundA(splashSongLoop, SPLASHSONGLOOPLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -233,6 +235,8 @@ void goToGame() {
     initGame();
 
 
+    playSoundA(splashSongLoop, SPLASHSONGLOOPLEN, 1);
+
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, instructionsPal, PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsTiles, &CHARBLOCK[0], instructionsTilesLen / 2);
@@ -268,7 +272,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
@@ -324,14 +328,14 @@ void space() {
 }
 
 void goToPlanet1() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     initPlanet1();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
-    DMANow(3, planet1PSPal, PALETTE, planet1PSPalLen / 2);
-    DMANow(3, planet1PSTiles, &CHARBLOCK[0], planet1PSTilesLen / 2);
-    DMANow(3, planet1PSMap, &SCREENBLOCK[28], planet1PSMapLen / 2); 
+    DMANow(3, planet_background1Pal, PALETTE, planet_background1PalLen / 2);
+    DMANow(3, planet_background1Tiles, &CHARBLOCK[0], planet_background1TilesLen / 2);
+    DMANow(3, planet_background1Map, &SCREENBLOCK[28], planet_background1MapLen / 2); 
     state = PLANET1;
 }
 
@@ -376,14 +380,14 @@ void planet1() {
 }
 
 void goToPlanet2() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     initPlanet2();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
-    DMANow(3, planet2bgPal, PALETTE, planet2bgPalLen / 2);
-    DMANow(3, planet2bgTiles, &CHARBLOCK[0], planet2bgTilesLen / 2);
-    DMANow(3, planet2bgMap, &SCREENBLOCK[28], planet2bgMapLen / 2); 
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
+    DMANow(3, planet_background_2Pal, PALETTE, planet_background_2PalLen / 2);
+    DMANow(3, planet_background_2Tiles, &CHARBLOCK[0], planet_background_2TilesLen / 2);
+    DMANow(3, planet_background_2Map, &SCREENBLOCK[28], planet_background_2MapLen / 2); 
     state = PLANET2;
 }
 
@@ -421,7 +425,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
     initPlanet3();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
@@ -466,7 +470,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
     initPlanet4();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
@@ -606,9 +610,6 @@ void goToInstructions() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    // for (int i = 1; i < TREASURECOUNT; i++ {
-    //     treasure[i].active = 0;
-    // }
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;

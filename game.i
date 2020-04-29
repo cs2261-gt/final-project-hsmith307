@@ -1858,7 +1858,7 @@ void initSpaceship() {
 
 void initFry() {
     fry.col = 3;
-    fry.row = ((90) << 8);
+    fry.row = ((98) << 8);
     fry.cdel = 1;
     fry.rdel = 1;
     fry.active = 0;
@@ -1877,7 +1877,7 @@ void initFry() {
 
 void initLeela() {
     leela.col = 3;
-    leela.row = ((90) << 8);
+    leela.row = ((97) << 8);
     leela.cdel = 0;
     leela.rdel = 1;
     leela.active = 0;
@@ -1899,7 +1899,7 @@ void initLeela() {
 void initAlien() {
 
     alien.col = 240;
-    alien.row = 90;
+    alien.row = 97;
     alien.cdel = 1;
     alien.rdel = 1;
     alien.active = 0;
@@ -1976,7 +1976,7 @@ void initLives() {
 void initBullets() {
     for (int i = 0; i < 50; i++) {
         bullets[i].col = 67;
-        bullets[i].row = 113;
+        bullets[i].row = 116;
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
@@ -2035,7 +2035,7 @@ void initCannonball() {
 
 void initGoo() {
     goo.col = 3;
-    goo.row = 90;
+    goo.row = 97;
     goo.active = 0;
     goo.width = 64;
     goo.height = 64;
@@ -2148,6 +2148,10 @@ void initSpace() {
     if (life1.isLost) {
         life1.active = 0;
     }
+
+    enemy.active = 0;
+    cannonball.active = 0;
+    goo.active = 0;
 
     fry.active = 0;
     leela.active = 0;

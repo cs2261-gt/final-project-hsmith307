@@ -545,20 +545,40 @@ extern const unsigned short instructions2Map[1024];
 
 extern const unsigned short instructions2Pal[256];
 # 26 "main.c" 2
-# 1 "splashSong.h" 1
+# 1 "splashSong1.h" 1
 
 
 
 
-extern const signed char splashSong[104832];
+extern const signed char splashSongLoop[53568];
 # 27 "main.c" 2
-# 1 "spaceSong.h" 1
+# 1 "spaceSong1.h" 1
 
 
 
 
-extern const signed char spaceSong[419616];
+extern const signed char spaceSongLoop[95328];
 # 28 "main.c" 2
+# 1 "planet-background-2.h" 1
+# 22 "planet-background-2.h"
+extern const unsigned short planet_background_2Tiles[18848];
+
+
+extern const unsigned short planet_background_2Map[2048];
+
+
+extern const unsigned short planet_background_2Pal[256];
+# 29 "main.c" 2
+# 1 "planet-background1.h" 1
+# 22 "planet-background1.h"
+extern const unsigned short planet_background1Tiles[13936];
+
+
+extern const unsigned short planet_background1Map[2048];
+
+
+extern const unsigned short planet_background1Pal[256];
+# 30 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
 extern const unsigned short winTiles[8352];
@@ -568,7 +588,7 @@ extern const unsigned short winMap[1024];
 
 
 extern const unsigned short winPal[256];
-# 29 "main.c" 2
+# 31 "main.c" 2
 # 1 "sound.h" 1
 SOUND soundA;
 SOUND soundB;
@@ -585,14 +605,14 @@ void interruptHandler();
 void pauseSound();
 void unpauseSound();
 void stopSound();
-# 30 "main.c" 2
+# 32 "main.c" 2
 # 1 "forest.h" 1
 
 
 
 
 extern const signed char forestSound[1116347];
-# 31 "main.c" 2
+# 33 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 1 3
 # 10 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/machine/ieeefp.h" 1 3
@@ -1401,7 +1421,7 @@ extern long double _strtold_r (struct _reent *, const char *restrict, char **res
 extern long double strtold (const char *restrict, char **restrict);
 # 336 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdlib.h" 3
 
-# 32 "main.c" 2
+# 34 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 1 3
 # 17 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1448,7 +1468,7 @@ char *strsignal (int __signo);
 # 176 "/opt/devkitpro/devkitARM/arm-none-eabi/include/string.h" 2 3
 
 
-# 33 "main.c" 2
+# 35 "main.c" 2
 # 1 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 1 3
 # 36 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 # 1 "/opt/devkitpro/devkitARM/lib/gcc/arm-none-eabi/9.1.0/include/stddef.h" 1 3 4
@@ -1859,11 +1879,11 @@ _putchar_unlocked(int _c)
 }
 # 797 "/opt/devkitpro/devkitARM/arm-none-eabi/include/stdio.h" 3
 
-# 34 "main.c" 2
+# 36 "main.c" 2
 
 
 
-# 36 "main.c"
+# 38 "main.c"
 void initialize();
 void game();
 
@@ -2011,7 +2031,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, 104832, 1);
+    playSoundA(splashSongLoop, 53568, 1);
 
 
     spaceship.active = 0;
@@ -2064,6 +2084,8 @@ void goToGame() {
     initGame();
 
 
+    playSoundA(splashSongLoop, 53568, 1);
+
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 13696 / 2);
@@ -2099,7 +2121,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
@@ -2155,14 +2177,14 @@ void space() {
 }
 
 void goToPlanet1() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
     initPlanet1();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
-    DMANow(3, planet1PSPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, planet1PSTiles, &((charblock *)0x6000000)[0], 36160 / 2);
-    DMANow(3, planet1PSMap, &((screenblock *)0x6000000)[28], 4096 / 2);
+    DMANow(3, planet_background1Pal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet_background1Tiles, &((charblock *)0x6000000)[0], 27872 / 2);
+    DMANow(3, planet_background1Map, &((screenblock *)0x6000000)[28], 4096 / 2);
     state = PLANET1;
 }
 
@@ -2207,14 +2229,14 @@ void planet1() {
 }
 
 void goToPlanet2() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
     initPlanet2();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
-    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (0<<14);
-    DMANow(3, planet2bgPal, ((unsigned short *)0x5000000), 512 / 2);
-    DMANow(3, planet2bgTiles, &((charblock *)0x6000000)[0], 19680 / 2);
-    DMANow(3, planet2bgMap, &((screenblock *)0x6000000)[28], 2048 / 2);
+    (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
+    DMANow(3, planet_background_2Pal, ((unsigned short *)0x5000000), 512 / 2);
+    DMANow(3, planet_background_2Tiles, &((charblock *)0x6000000)[0], 37696 / 2);
+    DMANow(3, planet_background_2Map, &((screenblock *)0x6000000)[28], 4096 / 2);
     state = PLANET2;
 }
 
@@ -2252,7 +2274,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
     initPlanet3();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
@@ -2297,7 +2319,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
     initPlanet4();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
@@ -2437,9 +2459,6 @@ void goToInstructions() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-
-
-
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
