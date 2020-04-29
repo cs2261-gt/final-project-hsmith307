@@ -25,6 +25,8 @@
 #include "instructions2.h"
 #include "splashSong1.h"
 #include "spaceSong1.h"
+#include "planet-background-2.h"
+#include "planet-background1.h"
 #include "win.h"
 #include "sound.h"
 #include "forest.h"
@@ -331,9 +333,9 @@ void goToPlanet1() {
     initPlanet1();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
-    DMANow(3, planet1PSPal, PALETTE, planet1PSPalLen / 2);
-    DMANow(3, planet1PSTiles, &CHARBLOCK[0], planet1PSTilesLen / 2);
-    DMANow(3, planet1PSMap, &SCREENBLOCK[28], planet1PSMapLen / 2); 
+    DMANow(3, planet_background1Pal, PALETTE, planet_background1PalLen / 2);
+    DMANow(3, planet_background1Tiles, &CHARBLOCK[0], planet_background1TilesLen / 2);
+    DMANow(3, planet_background1Map, &SCREENBLOCK[28], planet_background1MapLen / 2); 
     state = PLANET1;
 }
 
@@ -382,10 +384,10 @@ void goToPlanet2() {
 
     initPlanet2();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
-    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_SMALL;
-    DMANow(3, planet2bgPal, PALETTE, planet2bgPalLen / 2);
-    DMANow(3, planet2bgTiles, &CHARBLOCK[0], planet2bgTilesLen / 2);
-    DMANow(3, planet2bgMap, &SCREENBLOCK[28], planet2bgMapLen / 2); 
+    REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
+    DMANow(3, planet_background_2Pal, PALETTE, planet_background_2PalLen / 2);
+    DMANow(3, planet_background_2Tiles, &CHARBLOCK[0], planet_background_2TilesLen / 2);
+    DMANow(3, planet_background_2Map, &SCREENBLOCK[28], planet_background_2MapLen / 2); 
     state = PLANET2;
 }
 

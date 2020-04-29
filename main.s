@@ -499,11 +499,11 @@ goToPlanet1:
 	.word	playSoundA
 	.word	initPlanet1
 	.word	DMANow
-	.word	planet1PSPal
-	.word	18080
-	.word	planet1PSTiles
+	.word	planet_background1Pal
+	.word	13936
+	.word	planet_background1Tiles
 	.word	100720640
-	.word	planet1PSMap
+	.word	planet_background1Map
 	.word	state
 	.size	goToPlanet1, .-goToPlanet1
 	.align	2
@@ -528,7 +528,7 @@ goToPlanet2:
 	bx	r3
 	mov	r3, #67108864
 	mov	r1, #4352
-	mov	r2, #7168
+	mov	r2, #23552
 	ldr	r4, .L56+16
 	strh	r1, [r3]	@ movhi
 	strh	r2, [r3, #8]	@ movhi
@@ -544,7 +544,7 @@ goToPlanet2:
 	ldr	r1, .L56+28
 	mov	lr, pc
 	bx	r4
-	mov	r3, #1024
+	mov	r3, #2048
 	ldr	r2, .L56+32
 	mov	r0, #3
 	ldr	r1, .L56+36
@@ -563,11 +563,11 @@ goToPlanet2:
 	.word	playSoundA
 	.word	initPlanet2
 	.word	DMANow
-	.word	planet2bgPal
-	.word	9840
-	.word	planet2bgTiles
+	.word	planet_background_2Pal
+	.word	18848
+	.word	planet_background_2Tiles
 	.word	100720640
-	.word	planet2bgMap
+	.word	planet_background_2Map
 	.word	state
 	.size	goToPlanet2, .-goToPlanet2
 	.align	2
