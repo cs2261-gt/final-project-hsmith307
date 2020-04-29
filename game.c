@@ -159,7 +159,7 @@ void initFry() {
 
 void initLeela() {
     leela.col = 3;
-    leela.row = SHIFTUP(95);
+    leela.row = SHIFTUP(97);
     leela.cdel = 0;
     leela.rdel = 1;
     leela.active = 0;

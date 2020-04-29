@@ -233,7 +233,7 @@ initLeela:
 	mov	r2, #0
 	mov	r1, #1
 	mov	r4, #3
-	mov	lr, #24320
+	mov	lr, #24832
 	mov	r0, #64
 	mov	ip, #4
 	ldr	r3, .L32
