@@ -140,7 +140,7 @@ void initSpaceship() {
 
 void initFry() {
     fry.col = 3;
-    fry.row = SHIFTUP(90);
+    fry.row = SHIFTUP(98);
     fry.cdel = 1;
     fry.rdel = 1;
     fry.active = 0;
@@ -159,7 +159,7 @@ void initFry() {
 
 void initLeela() {
     leela.col = 3;
-    leela.row = SHIFTUP(90);
+    leela.row = SHIFTUP(95);
     leela.cdel = 0;
     leela.rdel = 1;
     leela.active = 0;
@@ -181,7 +181,7 @@ void initLeela() {
 void initAlien() {
     //alien.col = 170;
     alien.col = SCREENWIDTH;
-    alien.row = 90;
+    alien.row = 97;
     alien.cdel = 1;
     alien.rdel = 1;
     alien.active = 0;
@@ -317,7 +317,7 @@ void initCannonball() {
 
 void initGoo() {
     goo.col = 3;
-    goo.row = 90;
+    goo.row = 97;
     goo.active = 0;
     goo.width = 64;
     goo.height = 64;

@@ -193,7 +193,7 @@ initFry:
 	mov	r2, #0
 	mov	r1, #1
 	mov	r4, #3
-	mov	lr, #23040
+	mov	lr, #25088
 	mov	r0, #64
 	mov	ip, #4
 	ldr	r3, .L28
@@ -233,7 +233,7 @@ initLeela:
 	mov	r2, #0
 	mov	r1, #1
 	mov	r4, #3
-	mov	lr, #23040
+	mov	lr, #24320
 	mov	r0, #64
 	mov	ip, #4
 	ldr	r3, .L32
@@ -274,7 +274,7 @@ initAlien:
 	mov	r1, #1
 	mov	r2, #0
 	mov	r5, #240
-	mov	r4, #90
+	mov	r4, #97
 	mov	lr, #2
 	mov	r0, #64
 	mov	ip, #4
@@ -610,7 +610,7 @@ initGoo:
 	@ link register save eliminated.
 	mov	r2, #64
 	mov	ip, #3
-	mov	r0, #90
+	mov	r0, #97
 	mov	r1, #0
 	ldr	r3, .L71
 	str	ip, [r3]
@@ -1055,7 +1055,7 @@ initPlanet1:
 	cmp	r0, r1
 	moveq	r4, r3
 	movne	r4, r1
-	mov	lr, #90
+	mov	lr, #97
 	mov	r5, #3
 	str	r4, [r2, #16]
 	ldr	r4, .L155+12
@@ -1209,7 +1209,7 @@ initPlanet2:
 	mov	r5, #1
 	mov	r6, #0
 	mov	r7, #64
-	mov	r8, #90
+	mov	r8, #97
 	mov	r1, #240
 	mov	r2, #2
 	mov	r3, #4
@@ -1401,7 +1401,7 @@ initPlanet3:
 	mov	lr, #240
 	mov	ip, #2
 	mov	r3, #4
-	mov	r10, #90
+	mov	r10, #97
 	ldr	r8, .L220+28
 	str	lr, [r8]
 	str	ip, [r8, #28]
@@ -1556,7 +1556,7 @@ initPlanet4:
 	mov	r1, #240
 	mov	r2, #2
 	mov	r3, #4
-	mov	r8, #90
+	mov	r8, #97
 	ldr	ip, .L250+4
 	ldr	r0, .L250+8
 	ldr	r4, .L250+12
@@ -1884,7 +1884,7 @@ updateAlien:
 	str	r2, [r5, #44]
 	bne	.L258
 	mov	r4, #240
-	mov	lr, #90
+	mov	lr, #97
 	mov	r2, #1
 	mov	r1, #64
 	mov	ip, #2
@@ -3292,7 +3292,7 @@ initGame:
 	bx	r3
 	mov	r3, #64
 	mov	ip, #240
-	mov	r0, #90
+	mov	r0, #97
 	mov	r1, #2
 	mov	r2, #4
 	str	r5, [r6, #20]
