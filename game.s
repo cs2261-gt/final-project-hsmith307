@@ -427,7 +427,7 @@ initBullets:
 	push	{r4, lr}
 	mov	ip, #0
 	mov	r4, #67
-	mov	lr, #113
+	mov	lr, #116
 	mov	r0, #1
 	ldr	r3, .L50
 	add	r1, r3, #1392
@@ -951,7 +951,7 @@ initSpace:
 	str	fp, [r8, #8]
 	mov	fp, #42
 	mov	lr, #67
-	mov	ip, #113
+	mov	ip, #116
 	mov	r4, #0
 	stm	r8, {r0, fp}
 .L102:
@@ -1373,7 +1373,7 @@ initPlanet3:
 	mov	r7, r10
 	mov	ip, r4
 	mov	r9, #67
-	mov	r8, #113
+	mov	r8, #116
 	mov	r6, #1
 	ldr	r0, .L220+8
 	ldr	r1, .L220+12
@@ -3271,7 +3271,7 @@ initGame:
 	bne	.L480
 	mov	r2, #8
 	mov	ip, #67
-	mov	r0, #113
+	mov	r0, #116
 	mov	r4, #0
 	mov	r5, #1
 	ldr	r3, .L485+64

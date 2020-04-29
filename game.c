@@ -258,7 +258,7 @@ void initLives() {
 void initBullets() {
     for (int i = 0; i < BULLETCOUNT; i++) {
         bullets[i].col = 67;
-        bullets[i].row = 113;
+        bullets[i].row = 116;
         bullets[i].height = 8;
         bullets[i].width = 8;
         bullets[i].active = 0;
