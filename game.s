@@ -840,20 +840,20 @@ initSpace:
 	str	r5, [r0, #16]
 	str	r8, [ip, #4]
 	str	r2, [r4, #12]
+	ldr	r8, .L123+28
 	str	r6, [r0]
 	str	r7, [r0, #4]
-	ldr	r6, .L123+28
-	ldr	r7, .L123+32
+	ldr	r6, .L123+32
+	ldr	r7, .L123+36
 	str	r2, [r4, #8]
-	ldr	r8, .L123+36
-	ldr	r4, .L123+40
 	cmp	r9, r5
+	ldr	r4, .L123+40
 	ldr	r5, .L123+44
 	streq	r3, [ip, #16]
 	str	r3, [r5, #16]
-	str	r3, [r4, #16]
 	str	r3, [r6, #16]
 	str	r3, [r7, #16]
+	str	r3, [r4, #16]
 	str	r3, [r8, #16]
 	ldr	r3, [lr, #196]
 	cmp	r3, #0
@@ -891,19 +891,25 @@ initSpace:
 	ldr	r3, .L123+48
 	mov	r0, ip
 	mov	r1, r3
-	ldr	r4, .L123+52
-	ldr	r5, .L123+56
-	str	ip, [r4, #16]
+	ldr	r7, .L123+52
+	ldr	r6, .L123+56
+	str	ip, [r7, #16]
+	ldr	r5, .L123+60
+	ldr	r4, .L123+64
 	str	ip, [lr, #20]
 	str	ip, [lr, #60]
 	str	ip, [lr, #100]
 	str	ip, [lr, #140]
 	str	ip, [lr, #180]
-	ldr	r4, .L123+60
-	ldr	lr, .L123+64
+	ldr	r7, .L123+68
+	ldr	lr, .L123+72
+	ldr	r8, .L123+76
 	add	r2, r3, #1392
+	str	ip, [r6, #16]
 	str	ip, [r5, #16]
 	str	ip, [r4, #16]
+	str	ip, [r7, #16]
+	str	ip, [r8, #16]
 	str	ip, [lr, #16]
 	str	ip, [lr, #56]
 	add	r2, r2, #8
@@ -912,47 +918,42 @@ initSpace:
 	add	r1, r1, #28
 	cmp	r2, r1
 	bne	.L101
-	mov	fp, #208
-	mov	r10, #10
-	ldr	r6, .L123+68
-	mov	r7, #1
-	mov	r8, #32
-	str	fp, [r6]
-	str	r10, [r6, #4]
-	mov	fp, #42
-	mov	r10, #216
+	mov	r9, #1
+	ldr	r6, .L123+80
+	mov	r5, r9
+	str	r0, [r7, #32]
+	str	r9, [r7, #20]
+	str	r9, [r7, #28]
+	str	r9, [r8, #24]
+	str	r9, [r6, #20]
 	str	r0, [r6, #16]
-	str	r7, [r6, #20]
-	str	r7, [r6, #28]
-	str	r0, [r6, #32]
-	str	r8, [r6, #12]
-	str	r8, [r6, #8]
-	ldr	r6, .L123+72
-	stm	r6, {r10, fp}
-	ldr	r10, .L123+76
-	mov	r5, r7
-	str	r7, [r6, #24]
-	str	r0, [r6, #16]
-	str	r7, [r10, #20]
-	str	r0, [r10, #16]
-	mov	r7, #70
-	str	r0, [r10, #36]
-	str	r0, [r10, #40]
+	mov	r9, #70
+	str	r0, [r6, #36]
+	str	r0, [r6, #40]
 	mov	r0, #20
-	stm	r10, {r0, r7}
+	stm	r6, {r0, r9}
 	mov	r0, #7
-	mov	r9, #8
-	str	r0, [r10, #28]
+	mov	r10, #32
+	str	r0, [r6, #28]
 	mov	r0, #2
-	mov	r1, r9
+	mov	fp, #8
+	str	r0, [r6, #32]
+	str	r10, [r6, #12]
+	mov	r0, #208
+	str	r10, [r7, #12]
+	str	r10, [r7, #8]
+	str	r10, [r6, #8]
+	mov	r10, #10
+	mov	r1, fp
+	stm	r7, {r0, r10}
+	str	fp, [r8, #12]
+	mov	r0, #216
+	str	fp, [r8, #8]
+	mov	fp, #42
 	mov	lr, #67
 	mov	ip, #113
 	mov	r4, #0
-	str	r9, [r6, #12]
-	str	r8, [r10, #12]
-	str	r8, [r10, #8]
-	str	r0, [r10, #32]
-	str	r9, [r6, #8]
+	stm	r8, {r0, fp}
 .L102:
 	str	lr, [r3]
 	str	ip, [r3, #4]
@@ -963,23 +964,23 @@ initSpace:
 	add	r3, r3, #28
 	cmp	r3, r2
 	bne	.L102
-	ldr	r5, .L123+80
+	ldr	r5, .L123+84
 	mov	r3, #256
 	mov	r0, #3
-	ldr	r2, .L123+84
-	ldr	r1, .L123+88
+	ldr	r2, .L123+88
+	ldr	r1, .L123+92
 	mov	lr, pc
 	bx	r5
 	mov	r3, #16384
 	mov	r0, #3
-	ldr	r2, .L123+92
-	ldr	r1, .L123+96
+	ldr	r2, .L123+96
+	ldr	r1, .L123+100
 	mov	lr, pc
 	bx	r5
-	ldr	r3, .L123+100
-	ldr	r0, .L123+104
-	ldr	r1, .L123+108
-	ldr	r2, .L123+112
+	ldr	r3, .L123+104
+	ldr	r0, .L123+108
+	ldr	r1, .L123+112
+	ldr	r2, .L123+116
 	str	r4, [r0]
 	str	r4, [r1]
 	str	r4, [r2]
@@ -1003,17 +1004,18 @@ initSpace:
 	.word	p2
 	.word	p3
 	.word	p4
+	.word	life5
 	.word	life2
 	.word	life3
-	.word	life5
 	.word	life4
 	.word	life1
 	.word	bullets
+	.word	goo
 	.word	fry
 	.word	leela
 	.word	alien
-	.word	coins
 	.word	enemy
+	.word	coins
 	.word	cannonball
 	.word	helmet
 	.word	DMANow

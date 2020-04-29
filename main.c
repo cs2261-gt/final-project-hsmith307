@@ -23,8 +23,8 @@
 #include "losebg.h"
 #include "instructions.h"
 #include "instructions2.h"
-#include "splashSong.h"
-#include "spaceSong.h"
+#include "splashSong1.h"
+#include "spaceSong1.h"
 #include "win.h"
 #include "sound.h"
 #include "forest.h"
@@ -180,7 +180,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, SPLASHSONGLEN, 1);
+    playSoundA(splashSongLoop, SPLASHSONGLOOPLEN, 1);
 
     // make things inactive in case you go back to start the game over at any point
     spaceship.active = 0;
@@ -233,6 +233,8 @@ void goToGame() {
     initGame();
 
 
+    playSoundA(splashSongLoop, SPLASHSONGLOOPLEN, 1);
+
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(30) | BG_SIZE_SMALL;
     DMANow(3, instructionsPal, PALETTE, instructionsPalLen / 2);
     DMANow(3, instructionsTiles, &CHARBLOCK[0], instructionsTilesLen / 2);
@@ -268,7 +270,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     // set up the planet bg
     REG_DISPCTL = MODE0 | BG1_ENABLE | BG0_ENABLE | SPRITE_ENABLE;
@@ -324,7 +326,7 @@ void space() {
 }
 
 void goToPlanet1() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     initPlanet1();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
@@ -376,7 +378,7 @@ void planet1() {
 }
 
 void goToPlanet2() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
 
     initPlanet2();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
@@ -421,7 +423,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
     initPlanet3();
     REG_DISPCTL = MODE0 | BG0_ENABLE | SPRITE_ENABLE;
     REG_BG0CNT = BG_CHARBLOCK(0) | BG_SCREENBLOCK(28) | BG_SIZE_WIDE;
@@ -466,7 +468,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
-    playSoundA(spaceSong, SPACESONGLEN, 1);
+    playSoundA(spaceSongLoop, SPACESONGLOOPLEN, 1);
     initPlanet4();
     REG_BG0HOFF = 0; 
     REG_BG0VOFF = 0;
@@ -606,9 +608,6 @@ void goToInstructions() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-    // for (int i = 1; i < TREASURECOUNT; i++ {
-    //     treasure[i].active = 0;
-    // }
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;

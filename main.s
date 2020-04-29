@@ -114,8 +114,8 @@ goToStart:
 	.word	vOff
 	.word	isLost
 	.word	hideSprites
-	.word	104832
-	.word	splashSong
+	.word	53568
+	.word	splashSongLoop
 	.word	playSoundA
 	.word	p2
 	.word	spaceship
@@ -218,30 +218,36 @@ goToGame:
 	ldr	r3, .L18
 	mov	lr, pc
 	bx	r3
+	mov	r2, #1
+	ldr	r1, .L18+4
+	ldr	r0, .L18+8
+	ldr	r3, .L18+12
+	mov	lr, pc
+	bx	r3
 	mov	r2, #67108864
 	mov	r1, #7680
-	ldr	r4, .L18+4
+	ldr	r4, .L18+16
 	strh	r1, [r2, #8]	@ movhi
 	mov	r3, #256
 	mov	r2, #83886080
 	mov	r0, #3
-	ldr	r1, .L18+8
+	ldr	r1, .L18+20
 	mov	lr, pc
 	bx	r4
 	mov	r3, #6848
 	mov	r2, #100663296
 	mov	r0, #3
-	ldr	r1, .L18+12
+	ldr	r1, .L18+24
 	mov	lr, pc
 	bx	r4
 	mov	r3, #1024
-	ldr	r2, .L18+16
+	ldr	r2, .L18+28
 	mov	r0, #3
-	ldr	r1, .L18+20
+	ldr	r1, .L18+32
 	mov	lr, pc
 	bx	r4
 	mov	r2, #1
-	ldr	r3, .L18+24
+	ldr	r3, .L18+36
 	pop	{r4, lr}
 	str	r2, [r3]
 	bx	lr
@@ -249,6 +255,9 @@ goToGame:
 	.align	2
 .L18:
 	.word	initGame
+	.word	53568
+	.word	splashSongLoop
+	.word	playSoundA
 	.word	DMANow
 	.word	instructionsPal
 	.word	instructionsTiles
@@ -353,8 +362,8 @@ goToSpace:
 	.align	2
 .L29:
 	.word	initSpace
-	.word	419616
-	.word	spaceSong
+	.word	95328
+	.word	spaceSongLoop
 	.word	playSoundA
 	.word	DMANow
 	.word	planets2Pal
@@ -485,8 +494,8 @@ goToPlanet1:
 .L53:
 	.align	2
 .L52:
-	.word	419616
-	.word	spaceSong
+	.word	95328
+	.word	spaceSongLoop
 	.word	playSoundA
 	.word	initPlanet1
 	.word	DMANow
@@ -549,8 +558,8 @@ goToPlanet2:
 .L57:
 	.align	2
 .L56:
-	.word	419616
-	.word	spaceSong
+	.word	95328
+	.word	spaceSongLoop
 	.word	playSoundA
 	.word	initPlanet2
 	.word	DMANow
@@ -613,8 +622,8 @@ goToPlanet3:
 .L61:
 	.align	2
 .L60:
-	.word	419616
-	.word	spaceSong
+	.word	95328
+	.word	spaceSongLoop
 	.word	playSoundA
 	.word	initPlanet3
 	.word	DMANow
@@ -680,8 +689,8 @@ goToPlanet4:
 .L65:
 	.align	2
 .L64:
-	.word	419616
-	.word	spaceSong
+	.word	95328
+	.word	spaceSongLoop
 	.word	playSoundA
 	.word	initPlanet4
 	.word	DMANow

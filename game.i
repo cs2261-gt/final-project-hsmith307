@@ -2149,6 +2149,10 @@ void initSpace() {
         life1.active = 0;
     }
 
+    enemy.active = 0;
+    cannonball.active = 0;
+    goo.active = 0;
+
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;

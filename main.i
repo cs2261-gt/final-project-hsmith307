@@ -545,19 +545,19 @@ extern const unsigned short instructions2Map[1024];
 
 extern const unsigned short instructions2Pal[256];
 # 26 "main.c" 2
-# 1 "splashSong.h" 1
+# 1 "splashSong1.h" 1
 
 
 
 
-extern const signed char splashSong[104832];
+extern const signed char splashSongLoop[53568];
 # 27 "main.c" 2
-# 1 "spaceSong.h" 1
+# 1 "spaceSong1.h" 1
 
 
 
 
-extern const signed char spaceSong[419616];
+extern const signed char spaceSongLoop[95328];
 # 28 "main.c" 2
 # 1 "win.h" 1
 # 22 "win.h"
@@ -2011,7 +2011,7 @@ void goToStart() {
 
     hideSprites();
 
-    playSoundA(splashSong, 104832, 1);
+    playSoundA(splashSongLoop, 53568, 1);
 
 
     spaceship.active = 0;
@@ -2064,6 +2064,8 @@ void goToGame() {
     initGame();
 
 
+    playSoundA(splashSongLoop, 53568, 1);
+
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((30)<<8) | (0<<14);
     DMANow(3, instructionsPal, ((unsigned short *)0x5000000), 512 / 2);
     DMANow(3, instructionsTiles, &((charblock *)0x6000000)[0], 13696 / 2);
@@ -2099,7 +2101,7 @@ void game() {
 void goToSpace() {
     initSpace();
 
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
 
     (*(unsigned short *)0x4000000) = 0 | (1<<9) | (1<<8) | (1<<12);
@@ -2155,7 +2157,7 @@ void space() {
 }
 
 void goToPlanet1() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
     initPlanet1();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
@@ -2207,7 +2209,7 @@ void planet1() {
 }
 
 void goToPlanet2() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
 
     initPlanet2();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
@@ -2252,7 +2254,7 @@ void planet2() {
 }
 
 void goToPlanet3() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
     initPlanet3();
     (*(unsigned short *)0x4000000) = 0 | (1<<8) | (1<<12);
     (*(volatile unsigned short*)0x4000008) = ((0)<<2) | ((28)<<8) | (1<<14);
@@ -2297,7 +2299,7 @@ void planet3() {
 }
 
 void goToPlanet4() {
-    playSoundA(spaceSong, 419616, 1);
+    playSoundA(spaceSongLoop, 95328, 1);
     initPlanet4();
     (*(volatile unsigned short *)0x04000010) = 0;
     (*(volatile unsigned short *)0x04000012) = 0;
@@ -2437,9 +2439,6 @@ void goToInstructions() {
     fry.active = 0;
     leela.active = 0;
     alien.active = 0;
-
-
-
     p1.active = 0;
     p2.active = 0;
     p3.active = 0;
